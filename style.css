@@ -1,0 +1,16 @@
+.container{
+    overflow:hidden;
+    width:1257px;height:600px;
+    margin:100px auto;
+    border:3px dotted salmon;
+}
+.content_box{
+    height:100%;
+    width:200%;
+}
+.content{
+    float:left;
+    width:50%;
+    height:100%;
+    box-sizing:border-box;
+}
