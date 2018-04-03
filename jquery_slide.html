@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div class="container">
+        <div class="content_box"> 
+        	<div class="content">
+                <img src="girl1.jpg" alt="이미지1" />
+            </div>
+            <div class="content">
+                <img src="girl2.jpg" alt="이미지2" />
+            </div>
+            <div class="content">
+                <img src="girl3.jpg" alt="이미지3" />
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+$(function(){    
+    var $move_width = parseInt( $('.content').css('width') );   // 이동할 수치 계산  
+    var $content_box = $('.content_box');                       // 컨텐츠 박스 변수저장
+     
+    // 루프 (순환)
+    function ani_1(){
+        animation()                         
+        setTimeout( ani_3, 4000 + 10 );     // 1000 + 10( 여유 ) 초 뒤, function ani_2() 로 이동 
+    };                                      
+    function ani_2(){
+        animation()
+        setTimeout( ani_2, 4000 + 10 );     // 1000 + 10( 여유 ) 초 뒤, function ani_1() 로 이동
+    };
+    function ani_3(){
+        animation()
+        setTimeout( ani_1, 4000 + 10 );  
+    };
+    ani_1();                                // function ani_1() 로 루프 start 
+      
+    // 로직
+    function animation(){
+        $content_box.children().first().stop()
+        .animate({ marginLeft : - $move_width }, 2000, "linear", function (){
+            $(this).appendTo( $(this).parent() ).css({ marginLeft : 0});
+        });     
+    }
+});
+</script>
+</body>
+</html>
