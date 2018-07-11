@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icia.mapper.MemberMapper">
+<insert id="join">
+	insert into member(id,irum,pwd,email,photo,reg_date,enabled)
+	values(#{id},#{irum},#{pwd},#{email},#{photo, jdbcType=VARCHAR},sysdate, 1)
+</insert>
+<insert id="authorities">
+	insert into authorities(id,authority)
+	values(#{id},'ROLE_USER')
+</insert>
+<select id="idFind" resultType="com.icia.vo.Member" >
+	select
+		id
+	from
+	 member
+	 where irum=#{irum}, email=#{email}
+</select>
+<select id="pwdFind" resultType="com.icia.vo.Member">
+	select
+		pwd
+	from
+	 member
+	 where id=#{id}, email=#{email}
+</select>
+<update id="update" parameterType="com.icia.vo.Member">
+	update member set pwd=#{pwd} and email = #{email} 
+	and irum=#{irum} and photo=#{photo, jdbcType=VARCHAR}
+	where id=#{id}
+</update>
+<delete id="resign" parameterType="string">
+	delete from member where id=#{id}
+</delete>
+<select id="read" parameterType="string" resultType="Member">
+ 	select*from member where id=#{id} and rownum=1
+</select>
+<select id="idCheck" parameterType="string" resultType="string">
+	select id from member where id=#{id} and rownum=1
+</select>
+</mapper>
+
+
+
+
+
+
+
