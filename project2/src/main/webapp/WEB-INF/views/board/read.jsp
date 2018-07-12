@@ -13,8 +13,13 @@
 		left: 50%;
 	}
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script>
+	var list = "${list}";
 	$(function(){
 		var $state = "${state}";
 		if($state=="update") {
@@ -41,6 +46,7 @@
 			$updateForm.submit();
 		});
 	})
+	
 </script>
 </head>
 <body>
@@ -50,6 +56,7 @@
 			<tr><td>판매자</td><td><input type="text" id="seller" name="seller" value="${product.seller }" readonly="readonly"></td></tr>
 			<tr><td>상품명</td><td><input type="text" id="product_name" name="product_name" value="${product.product_name }"></td></tr>
 			<tr><td>조회수</td><td>${product.read_cnt }</td></tr>
+			<tr><td>추천수</td><td>${product.like_cnt }</td></tr>
 			<tr><td>가격</td><td>
 				<textarea id="price" name="price" class="materialize-textarea">${product.price }</textarea>
 			</td></tr>

@@ -24,9 +24,10 @@
 		float: left;
 	}
 	header{
-		border: 2px solid black;
+		
 		width: 100%;
 		height: 400px;
+
 	}
 	#left{
 		font-size: 22px;
@@ -35,11 +36,19 @@
 	a{	
 		padding-right: 20px;
 	}
-	a:hover{
-		text-decoration: none;
-	}
+	
 	a.logo{
 		font-size: 38px;
+	}
+	.right{
+		position: absolute;
+		right: 220px;
+		top: 1px;
+	}
+	.right-10{
+		position: absolute;
+		right: 120px;
+		top: 1px;
 	}
 </style>
 <script>
@@ -63,7 +72,6 @@
 			$form.submit();
 		});
 	});
-	  
 </script>
 </head>
 <body>
@@ -83,18 +91,12 @@
 		</ul>
 	</sec:authorize>
 	<sec:authorize access="hasRole('ROLE_USER')">
-		<ul id="left" class="loginbar">
-			<li><a href="/member/logout" id="logout">로그아웃</a></li>
-			<li><a href="/cart/list">내 카트</a></li>
+		<ul id="left" class="login">
+			<li class="right"><a href="#">${list.id}님 환영합니다</a></li>
+			<li class="right-10"><a href="/member/logout" id="logout">로그아웃</a></li>
 		</ul>
 	
-	</sec:authorize>
-	<sec:authorize access="hasRole('ROLE_USER')">
-		<ul id="left" class="loginbar">
-			<li><a href="/member/resign" id="resign">탈퇴</a></li>
-		</ul>
 	</sec:authorize>	
-	
 </div>
 </body>
 </html>

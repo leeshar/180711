@@ -53,17 +53,16 @@
       <a href="#email"><span class="white-text email">${list.email }</span></a>
     </div></li>
     <li><a href="/"><i class="material-icons">cloud</i>메인화면으로</a></li>
-    <li><a href="#">내 메뉴</a></li>
     <li><div class="divider"></div></li>
-    <li><a class="subheader">Subheader</a></li>
+    <li><a class="subheader">내 메뉴</a></li>
     <li><a class="waves-effect" href="/cart/list"><i class="material-icons">local_grocery_store</i>장바구니</a></li>
-    <li><a class="waves-effect" href="/board/list">게시판</a></li>
-    
-  </ul>
+    <li><a class="waves-effect" href="/board/list"> <i class="material-icons">edit</i>게시판</a></li>
+	<li><a class="waves-effect" href="/member/resign" id="resign"> <i class="material-icons">person</i>회원탈퇴</a></li>
+	</ul>
 		<a href=# data-target="slide-out" class="sidenav-trigger">내정보보기</a>
 		<script>
 		$(".sidenav-trigger").css("position","absolute");
-		$(".sidenav-trigger").css("right","270px").css("top","1px");
+		$(".sidenav-trigger").css("right","0").css("top","0");
 		$(".sidenav-trigger").css("font-family","sans-serif").css("font-size","22px");
 		var list = "${list}";
 		 document.addEventListener('DOMContentLoaded', function() {

@@ -1,23 +1,26 @@
 package com.icia.controller;
 
 import java.security.Principal;
-import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.service.BoardService;
+import com.icia.service.MemberService;
 import com.icia.vo.Criteria;
 import com.icia.vo.Paging;
 import com.icia.vo.Product;
@@ -31,16 +34,20 @@ public class BoardController {
 		// Model ?
 	@Autowired
 	private BoardService service;
-	
+	@Autowired
+	private MemberService mService;
 	// 게시글 목록
-
+	@Autowired
+	private ObjectMapper mapper;
 
 	@GetMapping("/board/list")
 	@Secured("ROLE_USER")
-	public void listPage(Criteria cri, Model model) throws Exception{
+	public void listPage(Criteria cri, Model model,Principal principal) throws Exception{
 		Paging paging = new Paging();
 		paging.setCri(cri);
 		paging.setTotalCount(131);
+		String id = principal.getName();
+		model.addAttribute("list", mService.read(id));
 		model.addAttribute("product", service.listCriteria(cri));
 		model.addAttribute("paging", paging);
 	
@@ -53,8 +60,10 @@ public class BoardController {
 	// 글 읽기
 	@GetMapping("/board/read")
 	@Secured("ROLE_USER")
-	public String read(int product_id, Model model) throws Exception {
+	public String read(int product_id, Model model,Principal principal) throws Exception {
 		model.addAttribute("product", service.read(product_id));
+		String id = principal.getName();
+		model.addAttribute("list", mService.read(id));
 		model.addAttribute("state", "update");
 		log.info("{}",service.read(product_id));
 		return "board/read";
@@ -63,7 +72,9 @@ public class BoardController {
 	// 글 쓰기 (첨부파일)
 	@GetMapping("/board/write")
 	@Secured("ROLE_USER")
-	public String write() {
+	public String write(Model model, Principal principal) throws Exception {
+		String id = principal.getName();
+		model.addAttribute("list", mService.read(id));
 		return "board/write";
 	}
 	@PostMapping("/board/write")
@@ -91,5 +102,22 @@ public class BoardController {
 		service.delete(product);
 		return "redirect: /board/list";
 	}
+
+	@PostMapping("/like/count")
+	public ResponseEntity<String> count(@RequestParam String data,Principal principal) throws Exception {
+	
+		int product_id = Integer.parseInt(data);
+		String result = service.like_increase(product_id,principal);
+		String id = principal.getName();
+		log.info("{}",result);
+		log.info("{}", id);
+		if(result.equals(id)) {
+			return new ResponseEntity<>("not accpeted", HttpStatus.BAD_REQUEST);
+			
+		}
+		else
+			return new ResponseEntity<>(mapper.writeValueAsString(result),HttpStatus.OK);	
+	}
+	
 	
 }

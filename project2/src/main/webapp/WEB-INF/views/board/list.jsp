@@ -7,13 +7,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 <title>Insert title here</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ <!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script>
+var token = $("meta[name='_csrf']").attr("content");
+var header = $("meta[name='_csrf_header']").attr("content");
+ 
+$(function() {
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+});
+
 $(function() {
 	$("#write").on("click", function() {
 		location.href= "/board/write"
@@ -32,12 +43,32 @@ var msg = "${msg}";
 	$(function(){
 		
 	$("button").on('click',function(){
-		var vl = $(this).attr('value');
-		alert(vl);
-		$('#'+vl).text("favorite");	
+		var data = $(this).attr('value');
+		
+		$.ajax({
+			url:"/like/count",
+			type:"post",
+			data: {'data':data},
+			dataType:'text',
+			success:
+				
+				function(){
+				$('#'+data).text("favorite");
+				alert("성공");
+				
+			},
+			error:
+				function(request){
+				alert("판매자는 추천할 수 없습니다.");
+			}
+			
+		});
+	});
+		
+		
 	});
 	
-	});
+	var list = "${list}";
 </script>
 <style>
 	.pagination {
@@ -62,7 +93,7 @@ var msg = "${msg}";
 		right: 120px;
 		bottom: -520px;
 	}
-	.product_name,.price,.product_id{
+	.product_name,.price,.product_id,.lk{
 		border: 1px solid black;
 		font-family: sans-serif;
 	}
@@ -74,6 +105,9 @@ var msg = "${msg}";
 		
 	}
 	.product_id>span{
+		padding-right: 30px;
+	}
+	.lk>span{
 		padding-right: 30px;
 	}
 </style>
@@ -91,6 +125,7 @@ var msg = "${msg}";
 			<div class="product_name"><span>상품명</span><a href="/board/read?product_id=${product.product_id}">${product.product_name}</a></div>
 			
 			<div class="price"><span>가격</span>${product.price}원</div>
+			<div class="lk"><span>좋아요횟수</span>${product.like_cnt}번</div>
 			
 			
 			<div class="like"><i class="material-icons" id="${product.product_id}">favorite_border</i><button type="button" value="${product.product_id}" >좋아요</button></div>

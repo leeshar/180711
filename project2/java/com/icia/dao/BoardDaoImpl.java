@@ -58,4 +58,17 @@ public class BoardDaoImpl implements BoardDao{
 		return session.selectOne(namespace+".replyCount", product_id);
 	}
 
+
+	@Override
+	public void like_increase(int product_id) throws Exception {
+		session.update(namespace+".like_increase", product_id);
+		
+	}
+
+
+	@Override
+	public String searchSeller(int product_id) throws Exception {
+		return session.selectOne(namespace+".searchSeller", product_id);
+	}
+
 }

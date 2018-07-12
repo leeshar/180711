@@ -1,9 +1,8 @@
 package com.icia.service;
 
 import java.io.File;
-import java.util.HashMap;
+import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.icia.dao.BoardDao;
 import com.icia.exception.BoardNotFoundException;
-
 import com.icia.vo.Criteria;
 import com.icia.vo.Product;
 
@@ -80,6 +78,19 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int replyCount(int product_id) throws Exception {
 		return dao.replyCount(product_id);
+	}
+	@Transactional
+	@Override
+	public String like_increase(int product_id,Principal principal) throws Exception {
+		String id = dao.searchSeller(product_id);
+		String loginId = principal.getName();
+		if(!id.equals(loginId))
+			dao.like_increase(product_id);
+		return dao.searchSeller(product_id);
+			
+		
+		
+		
 	}
 
 	
