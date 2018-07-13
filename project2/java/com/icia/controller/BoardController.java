@@ -1,8 +1,10 @@
 package com.icia.controller;
 
 import java.security.Principal;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -117,6 +119,18 @@ public class BoardController {
 		}
 		else
 			return new ResponseEntity<>(mapper.writeValueAsString(result),HttpStatus.OK);	
+	}
+	@RequestMapping(value="/board/search", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public ResponseEntity<String> serachText(@RequestParam String data) throws Exception{
+		
+		Map<String, Object> map = new HashMap<>();
+		List<?> product = service.allRead();
+		map.put("product",product);
+		if(data=="") {
+			return new ResponseEntity<>("not accepted",HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(mapper.writeValueAsString(product),HttpStatus.OK);
 	}
 	
 	

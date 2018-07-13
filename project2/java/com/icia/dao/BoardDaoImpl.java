@@ -71,4 +71,10 @@ public class BoardDaoImpl implements BoardDao{
 		return session.selectOne(namespace+".searchSeller", product_id);
 	}
 
+
+	@Override
+	public List<?> allRead() throws Exception {
+		return session.selectList(namespace+".allRead");
+	}
+
 }

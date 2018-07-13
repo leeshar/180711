@@ -2,7 +2,6 @@ package com.icia.dao;
 
 import java.util.List;
 
-
 import com.icia.vo.Criteria;
 import com.icia.vo.Product;
 
@@ -17,4 +16,5 @@ public interface BoardDao {
 	public void increase(int product_id)throws Exception;
 	public void like_increase(int product_id)throws Exception;
 	public String searchSeller(int product_id)throws Exception;
+	public List<?> allRead()throws Exception;
 }

@@ -92,6 +92,10 @@ public class BoardServiceImpl implements BoardService{
 		
 		
 	}
+	@Override
+	public List<?> allRead() throws Exception {
+		return dao.allRead();
+	}
 
 	
 

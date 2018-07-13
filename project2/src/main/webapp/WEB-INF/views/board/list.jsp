@@ -15,10 +15,12 @@
  <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/boardList.css" rel="stylesheet">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 var token = $("meta[name='_csrf']").attr("content");
 var header = $("meta[name='_csrf_header']").attr("content");
- 
+var list = "${list}";
 $(function() {
     $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
@@ -42,7 +44,7 @@ var msg = "${msg}";
 	
 	$(function(){
 		
-	$("button").on('click',function(){
+	$(".likeBtn").on('click',function(){
 		var data = $(this).attr('value');
 		
 		$.ajax({
@@ -64,58 +66,61 @@ var msg = "${msg}";
 			
 		});
 	});
+	});	
 		
-		
-	});
 	
-	var list = "${list}";
+	$(document).ready(function() {
+		    $("#searchText").on("keyup", "#searchText", function(){
+		        var stx = $(this).val();
+		        $(this).autocomplete({
+		
+		           source:function(request, response) {
+		
+		                $.getJSON(g5_url+"/board/search", {
+		
+		
+		                    stx : stx
+		
+		                }, response);
+		
+		            },
+		
+		            minLength:1, 
+	
+		            delay: 150,  
+		
+		            focus:function(event, ui) {
+						console.log(ui.item.value); 
+	
+		            },
+		            close:function(event, ui) {
+	
+		            }
+		
+		        })
+	
+		    });
+
+	
+	$(document).ready(function(){
+		$("#clear").on('click',function(){
+			$("#searchText").val('');
+		});
+	})
+	})
+	
 </script>
-<style>
-	.pagination {
-		text-align: center;
-		margin-top: 20px;
-		margin-bottom: 20px;
-	}
-	div.group{
-		width: 30%;
-		overflow: hidden;
-		float: left;
-		padding-left: 90px;
-		
-	}
-	div.pagination{
-		position: absolute;
-		left: 640px;
-		bottom: -550px;
-	}
-	#write{
-		position: absolute;
-		right: 120px;
-		bottom: -520px;
-	}
-	.product_name,.price,.product_id,.lk{
-		border: 1px solid black;
-		font-family: sans-serif;
-	}
-	.price>span{
-		padding-right: 50px;
-	}
-	.product_name>span{
-		padding-right: 30px;
-		
-	}
-	.product_id>span{
-		padding-right: 30px;
-	}
-	.lk>span{
-		padding-right: 30px;
-	}
-</style>
 </head>
 <body>
-
-		
-		
+		<form class="search" name="searchForm" method="GET">
+        <div class="input-field">
+          <input id="searchText" type="search" required>
+          <label class="label-icon" for="searchText"><i class="small material-icons">search</i></label>
+          <i class="material-icons" id="clear">close</i>
+         
+        </div>
+         <button class="btn waves-effect waves-light" name="searchBtn">검색</button>
+      </form>
 		<c:forEach items="${product}" var="product">
 		
 		<div class="group">
@@ -128,11 +133,11 @@ var msg = "${msg}";
 			<div class="lk"><span>좋아요횟수</span>${product.like_cnt}번</div>
 			
 			
-			<div class="like"><i class="material-icons" id="${product.product_id}">favorite_border</i><button type="button" value="${product.product_id}" >좋아요</button></div>
+			<div class="like"><i class="material-icons" id="${product.product_id}">favorite_border</i><button type="button" value="${product.product_id}" class="likeBtn">좋아요</button></div>
 			
 			</div>
 		</c:forEach>
-		
+
 	
 	<div class="pagination">
 		

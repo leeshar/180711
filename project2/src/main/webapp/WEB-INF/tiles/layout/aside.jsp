@@ -14,7 +14,7 @@
 <title>Insert title here</title>
 <style>
 	#aside{
-		height: 1000px;
+		height: 1200px;
 		border: 2px solid black;
 		text-align: center;
 		font-size: 30px;

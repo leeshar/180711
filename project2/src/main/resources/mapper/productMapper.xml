@@ -22,7 +22,9 @@
 		
 	]]>
 	</select>
-	
+	<select id="allRead" resultType="product">
+		select * from product
+	</select>
 	
 	<select id="read" resultType="product" parameterType="int">
 		select product_id,product_name, price, photo_url,read_cnt, seller, like_cnt
