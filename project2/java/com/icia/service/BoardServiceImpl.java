@@ -93,8 +93,12 @@ public class BoardServiceImpl implements BoardService{
 		
 	}
 	@Override
-	public List<?> allRead() throws Exception {
-		return dao.allRead();
+	public List<Product> allRead(String product_name) throws Exception {
+		return dao.allRead(product_name);
+	}
+	@Override
+	public List<Product> searchList(String product_name) throws Exception {
+		return dao.searchList(product_name);
 	}
 
 	

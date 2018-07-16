@@ -73,8 +73,14 @@ public class BoardDaoImpl implements BoardDao{
 
 
 	@Override
-	public List<?> allRead() throws Exception {
-		return session.selectList(namespace+".allRead");
+	public List<Product> allRead(String product_name) throws Exception {
+		return session.selectList(namespace+".allRead", product_name);
+	}
+
+
+	@Override
+	public List<Product> searchList(String product_name) throws Exception {
+		return session.selectList(namespace+".searchList",product_name);
 	}
 
 }

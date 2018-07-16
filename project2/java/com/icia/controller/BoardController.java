@@ -1,11 +1,12 @@
 package com.icia.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -120,18 +122,29 @@ public class BoardController {
 		else
 			return new ResponseEntity<>(mapper.writeValueAsString(result),HttpStatus.OK);	
 	}
-	@RequestMapping(value="/board/search", produces = "application/text; charset=utf8")
-	@ResponseBody
-	public ResponseEntity<String> serachText(@RequestParam String data) throws Exception{
-		
-		Map<String, Object> map = new HashMap<>();
-		List<?> product = service.allRead();
-		map.put("product",product);
-		if(data=="") {
-			return new ResponseEntity<>("not accepted",HttpStatus.BAD_REQUEST);
+	@RequestMapping(value="/board/search", method=RequestMethod.GET, produces = "application/text; charset=utf8")
+	public void serachText(String term, HttpServletResponse response) throws Exception{
+		List<Product> list = service.allRead(term);
+		JSONArray array = new JSONArray();
+		int i = 0;
+		for(Product product : list) {
+			JSONObject obj = new JSONObject();
+			obj.put("label", i);
+			obj.put("value", product.getProduct_name());
+			i++;
+			array.put(obj);
 		}
-		return new ResponseEntity<>(mapper.writeValueAsString(product),HttpStatus.OK);
-	}
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().print(array);
+		System.out.println(array);
 	
+	}
+	@RequestMapping(value="/board/searchPage")
+	public String searchPage(@RequestParam String product_name, Model model)throws Exception{
+		model.addAttribute("searchList", service.searchList(product_name));
+		return "board/searchPage";
+		
+		
+	}
 	
 }

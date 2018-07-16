@@ -22,8 +22,11 @@
 		
 	]]>
 	</select>
-	<select id="allRead" resultType="product">
-		select * from product
+	<select id="allRead" resultType="product" parameterType="string">
+		select distinct product_name from product where product_name like '%'||#{value}||'%'
+	</select>
+	<select id="searchList" parameterType="string" resultType="product">
+		select * from product where product_name = #{product_name}
 	</select>
 	
 	<select id="read" resultType="product" parameterType="int">

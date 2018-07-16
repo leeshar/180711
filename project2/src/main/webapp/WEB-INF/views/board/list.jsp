@@ -68,58 +68,49 @@ var msg = "${msg}";
 	});
 	});	
 		
-	
-	$(document).ready(function() {
-		    $("#searchText").on("keyup", "#searchText", function(){
-		        var stx = $(this).val();
-		        $(this).autocomplete({
-		
-		           source:function(request, response) {
-		
-		                $.getJSON(g5_url+"/board/search", {
-		
-		
-		                    stx : stx
-		
-		                }, response);
-		
-		            },
-		
-		            minLength:1, 
-	
-		            delay: 150,  
-		
-		            focus:function(event, ui) {
-						console.log(ui.item.value); 
-	
-		            },
-		            close:function(event, ui) {
-	
-		            }
-		
-		        })
-	
-		    });
+	$(function(){
 
-	
+        $('#term').autocomplete({"source":function(request,response){
+				
+               $.getJSON("/board/search",{"term":request.term},
+            		  function(result){
+            	   var con = 1;
+            	   return response($.map(result, function(item){
+            		  return item.value;
+            		   
+            	   }));
+            	   console.log(con);
+            	   
+               })
+            		   
+                 
+     
+             	
+
+        }});
+
+});
+
 	$(document).ready(function(){
 		$("#clear").on('click',function(){
-			$("#searchText").val('');
+			$("#term").val('');
 		});
+		
 	})
-	})
+	
+	
 	
 </script>
 </head>
 <body>
-		<form class="search" name="searchForm" method="GET">
+		<form class="search" name="searchForm" method="GET" action="/board/searchPage">
         <div class="input-field">
-          <input id="searchText" type="search" required>
-          <label class="label-icon" for="searchText"><i class="small material-icons">search</i></label>
+          <input id="term" type="text" name="product_name">
+          <label class="label-icon" for="term"><i class="small material-icons">search</i></label>
           <i class="material-icons" id="clear">close</i>
          
         </div>
-         <button class="btn waves-effect waves-light" name="searchBtn">검색</button>
+         <button type="submit">검색</button>
       </form>
 		<c:forEach items="${product}" var="product">
 		

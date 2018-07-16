@@ -16,5 +16,6 @@ public interface BoardDao {
 	public void increase(int product_id)throws Exception;
 	public void like_increase(int product_id)throws Exception;
 	public String searchSeller(int product_id)throws Exception;
-	public List<?> allRead()throws Exception;
+	public List<Product> allRead(String product_name)throws Exception;
+	public List<Product> searchList(String product_name)throws Exception;
 }

@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.icia.service.ReplyService;
 import com.icia.vo.Reply;
@@ -22,6 +20,7 @@ import com.icia.vo.Reply;
 public class ReplyController {
 	@Autowired
 	private ReplyService service;
+
 	
 	@RequestMapping("/reply/insert")
 	public void insert(@ModelAttribute Reply reply,Principal principal)throws Exception{
