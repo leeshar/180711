@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
  <!-- Compiled and minified JavaScript -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/boardList.css" rel="stylesheet">
@@ -47,6 +48,7 @@ var msg = "${msg}";
 	$(".likeBtn").on('click',function(){
 		var data = $(this).attr('value');
 		
+		
 		$.ajax({
 			url:"/like/count",
 			type:"post",
@@ -55,8 +57,9 @@ var msg = "${msg}";
 			success:
 				
 				function(){
+				
 				$('#'+data).text("favorite");
-				alert("성공");
+				$('#'+data+'lk').html("이상품 좋아요를 누르셨습니다");
 				
 			},
 			error:
@@ -65,6 +68,7 @@ var msg = "${msg}";
 			}
 			
 		});
+		
 	});
 	});	
 		
@@ -74,12 +78,12 @@ var msg = "${msg}";
 				
                $.getJSON("/board/search",{"term":request.term},
             		  function(result){
-            	   var con = 1;
+            	 
             	   return response($.map(result, function(item){
             		  return item.value;
             		   
             	   }));
-            	   console.log(con);
+            	  
             	   
                })
             		   
@@ -104,14 +108,14 @@ var msg = "${msg}";
 </head>
 <body>
 		<form class="search" name="searchForm" method="GET" action="/board/searchPage">
-        <div class="input-field">
+       <label class="label-icon" for="term"><i class="small material-icons">search</i></label>
           <input id="term" type="text" name="product_name">
-          <label class="label-icon" for="term"><i class="small material-icons">search</i></label>
-          <i class="material-icons" id="clear">close</i>
+          
+       	<i class="material-icons" id="clear">close</i>
          
-        </div>
          <button type="submit">검색</button>
       </form>
+      <div class="section-wrap">
 		<c:forEach items="${product}" var="product">
 		
 		<div class="group">
@@ -121,15 +125,13 @@ var msg = "${msg}";
 			<div class="product_name"><span>상품명</span><a href="/board/read?product_id=${product.product_id}">${product.product_name}</a></div>
 			
 			<div class="price"><span>가격</span>${product.price}원</div>
-			<div class="lk"><span>좋아요횟수</span>${product.like_cnt}번</div>
+			<div class="lk" id="${product.product_id}lk"><span>좋아요횟수</span>${product.like_cnt}번</div>
 			
 			
 			<div class="like"><i class="material-icons" id="${product.product_id}">favorite_border</i><button type="button" value="${product.product_id}" class="likeBtn">좋아요</button></div>
 			
 			</div>
 		</c:forEach>
-
-	
 	<div class="pagination">
 		
 			<ul>
@@ -155,4 +157,6 @@ var msg = "${msg}";
 		<button class="btn waves-effect waves-light" type="button" id="write">글쓰기
     		<i class="material-icons right">send</i>
   		</button>
+  		
+  		</div>
 </html>

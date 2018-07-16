@@ -18,7 +18,7 @@
 		from(select rownum as rnum, A.product_id,A.product_name, A.price, A.photo_url, A.seller, A.like_cnt
 		from(select product_id, product_name,price,photo_url,seller,like_cnt from product order by product_id desc) A
 		where rownum <= (#{page}*#{perPageNum})) X
-		where X.rnum >= (#{page}*#{perPageNum})-9
+		where X.rnum >= (#{page}*#{perPageNum})-8
 		
 	]]>
 	</select>

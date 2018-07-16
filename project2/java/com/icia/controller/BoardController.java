@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -140,7 +139,9 @@ public class BoardController {
 	
 	}
 	@RequestMapping(value="/board/searchPage")
-	public String searchPage(@RequestParam String product_name, Model model)throws Exception{
+	public String searchPage(@RequestParam String product_name, Model model,Principal principal)throws Exception{
+		String id = principal.getName();
+		model.addAttribute("list", mService.read(id));
 		model.addAttribute("searchList", service.searchList(product_name));
 		return "board/searchPage";
 		
