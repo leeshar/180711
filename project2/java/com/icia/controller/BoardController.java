@@ -47,15 +47,20 @@ public class BoardController {
 
 	@GetMapping("/board/list")
 	@Secured("ROLE_USER")
-	public void listPage(Criteria cri, Model model,Principal principal) throws Exception{
+	public String listPage(Criteria cri, Model model,Principal principal) throws Exception{
 		Paging paging = new Paging();
 		paging.setCri(cri);
 		paging.setTotalCount(131);
 		String id = principal.getName();
+		if(service.listCriteria(cri).isEmpty()) {
+			return "redirect:/board/noPage";
+		}
+		else {
 		model.addAttribute("list", mService.read(id));
 		model.addAttribute("product", service.listCriteria(cri));
 		model.addAttribute("paging", paging);
-	
+			return "board/list";
+		}
 	}
 	@GetMapping("/board/reply")
 	public String replyCount(int product_id, RedirectAttributes ra) throws Exception {
@@ -141,18 +146,28 @@ public class BoardController {
 	
 	}
 	@RequestMapping(value="/board/searchPage")
-	public String searchPage(@RequestParam String product_name, Model model,Principal principal, Criteria cri)throws Exception{
+	public String searchPage(@RequestParam(required=false) String product_name, Model model,Principal principal, Criteria cri)throws Exception{
 		String id = principal.getName();
 		Paging paging = new Paging();
 		paging.setCri(cri);
 		paging.setTotalCount(131);
+		if(service.searchList(product_name, cri).isEmpty()) {
+			return "redirect:/board/noPage";
+		}
+		else {
+		
 		model.addAttribute("list", mService.read(id));
 		model.addAttribute("product_name", product_name);
-		model.addAttribute("searchList", service.searchList(product_name));
-		model.addAttribute("paging", paging);
-		return "board/searchPage";
-		
-		
+		model.addAttribute("searchList", service.searchList(product_name, cri));
+		model.addAttribute("paging", paging);	
+			return "board/searchPage";
+		}
+	}
+	@GetMapping("/board/noPage")
+	public String noPage(Model model, Principal principal) throws Exception {
+		String id = principal.getName();
+		model.addAttribute("list", mService.read(id));
+		return "board/noPage";
 	}
 	
 }

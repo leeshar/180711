@@ -13,7 +13,7 @@
  <link href="${pageContext.request.contextPath}/resources/css/index.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script>
 		
@@ -129,11 +129,43 @@
 		</script>
 		</sec:authorize>
 <section>
-	<div class="container">
-	 <a class="carousel-item" href="#one!"><img src="/index/img-1.jpg" style="width: 100%;height: 100%;"></a>
-    <a class="carousel-item" href="#two!"><img src="/index/img-2.jpg" style="width: 100%;height: 100%;"></a>
-    <a class="carousel-item" href="#three!"><img src="/index/img-3.jpg" style="width: 100%;height: 100%;"></a>
+	<div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-top: 150px;">
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1"></li>
+			<li data-target="#myCarousel" data-slide-to="2"></li>
+		</ol>
+		<div class="carousel-inner" role="listbox">
+			<div class="item active">
+				<img class="first-slide" src="/index/home_back1.jpg" alt="First slide" style="height:400px;width:100%;">
+				<div class="container">
+
+				</div>
+			</div>
+			<div class="item">
+				<img class="second-slide" src="/index/index2-2.jpg" alt="Second slide" style="height:400px; width:100%;">
+				<div class="container">
+
+				</div>
+			</div>
+			<div class="item">
+				<img class="third-slide" src="/index/room.jpg" alt="Third slide" style="height:400px;width:100%;">
+				<div class="container">
+
+				</div>
+			</div>
+		</div>
+		<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+		<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
 	</div>
+
 
 </section>
 <footer>

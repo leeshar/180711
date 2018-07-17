@@ -28,7 +28,7 @@ public class MemberServiceImpl implements MemberService{
 	private MemberDao dao;
 	@Autowired
 	private PasswordEncoder encoder;
-	@Value("d:/service/member")
+	@Value("/Applications/member")
 	private String uploadPath;
 	
 	@Override

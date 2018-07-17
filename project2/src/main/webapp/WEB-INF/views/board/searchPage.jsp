@@ -164,7 +164,7 @@ var msg = "${msg}";
 			end ="${paging.endPage }" var="idx">
 				<li
 					<c:out value="${paging.cri.page == idx?'class = active':''}"/>>
-					<a href="searchPage?page=${idx }">${idx }</a>
+					<a href="searchPage?page=${idx }&product_name=${product_name}">${idx }</a>
 				</li>
 			</c:forEach>
 			

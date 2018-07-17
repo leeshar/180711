@@ -1,6 +1,9 @@
 package com.icia.dao;
 
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 import com.icia.vo.Criteria;
 import com.icia.vo.Product;
@@ -17,5 +20,5 @@ public interface BoardDao {
 	public void like_increase(int product_id)throws Exception;
 	public String searchSeller(int product_id)throws Exception;
 	public List<Product> allRead(String product_name)throws Exception;
-	public List<Product> searchList(String product_name)throws Exception;
+	public List<Product> searchList(@Param("criy") Map<String, Object> criy)throws Exception;
 }

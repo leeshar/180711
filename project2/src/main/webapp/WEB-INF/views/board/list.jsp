@@ -119,7 +119,7 @@ var msg = "${msg}";
        <label class="label-icon" for="term"><i class="small material-icons" style="color:#64b5f6;">subdirectory_arrow_right</i></label>
           
        	<i class="material-icons" id="clear" style="position: absolute; right: 150px;"></i>
-          <input id="term" type="text" name="product_name">
+          <input id="term" type="text" name="product_name" id="product_name">
         
          
          <button type="submit" class="btn waves-effect waves-light" id="searchBtn" style="height: 46px; width: 100px; background-color: #64b5f6;">검색</button>

@@ -26,7 +26,7 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDao dao;
 	
 	
-	@Value("d:/service/product")
+	@Value("/Applications/photo")
 	private String uploadPath;
 	@Override
 	public List<Product> listCriteria(Criteria cri) throws Exception {
@@ -99,8 +99,12 @@ public class BoardServiceImpl implements BoardService{
 		return dao.allRead(product_name);
 	}
 	@Override
-	public List<Product> searchList(String product_name) throws Exception {
-		return dao.searchList(product_name);
+	public List<Product> searchList(String product_name, Criteria cri) throws Exception {
+		Map<String, Object> criy = new HashMap<>();
+		criy.put("page", cri.getPage());
+		criy.put("perPageNum", cri.getPerPageNum());
+		criy.put("product_name", product_name);
+		return dao.searchList(criy);
 	}
 
 	

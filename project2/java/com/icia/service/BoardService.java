@@ -17,5 +17,5 @@ public interface BoardService {
 	public void write(Product product, MultipartFile image)throws Exception;
 	public String like_increase(int product_id,Principal principal)throws Exception;
 	public List<Product> allRead(String product_name)throws Exception;
-	public List<Product> searchList(String product_name)throws Exception;
+	public List<Product> searchList(String product_name, Criteria cri)throws Exception;
 }

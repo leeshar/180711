@@ -25,8 +25,15 @@
 	<select id="allRead" resultType="product" parameterType="string">
 		select distinct product_name from product where product_name like '%'||#{value}||'%'
 	</select>
-	<select id="searchList" parameterType="string" resultType="product">
-		select * from product where product_name = #{product_name}
+	<select id="searchList" parameterType="hashmap" resultType="product">
+		<![CDATA[
+	select X.rnum,X.product_id,X.product_name,X.price,X.photo_url,X.seller,X.like_cnt
+		from(select rownum as rnum, A.product_id,A.product_name, A.price, A.photo_url, A.seller, A.like_cnt
+		from(select product_id, product_name,price,photo_url,seller,like_cnt from product where product_name = #{product_name} order by product_id desc) A
+		where rownum <= (#{page}*#{perPageNum})) X
+		where X.rnum >= (#{page}*#{perPageNum})-8
+		
+	]]>
 	</select>
 	
 	<select id="read" resultType="product" parameterType="int">

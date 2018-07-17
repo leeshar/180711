@@ -1,10 +1,13 @@
 package com.icia.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.icia.vo.Criteria;
 import com.icia.vo.Product;
@@ -79,8 +82,10 @@ public class BoardDaoImpl implements BoardDao{
 
 
 	@Override
-	public List<Product> searchList(String product_name) throws Exception {
-		return session.selectList(namespace+".searchList",product_name);
+	@Transactional
+	public List<Product> searchList(@Param("criy") Map<String, Object> criy) throws Exception {
+		
+		return session.selectList(namespace+".searchList",criy);
 	}
 
 }
