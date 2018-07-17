@@ -35,6 +35,7 @@ public class MemberController {
 	public String join() {
 		return "member/register";
 	}
+	
 	@PostMapping("/register")
 	public String join(@RequestParam(required=false) MultipartFile image,Member member, RedirectAttributes ra) throws Exception {
 		log.info("{}", member);

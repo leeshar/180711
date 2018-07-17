@@ -1,7 +1,9 @@
 package com.icia.controller;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -139,10 +141,15 @@ public class BoardController {
 	
 	}
 	@RequestMapping(value="/board/searchPage")
-	public String searchPage(@RequestParam String product_name, Model model,Principal principal)throws Exception{
+	public String searchPage(@RequestParam String product_name, Model model,Principal principal, Criteria cri)throws Exception{
 		String id = principal.getName();
+		Paging paging = new Paging();
+		paging.setCri(cri);
+		paging.setTotalCount(131);
 		model.addAttribute("list", mService.read(id));
+		model.addAttribute("product_name", product_name);
 		model.addAttribute("searchList", service.searchList(product_name));
+		model.addAttribute("paging", paging);
 		return "board/searchPage";
 		
 		

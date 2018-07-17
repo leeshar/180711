@@ -14,7 +14,6 @@ var list = "${list}";
 </head>
 
 <body>
-<p>안녕</p>
-${list }
+
 </body>
 </html>

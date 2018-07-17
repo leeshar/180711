@@ -14,8 +14,7 @@
 <title>Insert title here</title>
 <style>
 	#aside{
-		height: 1200px;
-		border: 2px solid black;
+		height: 100%;
 		text-align: center;
 		font-size: 30px;
 	
@@ -27,6 +26,7 @@
 		line-height: 180px;
 		
 	}
+	
 </style>
 </head>
 <body>
@@ -59,11 +59,10 @@
     <li><a class="waves-effect" href="/board/list"> <i class="material-icons">edit</i>게시판</a></li>
 	<li><a class="waves-effect" href="/member/resign" id="resign"> <i class="material-icons">person</i>회원탈퇴</a></li>
 	</ul>
-		<a href=# data-target="slide-out" class="sidenav-trigger">내정보보기</a>
+		<a href=# data-target="slide-out" class="sidenav-trigger" id="header-bar">내정보보기</a>
 		<script>
 		$(".sidenav-trigger").css("position","absolute");
 		$(".sidenav-trigger").css("right","0").css("top","0");
-		$(".sidenav-trigger").css("font-family","sans-serif").css("font-size","22px");
 		var list = "${list}";
 		 document.addEventListener('DOMContentLoaded', function() {
 	          var elems = document.querySelectorAll('.sidenav');

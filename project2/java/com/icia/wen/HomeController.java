@@ -39,7 +39,7 @@ public class HomeController {
 			String id = principal.getName();
 			model.addAttribute("list",service.read(id));
 		}
-		return "domain/main";
+		return "index";
 		
 		}
 	

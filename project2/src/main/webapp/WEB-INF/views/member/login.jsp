@@ -9,32 +9,18 @@
     <meta name="description" content="">
     <meta name="author" content="">
    
-    <title>Signin Template for Bootstrap</title>
+    <title></title>
+<link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
 
-    <!-- Bootstrap core CSS -->
-    <link href="${pageContext.request.contextPath}/resources/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="${pageContext.request.contextPath}/resources/css/signin.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="${pageContext.request.contextPath}/resources/assets/js/ie-emulation-modes-warning.js"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  
   </head>
 
   <body>
 
     <div class="container">
 
-      <form class="form-signin" action="/" method="POST">
-        <h2 class="form-signin-heading">LOGIN</h2>
-        <h2 class="form-sighin-heading"><a href="http://localhost:8081">HOME</a></h2>
+      <form class="form-signin" action="/" method="POST" style="text-align: center;">
+        <h2 class="form-signin-heading" style="font-size: 25px; margin-bottom: 40px;">로그인</h2>
         <label for="inputEmail" class="sr-only">ID</label>
         <input type="text" id="id" name="id" class="form-control" placeholder="ID" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>

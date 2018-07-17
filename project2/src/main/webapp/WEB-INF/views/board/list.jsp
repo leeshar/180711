@@ -59,7 +59,7 @@ var msg = "${msg}";
 				function(){
 				
 				$('#'+data).text("favorite");
-				$('#'+data+'lk').html("이상품 좋아요를 누르셨습니다");
+				$('#'+data+'lk').html("좋아요를 누르셨습니다");
 				
 			},
 			error:
@@ -94,27 +94,37 @@ var msg = "${msg}";
         }});
 
 });
-
-	$(document).ready(function(){
+	$("#clear").on('click',function(){
+		$("#term").val('');
+	});
+	
+	$(function(){
+		$("#term").focus(function(){
+			$("#clear").text("close");
+		
+	});
+	});
+	$(function(){
 		$("#clear").on('click',function(){
 			$("#term").val('');
 		});
-		
-	})
-	
+	});
 	
 	
 </script>
 </head>
 <body>
+	<div class="form-wrap">
 		<form class="search" name="searchForm" method="GET" action="/board/searchPage">
-       <label class="label-icon" for="term"><i class="small material-icons">search</i></label>
-          <input id="term" type="text" name="product_name">
+       <label class="label-icon" for="term"><i class="small material-icons" style="color:#64b5f6;">subdirectory_arrow_right</i></label>
           
-       	<i class="material-icons" id="clear">close</i>
+       	<i class="material-icons" id="clear" style="position: absolute; right: 150px;"></i>
+          <input id="term" type="text" name="product_name">
+        
          
-         <button type="submit">검색</button>
+         <button type="submit" class="btn waves-effect waves-light" id="searchBtn" style="height: 46px; width: 100px; background-color: #64b5f6;">검색</button>
       </form>
+      </div>
       <div class="section-wrap">
 		<c:forEach items="${product}" var="product">
 		

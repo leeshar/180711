@@ -29,16 +29,18 @@
 		height: 300px;
 
 	}
-	#left{
+	header a{
+		color: black;
 		font-size: 22px;
-		
 	}
+	
 	a{	
 		padding-right: 20px;
+	
 	}
 	
 	a.logo{
-		font-size: 38px;
+		font-size: 40px;
 	}
 	.right{
 		position: absolute;
@@ -75,7 +77,7 @@
 </script>
 </head>
 <body>
-<div id="header" class="header-wrapper">
+<div id="header-bar" class="header-wrapper">
 	<a href="#" class="logo">LOGO</a>
 	
 	<sec:authorize access="isAnonymous()">

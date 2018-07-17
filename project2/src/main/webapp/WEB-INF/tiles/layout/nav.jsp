@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <style>
 	.container-fluid{
-		font-size: 28px;
+		font-size: 32px;
 		
 		
 	}
