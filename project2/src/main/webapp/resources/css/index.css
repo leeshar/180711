@@ -1,0 +1,113 @@
+@charset "UTF-8";
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+#wrap {
+	width: 100%;
+	height: 100%;
+	
+	margin: 0 auto;
+	
+}
+#header-bar{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 22px;
+	color: black;
+}
+
+section {
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	float: right;
+	min-height: 800px;
+
+}
+#main{
+	overflow: hidden;
+	
+}
+a:hover{
+	text-decoration: none;	
+	
+}
+a{
+	text-decoration: none;
+	
+}
+nav{
+	font-family: 'Hanna';
+	
+	
+}
+#left{
+		float: right;
+		font-size: 15px;
+		overflow: hidden;
+	
+	}
+	#left li{
+		list-style: none;
+		float: left;
+	}
+	header{
+		
+		width: 100%;
+		height: 300px;
+
+	}
+	header a{
+		color: black;
+		font-size: 22px;
+	}
+	
+	a{	
+		padding-right: 20px;
+	
+	}
+	
+	a.logo{
+		font-size: 40px;
+	}
+	.right{
+		position: absolute;
+		right: 220px;
+		top: 1px;
+	}
+	.right-10{
+		position: absolute;
+		right: 120px;
+		top: 1px;
+	}
+		div.mastfoot{
+		border-top: 1px solid gray;
+		text-align: center;
+	}
+.container-fluid{
+		font-size: 32px;
+		
+		
+	}
+	.navbar-inverse .navbar-nav li a{
+		color: white;
+	}
+	.navMenu .menu li{
+		margin-left: 70px;
+		display:inline-block;
+	}
+	.navMenu{
+		float: left;
+		text-align: center;
+		margin-left: 300px;
+	}
+	a:hover{
+	text-decoration: none;
+		}
+		
+		
+.container{
+	width: 800px;
+	height: 400px;
+	border: 2px solid black;
+	
+	
+}
