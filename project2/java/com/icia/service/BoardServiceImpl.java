@@ -26,7 +26,7 @@ public class BoardServiceImpl implements BoardService{
 	private BoardDao dao;
 	
 	
-	@Value("/Applications/photo")
+	@Value("d:/service/product")
 	private String uploadPath;
 	@Override
 	public List<Product> listCriteria(Criteria cri) throws Exception {

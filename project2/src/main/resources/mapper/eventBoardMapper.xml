@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icia.mapper.EventBoardMapper">
+
+<select id="count" resultType="int">
+		<!-- index_ffs를 인덱스를 블록단위로 읽는다
+			 단 뒤에 컬럼이 인덱스에 해당하는 컬럼만 와야 적용된다
+		 -->
+		select /*+ index_ffs(eventBoard eventBoard_pk_ebno) */ count(ebno) from eventBoard		
+	</select>
+	
+	<select id="list" resultType="eventBoard">
+	<![CDATA[
+	select X.rnum,X.ebno,X.title,X.content,X.event_photo,X.writer,X.write_date,X.read_cnt
+		from(select rownum as rnum, A.ebno,A.title, A.content,A.event_photo, A.writer, A.write_date, A.read_cnt
+		from(select ebno, title,event_photo,content,writer,write_date,read_cnt from eventBoard order by ebno desc) A
+		where rownum <= (#{page}*#{perPageNum})) X
+		where X.rnum >= (#{page}*#{perPageNum})-8
+		
+	]]>
+	</select>
+	<select id="searchList" parameterType="hashmap" resultType="eventBoard">
+		<![CDATA[
+		select X.rnum,X.ebno,X.title,X.content,X.writer,X.write_date,X.read_cnt
+		from(select rownum as rnum, A.ebno,A.title, A.content, A.writer, A.write_date, A.read_cnt
+		from(select ebno, title,content,writer,write_date,read_cnt from eventBoard where title = #{title} order by ebno desc) A
+		where rownum <= (#{page}*#{perPageNum})) X
+		where X.rnum >= (#{page}*#{perPageNum})-8
+		
+	]]>
+	</select>
+	<select id="allRead" resultType="eventBoard" parameterType="string">
+		select distinct title from eventBoard where title like '%'||#{value}||'%'
+	</select>
+	<select id="read" resultType="eventBoard" parameterType="int">
+		select ebno,title, content,event_photo, writer,write_date, read_cnt
+		from eventBoard where ebno=#{ebno} and rownum=1
+	</select>
+	<select id="photoRead" resultType="hashmap">
+		<![CDATA[
+		select A.event_photo from(select event_photo from eventBoard order by ebno desc)A
+		where rownum <= 3
+		]]>
+	</select>
+	
+	<insert id="write" parameterType="eventBoard">
+		<!-- selectKey로 생성한 bno는 어디에 담겨있나? board -->
+		<selectKey keyProperty="ebno" order="BEFORE" resultType="int">
+			select ebno_seq.nextval from dual 
+		</selectKey>
+		insert into eventBoard(ebno, title, content, event_photo,writer,write_date,read_cnt)
+		values(#{ebno}, #{title}, #{content},#{event_photo, jdbcType=VARCHAR}, #{writer}, sysdate, 0)
+	</insert>
+	
+	<update id="update" parameterType="eventBoard">
+		update eventBoard set title=#{title}, content=#{cotent}, event_photo=#{event_photo, jdbcType=VARCHAR} where ebno=#{ebno} and rownum=1
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from eventBoard where ebno=#{ebno} and rownum=1
+	</delete>
+	<update id="increase" parameterType="int">
+		update eventBoard set read_cnt = read_cnt+1 where ebno = #{ebno} and rownum=1
+	</update>
+</mapper>
+
+
+
+
+
+
+

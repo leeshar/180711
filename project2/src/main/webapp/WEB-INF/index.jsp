@@ -15,17 +15,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 <script>
 		
-		  document.addEventListener('DOMContentLoaded', function() {
-		    var elems = document.querySelectorAll('.container');
-		    var instances = M.Carousel.init(elems, options);
-		  });
-
-
-		  $(document).ready(function(){
-		    $('.container').carousel();
-		  });
+	
 		  $(function() {
 				$("#logout").on("click", function(e) {
 					e.preventDefault();
@@ -83,7 +76,7 @@
     <div class="navMenu">
     <ul class="menu">
       <li><a href="/">Home</a></li>
-      <li><a href="#">이벤트</a></li>
+      <li><a href="/eventBoard/list">이벤트</a></li>
       <li><a href="/board/list">게시판</a></li>
       <li><a href="/notice/list">공지사항</a></li>
       
@@ -107,6 +100,7 @@
     <li><a class="subheader">내 메뉴</a></li>
     <li><a class="waves-effect" href="/cart/list"><i class="material-icons">local_grocery_store</i>장바구니</a></li>
     <li><a class="waves-effect" href="/board/list"> <i class="material-icons">edit</i>게시판</a></li>
+    <li><a class="waves-effect" href="/member/update?id=${list.id}" id="memberUpdate"> <i class="material-icons">person</i>내정보수정</a></li>
 	<li><a class="waves-effect" href="/member/resign" id="resign"> <i class="material-icons">person</i>회원탈퇴</a></li>
 	</ul>
 		<a href=# data-target="slide-out" class="sidenav-trigger" id="header-bar">내정보보기</a>
@@ -129,28 +123,31 @@
 		</script>
 		</sec:authorize>
 <section>
-	<div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-top: 150px;">
+	<div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin-top: 100px;">
 		<!-- Indicators -->
 		<ol class="carousel-indicators">
 			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 			<li data-target="#myCarousel" data-slide-to="1"></li>
 			<li data-target="#myCarousel" data-slide-to="2"></li>
 		</ol>
+	
 		<div class="carousel-inner" role="listbox">
 			<div class="item active">
-				<img class="first-slide" src="/index/home_back1.jpg" alt="First slide" style="height:400px;width:100%;">
+				
+				<img class="first-slide" src="/event/${photo.first }" alt="First slide" style="height:400px;width:100%;">
+				
+				<div class="container">
+				
+				</div>
+			</div>
+			<div class="item">
+				<img class="second-slide" src="/event/${photo.second }" alt="Second slide" style="height:400px; width:100%;">
 				<div class="container">
 
 				</div>
 			</div>
 			<div class="item">
-				<img class="second-slide" src="/index/index2-2.jpg" alt="Second slide" style="height:400px; width:100%;">
-				<div class="container">
-
-				</div>
-			</div>
-			<div class="item">
-				<img class="third-slide" src="/index/room.jpg" alt="Third slide" style="height:400px;width:100%;">
+				<img class="third-slide" src="/event/${photo.third }" alt="Third slide" style="height:400px;width:100%;">
 				<div class="container">
 
 				</div>

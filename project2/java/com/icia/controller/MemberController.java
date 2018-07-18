@@ -1,6 +1,8 @@
 package com.icia.controller;
 
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +69,12 @@ public class MemberController {
 		model.addAttribute("pwd", service.pwdFind(id, email));
 		return "/member/pwdFind";
 	}
+	@GetMapping("/update")
+	public String read(Model model, Principal principal)throws Exception{
+		String id = principal.getName();
+		model.addAttribute("list", service.read(id));
+		return "member/update";
+	}
 	@PostMapping("/update")
 	public String update(Member member, RedirectAttributes ra) throws Exception {
 		service.update(member);
@@ -77,6 +85,7 @@ public class MemberController {
 	public void resign(String id) throws Exception {
 		service.resign(id);
 	}
+
 	@PostMapping("/idCheck")
 	public ResponseEntity<String> idCheck(String id) throws JsonProcessingException{
 		System.out.println("id:"+ id);

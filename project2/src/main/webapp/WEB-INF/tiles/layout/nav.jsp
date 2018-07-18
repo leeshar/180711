@@ -43,7 +43,7 @@
     <div class="navMenu">
     <ul class="menu">
       <li><a href="/">Home</a></li>
-      <li><a href="#">이벤트</a></li>
+      <li><a href="/eventBoard/list">이벤트</a></li>
       <li><a href="/board/list">게시판</a></li>
       <li><a href="/notice/list">공지사항</a></li>
       

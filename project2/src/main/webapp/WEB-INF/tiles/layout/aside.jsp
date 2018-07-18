@@ -57,6 +57,7 @@
     <li><a class="subheader">내 메뉴</a></li>
     <li><a class="waves-effect" href="/cart/list"><i class="material-icons">local_grocery_store</i>장바구니</a></li>
     <li><a class="waves-effect" href="/board/list"> <i class="material-icons">edit</i>게시판</a></li>
+    <li><a class="waves-effect" href="/member/update" id="memberUpdate"> <i class="material-icons">person</i>내정보수정</a></li>
 	<li><a class="waves-effect" href="/member/resign" id="resign"> <i class="material-icons">person</i>회원탈퇴</a></li>
 	</ul>
 		<a href=# data-target="slide-out" class="sidenav-trigger" id="header-bar">내정보보기</a>
