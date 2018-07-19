@@ -76,7 +76,7 @@ $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시
 function commentList(){
     $.ajax({
     	
-        url : '/reply/list',
+        url : '/board/reply/list',
         type : 'get',
         data : {'product_id': product_id},
         dataType : 'text',
@@ -99,7 +99,7 @@ function commentList(){
 //댓글 등록
 function commentInsert(insertData){
     $.ajax({
-        url : '/reply/insert',
+        url : '/board/reply/insert',
         type : 'post',
         data : insertData,
         success : function(data){
@@ -128,7 +128,7 @@ function commentUpdateProc(cno){
     var updateContent = $('[name=content_'+cno+']').val();
     
     $.ajax({
-        url : '/reply/update',
+        url : '/board/reply/update',
         type : 'post',
         data : {'replytext' : updateContent, 'cno' : cno},
         success : function(data){
@@ -141,7 +141,7 @@ function commentUpdateProc(cno){
 //댓글 삭제 
 function commentDelete(cno){
     $.ajax({
-        url : '/reply/delete/'+cno,
+        url : '/board/reply/delete/'+cno,
         type : 'post',
         success : function(data){
         	alert("댓글이 삭제 되었습니다");

@@ -35,7 +35,7 @@
                 <table class="table">                    
                     <tr>
                     <td><i class="medium material-icons">face</i></td>
-                    <td><input type="hidden" name="product_id" value="${product.product_id}"/></td>
+                    <td><input type="hidden" name="ebno" value="${eventBoard.ebno}"/></td>
 
                         <td>
                             <textarea style="width: 800px" rows="3" cols="30" id="replytext" name="replytext" placeholder="댓글을 입력하세요"></textarea>
@@ -64,11 +64,12 @@ $(function() {
         xhr.setRequestHeader(header, token);
     });
 });
-var product_id = '${product.product_id}'; //게시글 번호
+var ebno = '${eventBoard.ebno}'; //게시글 번호
  
 $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시 
     var insertData = $('[name=commentForm]').serialize(); //commentInsertForm의 내용을 가져옴
     commentInsert(insertData); //Insert 함수호출(아래)
+    $("#replytext").val('');
 });
  
  
@@ -76,9 +77,9 @@ $('[name=commentInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시
 function commentList(){
     $.ajax({
     	
-        url : '/reply/list',
+        url : '/eventBoard/reply/list',
         type : 'get',
-        data : {'product_id': product_id},
+        data : {'ebno': ebno},
         dataType : 'text',
         success : function(data){
             var a =''; 
@@ -99,7 +100,7 @@ function commentList(){
 //댓글 등록
 function commentInsert(insertData){
     $.ajax({
-        url : '/reply/insert',
+        url : '/eventBoard/reply/insert',
         type : 'post',
         data : insertData,
         success : function(data){
@@ -128,12 +129,12 @@ function commentUpdateProc(cno){
     var updateContent = $('[name=content_'+cno+']').val();
     
     $.ajax({
-        url : '/reply/update',
+        url : '/eventBoard/reply/update',
         type : 'post',
         data : {'replytext' : updateContent, 'cno' : cno},
         success : function(data){
         	alert("댓글이 수정되었습니다.");
-           commentList(product_id); //댓글 수정후 목록 출력 
+           commentList(ebno); //댓글 수정후 목록 출력 
         }
     });
 }
@@ -141,11 +142,11 @@ function commentUpdateProc(cno){
 //댓글 삭제 
 function commentDelete(cno){
     $.ajax({
-        url : '/reply/delete/'+cno,
+        url : '/eventBoard/reply/delete/'+cno,
         type : 'post',
         success : function(data){
         	alert("댓글이 삭제 되었습니다");
-           commentList(product_id); //댓글 삭제후 목록 출력 
+           commentList(ebno); //댓글 삭제후 목록 출력 
         }
     });
 }

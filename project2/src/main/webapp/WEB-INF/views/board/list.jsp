@@ -18,6 +18,7 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/boardList.css" rel="stylesheet">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="${pageContext.request.contextPath}/resources/cookie/jquery.cookie.js"></script> 
 <script>
 var token = $("meta[name='_csrf']").attr("content");
 var header = $("meta[name='_csrf_header']").attr("content");
@@ -41,26 +42,35 @@ var msg = "${msg}";
 	if(msg==='UPDATE'){
 		alert("수정성공");
 	}
-	
-	
+var cookieMap = "${cookieMap}";
+console.log(cookieMap);
+
+
 	$(function(){
-		
 	$(".likeBtn").on('click',function(){
 		var data = $(this).attr('value');
-		
-		
+		$.cookie(data,data,{path:'/'});
 		$.ajax({
 			url:"/like/count",
 			type:"post",
 			data: {'data':data},
+			async: false,
 			dataType:'text',
 			success:
 				
-				function(){
+				function(cookieMap){
+				$.each(JSON.parse(cookieMap), function(key,value){
+					var a = value;
+					console.log(a);
+					if(data==a){
+						alert('이미 누르셨습니다');
+					}
+					else{
+						$('#'+data).text("favorite");
+					$('#'+data+'lk').html("좋아요를 누르셨습니다");
+				}
 				
-				$('#'+data).text("favorite");
-				$('#'+data+'lk').html("좋아요를 누르셨습니다");
-				
+				});
 			},
 			error:
 				function(request){
@@ -68,10 +78,10 @@ var msg = "${msg}";
 			}
 			
 		});
-		
+
 	});
-	});	
-		
+	});
+
 	$(function(){
 
         $('#term').autocomplete({"source":function(request,response){

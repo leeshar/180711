@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
@@ -47,7 +49,15 @@ public class BoardController {
 
 	@GetMapping("/board/list")
 	@Secured("ROLE_USER")
-	public String listPage(Criteria cri, Model model,Principal principal) throws Exception{
+	public String listPage(Criteria cri, Model model,Principal principal,HttpServletRequest request) throws Exception{
+		Cookie[] cookies = request.getCookies();
+		Map<String, String> cookieMap = new HashMap<>();
+		
+		for(int i = 0; i<cookies.length; i++) {
+		
+			cookieMap.put(cookies[i].getName(), cookies[i].getValue());
+		}
+		
 		Paging paging = new Paging();
 		paging.setCri(cri);
 		paging.setTotalCount(131);
@@ -56,6 +66,7 @@ public class BoardController {
 			return "redirect:/board/noPage";
 		}
 		else {
+		model.addAttribute("cookieMap", cookieMap);
 		model.addAttribute("list", mService.read(id));
 		model.addAttribute("product", service.listCriteria(cri));
 		model.addAttribute("paging", paging);
@@ -114,8 +125,16 @@ public class BoardController {
 	}
 
 	@PostMapping("/like/count")
-	public ResponseEntity<String> count(@RequestParam String data,Principal principal) throws Exception {
-	
+	public ResponseEntity<String> count(@RequestParam String data,HttpServletResponse response,HttpServletRequest request, Principal principal,Model model) throws Exception {
+		Cookie[] cookies = request.getCookies();
+		Map<String, String> cookieMap = new HashMap<>();
+		
+		for(int i = 0; i<cookies.length; i++) {
+		
+			cookieMap.put(cookies[i].getName(), cookies[i].getValue());
+		}
+		
+		log.info("{}",cookieMap);
 		int product_id = Integer.parseInt(data);
 		String result = service.like_increase(product_id,principal);
 		String id = principal.getName();
@@ -125,8 +144,9 @@ public class BoardController {
 			return new ResponseEntity<>("not accpeted", HttpStatus.BAD_REQUEST);
 			
 		}
-		else
-			return new ResponseEntity<>(mapper.writeValueAsString(result),HttpStatus.OK);	
+		else	
+			return new ResponseEntity<>(mapper.writeValueAsString(cookieMap),HttpStatus.OK);
+		
 	}
 	@RequestMapping(value="/board/search", method=RequestMethod.GET, produces = "application/text; charset=utf8")
 	public void serachText(String term, HttpServletResponse response) throws Exception{

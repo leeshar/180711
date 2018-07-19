@@ -37,5 +37,25 @@ public class ReplyDaoImpl implements ReplyDao{
 	public List<Reply> list(int product_id) throws Exception {
 		return session.selectList(namespace+".list",product_id);
 	}
+	@Override
+	public void eBoardinsert(Reply reply) throws Exception {
+		session.insert(namespace+".eBoardinsert", reply);
+		
+	}
+
+	@Override
+	public void eBoarddelete(int cno) throws Exception {
+		session.delete(namespace+".eBoarddelete", cno);
+	}
+
+	@Override
+	public void eBoardupdate(Reply reply) throws Exception {
+		session.update(namespace+".eBoardupdate", reply);
+	}
+
+	@Override
+	public List<Reply> eBoardlist(int ebno) throws Exception {
+		return session.selectList(namespace+".eBoardlist", ebno);
+	}
 	
 }

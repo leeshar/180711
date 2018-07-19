@@ -52,7 +52,7 @@
 			<tr><td>작성일</td><td>${eventBoard.write_date }</td></tr>
 			<tr><td>제목</td><td><input type="text" id="title" name="title" value="${eventBoard.title }"></td></tr>
 			<tr><td>조회수</td><td>${eventBoard.read_cnt }</td></tr>
-			<tr><td>배너이미지</td><td><img src="/event/${eventBoard.event_photo }"></td></tr>                              
+			<tr><td>배너이미지</td><td><img src="/event/${eventBoard.event_photo }" style="width: 100%; height: 500px;"></td></tr>                              
 		</table>
 	<!-- 서버에서 update 값을 보내왔을 경우 변경, 삭제 버튼 추가 -->
 	<c:if test="${state ne null}">

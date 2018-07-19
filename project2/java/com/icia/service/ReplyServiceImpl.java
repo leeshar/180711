@@ -36,4 +36,25 @@ public class ReplyServiceImpl implements ReplyService{
 		return dao.list(product_id);
 	}
 
+	@Override
+	public void eBoardinsert(Reply reply) throws Exception {
+		dao.eBoardinsert(reply);
+		
+	}
+
+	@Override
+	public void eBoarddelete(int cno) throws Exception {
+		dao.eBoarddelete(cno);
+	}
+
+	@Override
+	public void eBoardupdate(Reply reply) throws Exception {
+		dao.eBoardupdate(reply);
+	}
+
+	@Override
+	public List<Reply> eBoardlist(int ebno) throws Exception {
+		return dao.eBoardlist(ebno);
+	}
+
 }

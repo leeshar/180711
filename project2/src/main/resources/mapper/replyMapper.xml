@@ -21,6 +21,25 @@
 	order by cno desc
 
 </select>
+<insert id="eBoardinsert" parameterType="Reply">
+	insert into reply(cno,ebno,id,replytext,write_date,update_date)
+	values(cno_seq.nextval,#{ebno},#{id},#{replytext},sysdate,sysdate)
+</insert>
+<update id="eBoardupdate">
+	update reply set replytext=#{replytext}, update_date=sysdate
+	where cno = #{cno} and rownum=1
+
+</update>
+<delete id="eBoarddelete">
+	delete from reply where cno=#{cno} and rownum=1
+</delete>
+<select id="eBoardlist" resultType="Reply" parameterType="int">
+	select cno, id, replytext, write_date, update_date
+	from reply
+	where ebno = #{ebno}
+	order by cno desc
+
+</select>
 </mapper>
 
 

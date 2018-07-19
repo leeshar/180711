@@ -16,5 +16,6 @@ public class Reply {
 	private String id;
 	private Date write_date;
 	private Date update_date;
+	private int ebno;
 	
 }
