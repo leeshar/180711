@@ -1,6 +1,7 @@
 package com.icia.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,23 +51,30 @@ public class BoardController {
 	@GetMapping("/board/list")
 	@Secured("ROLE_USER")
 	public String listPage(Criteria cri, Model model,Principal principal,HttpServletRequest request) throws Exception{
+		// cookie 가져오기
 		Cookie[] cookies = request.getCookies();
-		Map<String, String> cookieMap = new HashMap<>();
-		
-		for(int i = 0; i<cookies.length; i++) {
-		
-			cookieMap.put(cookies[i].getName(), cookies[i].getValue());
-		}
-		
 		Paging paging = new Paging();
 		paging.setCri(cri);
 		paging.setTotalCount(131);
 		String id = principal.getName();
+		List<Integer> cookieList = new ArrayList<>();
+		for(int i = 0; i<service.count(cri);i++) {
+		
+			for(int v=0; v<cookies.length; v++) {
+				String value = cookies[v].getValue();
+				String name = cookies[v].getName();
+				if(!name.equals("JSESSIONID")) {
+					if(service.listCriteria(cri).get(i).getProduct_id()==Integer.parseInt(value))
+					cookieList.add(service.listCriteria(cri).get(i).getProduct_id());
+				}
+				
+			}
+		}
 		if(service.listCriteria(cri).isEmpty()) {
 			return "redirect:/board/noPage";
 		}
 		else {
-		model.addAttribute("cookieMap", cookieMap);
+		model.addAttribute("cookieList", cookieList);
 		model.addAttribute("list", mService.read(id));
 		model.addAttribute("product", service.listCriteria(cri));
 		model.addAttribute("paging", paging);
@@ -125,27 +133,25 @@ public class BoardController {
 	}
 
 	@PostMapping("/like/count")
-	public ResponseEntity<String> count(@RequestParam String data,HttpServletResponse response,HttpServletRequest request, Principal principal,Model model) throws Exception {
-		Cookie[] cookies = request.getCookies();
-		Map<String, String> cookieMap = new HashMap<>();
-		
-		for(int i = 0; i<cookies.length; i++) {
-		
-			cookieMap.put(cookies[i].getName(), cookies[i].getValue());
-		}
-		
-		log.info("{}",cookieMap);
+	public ResponseEntity<String> count(Criteria cri,@RequestParam String data,@RequestParam String seller,HttpServletResponse response,HttpServletRequest request, Principal principal,Model model) throws Exception {
 		int product_id = Integer.parseInt(data);
+		String id = principal.getName(); 
 		String result = service.like_increase(product_id,principal);
-		String id = principal.getName();
+		for(int i = 0; i<service.sellerProduct_id_count(seller); i++)
+		if(!data.equals(service.sellerProduct_id(seller).get(i))) {
+				Cookie setCookie = new Cookie(data, data); // 쿠키 생성
+				setCookie.setMaxAge(60*60*24); // 기간을 하루로 지정
+				setCookie.setPath("/");
+				response.addCookie(setCookie);
+			};
+	
 		log.info("{}",result);
-		log.info("{}", id);
 		if(result.equals(id)) {
 			return new ResponseEntity<>("not accpeted", HttpStatus.BAD_REQUEST);
 			
 		}
 		else	
-			return new ResponseEntity<>(mapper.writeValueAsString(cookieMap),HttpStatus.OK);
+			return new ResponseEntity<>(mapper.writeValueAsString(data),HttpStatus.OK);
 		
 	}
 	@RequestMapping(value="/board/search", method=RequestMethod.GET, produces = "application/text; charset=utf8")

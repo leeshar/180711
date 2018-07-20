@@ -42,35 +42,30 @@ var msg = "${msg}";
 	if(msg==='UPDATE'){
 		alert("수정성공");
 	}
-var cookieMap = "${cookieMap}";
-console.log(cookieMap);
+var cookieList = "${cookieList}";
+console.log(cookieList);
+$.each(JSON.parse(cookieList),function(key,value){
+	$(function(){
+		$('#'+value).text("favorite");
+	});
+	console.log(value);
+});
 
 
 	$(function(){
 	$(".likeBtn").on('click',function(){
 		var data = $(this).attr('value');
-		$.cookie(data,data,{path:'/'});
+		var seller = $("[name=seller]").attr('value');
 		$.ajax({
 			url:"/like/count",
 			type:"post",
-			data: {'data':data},
-			async: false,
+			data: {'data':data,'seller':seller},
 			dataType:'text',
 			success:
+				function(){
+				$('#'+data).text("favorite");
+				$('#'+data+'lk').html("좋아요를 누르셨습니다");
 				
-				function(cookieMap){
-				$.each(JSON.parse(cookieMap), function(key,value){
-					var a = value;
-					console.log(a);
-					if(data==a){
-						alert('이미 누르셨습니다');
-					}
-					else{
-						$('#'+data).text("favorite");
-					$('#'+data+'lk').html("좋아요를 누르셨습니다");
-				}
-				
-				});
 			},
 			error:
 				function(request){
@@ -136,18 +131,18 @@ console.log(cookieMap);
       </form>
       </div>
       <div class="section-wrap">
-		<c:forEach items="${product}" var="product">
+		<c:forEach items="${product}" var="product" >
 		
 		<div class="group">
 		
 	<div class="photo"><a href="/board/read?product_id=${product.product_id}"><img src="/product/${product.photo_url}" style="width:200px; height: 200px;"></a></div>
 			<div class="product_id"><span>상품번호</span>${product.product_id }번</div>
 			<div class="product_name"><span>상품명</span><a href="/board/read?product_id=${product.product_id}">${product.product_name}</a></div>
-			
+			<div class="seller" id="${product.seller }"><span>판매자</span>${product.seller }</div>
 			<div class="price"><span>가격</span>${product.price}원</div>
 			<div class="lk" id="${product.product_id}lk"><span>좋아요횟수</span>${product.like_cnt}번</div>
 			
-			
+			<input type="hidden" name="seller" value="${product.seller }">
 			<div class="like"><i class="material-icons" id="${product.product_id}">favorite_border</i><button type="button" value="${product.product_id}" class="likeBtn">좋아요</button></div>
 			
 			</div>

@@ -46,8 +46,8 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public int count() throws Exception {
-		return session.selectOne(namespace+".count");
+	public int count(Criteria cri) throws Exception {
+		return session.selectOne(namespace+".count", cri);
 	}
 
 	@Override
@@ -86,6 +86,18 @@ public class BoardDaoImpl implements BoardDao{
 	public List<Product> searchList(@Param("criy") Map<String, Object> criy) throws Exception {
 		
 		return session.selectList(namespace+".searchList",criy);
+	}
+
+
+	@Override
+	public List<Object> sellerProduct_id(String seller) throws Exception {
+		return session.selectList(namespace+".sellerProduct_id", seller);
+	}
+
+
+	@Override
+	public int sellerProduct_id_count(String seller) throws Exception {
+		return session.selectOne(namespace+".sellerProduct_id_count", seller);
 	}
 
 }

@@ -9,7 +9,7 @@ import com.icia.vo.Criteria;
 import com.icia.vo.Product;
 
 public interface BoardDao {
-	public int count()throws Exception;
+	public int count(Criteria cri)throws Exception;
 	public int replyCount(int product_id)throws Exception;
 	public List<Product> listCriteria(Criteria cri)throws Exception;
 	public Product read(int product_id)throws Exception;
@@ -21,4 +21,6 @@ public interface BoardDao {
 	public String searchSeller(int product_id)throws Exception;
 	public List<Product> allRead(String product_name)throws Exception;
 	public List<Product> searchList(@Param("criy") Map<String, Object> criy)throws Exception;
+	public List<Object> sellerProduct_id(String seller)throws Exception;
+	public int sellerProduct_id_count(String seller)throws Exception;
 }

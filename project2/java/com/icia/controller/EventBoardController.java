@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.service.EventBoardService;
 import com.icia.service.MemberService;
 import com.icia.vo.Criteria;
@@ -39,8 +37,6 @@ public class EventBoardController {
 	@Autowired
 	private MemberService mService;
 	
-	@Autowired
-	private ObjectMapper mapper;
 	@GetMapping("/eventBoard/list")
 	@Secured("ROLE_USER")
 	public String listPage(Criteria cri, Model model,Principal principal) throws Exception{

@@ -9,7 +9,13 @@
 		<!-- index_ffs를 인덱스를 블록단위로 읽는다
 			 단 뒤에 컬럼이 인덱스에 해당하는 컬럼만 와야 적용된다
 		 -->
-		select /*+ index_ffs(product product_pk_product_id) */ count(product_id) from product		
+		 <![CDATA[
+		select /*+ index_ffs(product product_pk_product_id) */ count(Y.product_id) from(select X.rnum,X.product_id,X.product_name,X.price,X.photo_url,X.seller,X.like_cnt
+		from(select rownum as rnum, A.product_id,A.product_name, A.price, A.photo_url, A.seller, A.like_cnt
+		from(select product_id, product_name,price,photo_url,seller,like_cnt from product order by product_id desc) A
+		where rownum <= (#{page}*#{perPageNum})) X
+		where X.rnum >= (#{page}*#{perPageNum})-8) Y	
+		]]>	
 	</select>
 	
 	<select id="list" resultType="product">
@@ -65,6 +71,12 @@
 	</update>
 	<select id="searchSeller" parameterType="int" resultType="string">
 		select seller from product where product_id = #{product_id} and rownum=1
+	</select>
+	<select id="sellerProduct_id" parameterType="string" resultType="hashmap">
+		select product_id from product where seller = #{seller}
+	</select>
+	<select id="sellerProduct_id_count" parameterType="string" resultType="int">
+		select count(product_id) from product where seller = #{seller}
 	</select>
 </mapper>
 

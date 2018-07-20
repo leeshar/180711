@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,7 +33,6 @@ public class BoardServiceImpl implements BoardService{
 	private String uploadPath;
 	@Override
 	public List<Product> listCriteria(Criteria cri) throws Exception {
-		
 		return dao.listCriteria(cri);
 	}
 	@Transactional
@@ -105,6 +107,19 @@ public class BoardServiceImpl implements BoardService{
 		criy.put("perPageNum", cri.getPerPageNum());
 		criy.put("product_name", product_name);
 		return dao.searchList(criy);
+	}
+	@Override
+	public int count(Criteria cri) throws Exception {
+		return dao.count(cri);
+		
+	}
+	@Override
+	public List<Object> sellerProduct_id(String seller) throws Exception {
+		return dao.sellerProduct_id(seller);
+	}
+	@Override
+	public int sellerProduct_id_count(String seller) throws Exception {
+		return dao.sellerProduct_id_count(seller);
 	}
 
 	
