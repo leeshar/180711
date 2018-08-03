@@ -1,0 +1,25 @@
+게시판
+create table board (
+	bno number primary key,
+	title varchar2(50),
+	content varchar2(1000),
+	writer varchar2(50),
+	write_date date default sysdate,
+	read_cnt number default 0,
+	recommend_cnt number default 0,
+	report_cnt number default 0
+);
+첨부파일
+create table attach (
+	ano number,
+	original_file_name varchar2(50),
+	saved_file_name varchar2(50),
+	bno number,
+	constraint board_pk_bno primary key(ano,bno)
+);
+시퀀스
+ 게시판 번호 create sequence board_seq start with 1 increment by 1;
+ 첨부파일 번호 create sequence attach_seq start with 1 increment by 1;
+
+
+	
