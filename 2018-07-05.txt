@@ -1,0 +1,33 @@
+Spring Cache
+
+/board/list <- 
+Cache 1Page Select 
+1Page 120~101 글 20개를 메모리에 저장 사용자가 요청하면 Model에 담아서 JSP로
+
+
+RedirectAttribute에 addFlashAttribute()로 값을 담아서 리다이렉트하면
+컨트롤러에서 꺼내려면 RequestContextHolder를 사용해야 하지만 jsp에서는 el로 꺼낼 수 있다
+
+400, 500 에러
+
+exception
+
+BindException
+메인 페이지 -> 로그인 -> 인증 후 접근 가능 PAGE, 인증 후 접근 불가능 PAGE
+	    -> 회원가입 
+	    -> 게시판
+	    -> 공지사항
+	    -> 아이디 찾기
+	    -> 비밀번호 찾기
+
+			 -> 로그인 인증(Authority)				   -> 결제시 포인트적립?
+  Board		Product       Cart       buy                   buyList      pay
+상품게시판 - > 상품 선택 -> 장바구니 -> 구매, 삭제 -> 구매 -> 구매내역 -> 결제방법 -> 결제 -> 돈이 확인되면 확인 후 발송
+
+			 -> 구매 -> 구매내역 -> 결제방법 ->결제 -> 돈이 들어오면 확인 후 발송
+
+				Transaction
+
+				 -> 환불 -> 돈이 들어온거 확인 후 취소 ->
+
+구매 : 누가 ? (user_id) ,어떤상품 ? (product_name) 얼마나 ? (amount), 총액 ? (pay), 언제 ? (payDate), 입금확인 ?

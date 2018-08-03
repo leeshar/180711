@@ -1,0 +1,7 @@
+방어
+
+SQL 주입 -> prepared statement
+
+XSS - > javaScript를 포함한 글 작성
+
+CSRF -> Spring security로 방어
