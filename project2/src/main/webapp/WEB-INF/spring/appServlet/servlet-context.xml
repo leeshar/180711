@@ -29,8 +29,9 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.icia" />
-	
+	<context:component-scan base-package="com.icia.service"/>
+	<context:component-scan base-package="com.icia.controller"/>
+	<context:component-scan base-package="com.icia.dao"/>
 	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" />
 	
 	<beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"> 

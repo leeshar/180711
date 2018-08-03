@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/layOut.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular-route.js"></script>
+</head>
+<body ng-app="myApp">
+<header>
+<p>1</p>
+</header>
+<!-- 라우터 적용 부분 -->
+<nav>
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" href="#!1">메인</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#!2">REST</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#!3">유저정보</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#!boards">게시판</a>
+  </li>
+</ul>
+</nav>
+
+<div class="main" ng-view>
+
+</div>
+<!-- Footer 부분 -->
+<footer>
+<p>4</p>
+</footer>
+<script>
+<!-- 라우트 script -->
+var app = angular.module("myApp",['ngRoute']);
+
+app.config(function($routeProvider){
+	$routeProvider
+	.when("/1",{
+		templateUrl:"1.html"
+	})
+	.when("/2",{
+		templateUrl:"2.html"
+	})
+	.when("/3",{
+		templateUrl:"3.html"
+	})
+	.when("/boards",{
+		templateUrl:"4.html",
+		controller:'boardsCtrl'
+	})
+	.when("/boards/read/:bno",{
+		templateUrl:"5.html",
+		controller:'boardsReadCtrl'
+	})
+	.otherwise({
+      redirectTo: '/'
+  });	
+});
+// boards 리스트를 REST방식으로 가져와서 boardsList에 담는다.
+app.controller('boardsCtrl',function($scope, $http){
+	 $http.get("/aboard2/boards2").then(function(response){
+			$scope.boardsList = JSON.parse(response.data.records);
+		});
+	 
+  });
+// routeParams로 Query의 값을 받을 수 있다.
+// 그 값을 GET 방식 REST로 전달해서 resp변수에 값을 저장한다.
+app.controller('boardsReadCtrl',function($scope,$http,$location,$routeParams){
+	var bno = $routeParams.bno
+	$http.get("/aboard2/boards/read/"+bno)
+	.then(function(response){
+		$scope.resp = response.data;
+	})
+});
+app.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+}]);
+app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, restrict : 'A', compile : function(element) { element.on('compositionstart', function(e) { e.stopImmediatePropagation(); }); }, }; } ]);
+
+</script>
+</body>
+</html>
