@@ -1,0 +1,6 @@
+$http({
+	url:"www.ee.xom",
+	method: 'post',
+	data: $.param({ name:'33', text:'3232'}),
+	headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+})  Jquery Ajax 방식이랑 다른점 $.param <=으로 데이터 직렬화를 해줘서 보내야 성공적으로 보내줄 수 있다.
