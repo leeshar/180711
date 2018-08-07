@@ -100,16 +100,20 @@ app.controller('boardsCtrl',function($scope, $http){
 // routeParams로 Query의 값을 받을 수 있다.
 // 그 값을 GET 방식 REST로 전달해서 resp변수에 값을 저장한다.
 app.controller('boardsReadCtrl',function($scope,$http,$routeParams){
-	var bno = $routeParams.bno
+	
+	var bno = $routeParams.bno;
+	function replyList(){$http.get("/aboard2/boards/reply/list?bno="+bno)
+		.then(function(response){
+			$scope.list = response.data.list;
+			
+		});
+		};
 	$http.get("/aboard2/boards/read/"+bno)
 	.then(function(response){
+		replyList();
 		$scope.resp = response.data;
 	});
-	$http.get("/aboard2/boards/reply/list?bno="+bno)
-	.then(function(response){
-		$scope.list = response.data.list;
-		
-	});
+	
 
 	$scope.myFuc=function(){
 		var data = {"replytext":$scope.rText,"bno":bno,"id":"service"};
@@ -119,14 +123,12 @@ app.controller('boardsReadCtrl',function($scope,$http,$routeParams){
 		data: "reply="+JSON.stringify(data),
 		contentType:"application/json;charset=UTF-8",
 		headers : {'Content-Type': 'application/x-www-form-urlencoded'},
-		success: function(){
-			alert('zz');
-		}
-		,
-		error: function(){
-			alert('Ajaxerror');
-		}	})
-	
+
+	}).then(function(response){
+		replyList();
+		$scope.rText="";
+		alert('zz');
+	});
 	};
 });
 app.config(['$qProvider', function ($qProvider) {

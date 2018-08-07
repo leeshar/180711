@@ -95,7 +95,7 @@ public class BoardRestController {
 	}
 	// 댓글 작성
 	@RequestMapping(value="/boards/reply/insert")
-	public void insert(String reply)throws Exception{
+	public ResponseEntity<Void> insert(String reply)throws Exception{
 		JSONParser jsonparser = new JSONParser();
 		JSONObject obj = (JSONObject) jsonparser.parse(reply);
 		InsertReply insert = new InsertReply();
@@ -108,6 +108,7 @@ public class BoardRestController {
 	
 		rService.insert(insert);
 		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	// 댓글 리스트
 	@RequestMapping(value="/boards/reply/list", produces = "application/json; charset=UTF-8" )
