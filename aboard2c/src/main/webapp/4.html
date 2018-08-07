@@ -39,13 +39,13 @@
 			<th scope="col">날짜</th>
 			<th scope="col">조회수</th></tr>
 			<tr ng-repeat="x in boardsList | filter: search">
-			<td>{{x.bno}}</td>
+			<td>{{ $index + 1 }}</td>
 			<td><a href="#!/boards/read/{{x.bno}}" style="color: white;">{{x.title}}</a></td>
 			<td>{{x.writer}}</td>
 			<td>{{x.writeDate}}</td>
 			<td>{{x.readCnt}}</td>
 		</table>
-
+<a href="#!/boards/writePage"><button type="button" id="write" class="btn btn-dark">글쓰기</button></a>
 </body>
 
 </html>

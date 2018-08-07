@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.aboard2.dao.AttachRepository;
 import com.icia.aboard2.dto.BoardDto.CreateBoard;
+import com.icia.aboard2.dto.ReplyDto.InsertReply;
+import com.icia.aboard2.rest_service.ReplyServiceImpl;
 import com.icia.aboard2.service.BoardService;
 import com.icia.aboard2.util.ABoard2Contstants;
 import com.icia.aboard2.util.ABoard2Util;
@@ -41,6 +44,8 @@ public class BoardController {
 	private ObjectMapper mapper;
 	@Autowired
 	private AttachRepository aDao;
+	@Autowired
+	private ReplyServiceImpl rService;
 	@GetMapping("/boards")
 	public String list(Pageable pageable, Model model) throws JsonProcessingException {
 		return "boards/list";
@@ -50,6 +55,7 @@ public class BoardController {
 	@ResponseBody
 	public String lista(Pageable pageable, Model model) throws JsonProcessingException {
 		log.info("{}", pageable);
+		// 값을 빼서 넣어주기 위해 indexOf를 사용해 값을 잘라줘서 map에 담아 전달한다.
 		int first = service.list(pageable).indexOf("[");
 		int second = service.list(pageable).indexOf("]")+1;
 		Map<String, Object> map = new HashMap<>();
@@ -63,11 +69,13 @@ public class BoardController {
 	@ResponseBody
 	public String listb(Pageable pageable, Model model) throws JsonProcessingException {
 		log.info("{}", pageable);
+		// map을 만들어 json으로 넘길때 이름으로 값을 뺄 수 있도록 만들어 줬다 
 		Map<String, Object> map = new HashMap<>();
 		int first = service.list(pageable).indexOf("],")+15;
 		int second = service.list(pageable).indexOf("}}")+1;
 		
 		map.put("records", service.list(pageable).substring(first,second));
+		// ObjectMapper로 JSON으로 값을 넘겨준다.
 		String str = mapper.writeValueAsString(map);
 		return str;
 	}
@@ -81,10 +89,10 @@ public class BoardController {
 		System.out.println(aDao.list(bno));
 		// 저장된 사진이 없으니까 read를 했을 때 null이 뜬다.
 		// attach에 null 이 담겼을 때 이미지 처리를 해준다.
-		if(aDao.list(bno)!=null) {
+		if(aDao.list(bno).getOriginalFileName()!=null) {
 		map.put("savedFileName", aDao.list(bno).getSavedFileName());	
 		}
-		if(aDao.list(bno)==null) {
+		if(aDao.list(bno).getOriginalFileName()==null) {
 			map.put("savedFileName", "none.jpg");
 		}
 		map.put("bno", service.read(bno).getBno());
@@ -139,18 +147,21 @@ public class BoardController {
 		ABoard2Util.throwBindException(results);
 		// 원래는 로그인한 아이디를 글쓴이로 저장하면 되는데...각자 알아서 아이디 넣어줄것
 		board.setWriter("hasaway11");
+		System.out.println(board);
+		System.out.println(files);
 		boolean result = service.write(board, files);
 		if(result)
 			ra.addFlashAttribute("msg", ABoard2Contstants.WRITE_SUCCESS);
 		else
 			ra.addFlashAttribute("msg", ABoard2Contstants.JOB_FAIL);
-		return "redirect:/boards";
+		return "redirect:/";
 	}
 	@GetMapping("/boards/delete")
 	public String delete(@RequestParam int bno) {
 		service.delete(bno);
-		return "redirect:/boards";
+		return "redirect:/";
 	}
+	
 	
 	
 }

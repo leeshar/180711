@@ -19,6 +19,6 @@ $(function() {
 	<a href="/aboard2/user/join">회원 가입</a><br>
 	<a href="/aboard2/user/read?id=hasaway11">hasaway11 회원 정보 보기</a><br>
 	<a href="/aboard2/boards/write">글 쓰기</a><br>
-	<a href="/aboard2/boards/">게시판</a>
+	<a href="layOut.html#!/boards">게시판</a>
 </body>
 </html>

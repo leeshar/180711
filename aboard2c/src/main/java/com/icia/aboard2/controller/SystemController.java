@@ -13,7 +13,7 @@ import lombok.extern.slf4j.*;
 public class SystemController {
 	@GetMapping("/")
 	public String index(HttpServletRequest req) {
-		return "system/index";
+		return "layOut";
 	}
 	
 }

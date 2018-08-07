@@ -25,10 +25,11 @@
     	(select * from
         	(select rownum rnum, b.* from 
             	(select /*+ index_desc(board board_pk_bno) */ bno, writer, title, write_date writeDate, 
-            	read_cnt readCnt, recommend_cnt recommendCnt from board
+            	read_cnt readCnt, recommend_cnt recommendCnt from board order by bno desc
             	) b
         	where rownum<=#{endRow}) 
     	where rnum>=#{startRow}) r
+    	order by bno desc
 	]]> 
 	</select>
 
@@ -41,6 +42,7 @@
 		<![CDATA[
 			select bno, title, content, writer, write_date writeDate, read_cnt readCnt, 
 			recommend_cnt recommendCnt, report_cnt reportCnt from board where bno=#{bno} and rownum = 1
+			
 		]]>
 	</select>
 	

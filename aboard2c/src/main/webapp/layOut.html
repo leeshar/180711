@@ -9,37 +9,47 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.2/angular-route.js"></script>
 </head>
-<body ng-app="myApp">
+<body>
+<div id="frame" ng-app="myApp">
+<!-- header에 angular.bootstrap을 이용해 app두개를 생성할 수 있게되었다. -->
 <header>
-<p>1</p>
+	<ul class="nav justify-content-end">
+		<li class="nav-item"><a class="nav-link" href="#!/users/register">회원가입</a></li>
+		<li class="nav-item"><a class="nav-link" href="/member/login">로그인</a></li>
+		</ul>
+		
 </header>
 <!-- 라우터 적용 부분 -->
 <nav>
-<ul class="nav justify-content-center">
-  <li class="nav-item">
-    <a class="nav-link active" href="#!1">메인</a>
+<ul class="shadow-lg p-3 mb-5 bg-dark nav justify-content-center">
+  <li class="nav-item" style="margin: 0 auto;">
+    <a class="text-white nav-link active" href="#!1">메인</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#!2">REST</a>
+  <li class="nav-item" style="margin: 0 auto;">
+    <a class="text-white nav-link" href="#!2">REST</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#!3">유저정보</a>
+  <li class="nav-item" style="margin: 0 auto;">
+    <a class="text-white nav-link" href="#!3">유저정보</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#!boards">게시판</a>
+  <li class="nav-item" style="margin: 0 auto;">
+    <a class="text-white nav-link" href="#!boards">게시판</a>
   </li>
 </ul>
 </nav>
 
-<div class="main" ng-view>
-
-</div>
+<div class="main" ng-view></div>
 <!-- Footer 부분 -->
 <footer>
 <p>4</p>
 </footer>
+</div>
 <script>
+
+
 <!-- 라우트 script -->
+// 라우트를 사용하여 템플릿을 지정해 줄 수 있다.
+
+
 var app = angular.module("myApp",['ngRoute']);
 
 app.config(function($routeProvider){
@@ -54,17 +64,32 @@ app.config(function($routeProvider){
 		templateUrl:"3.html"
 	})
 	.when("/boards",{
+		// 게시판리스트
 		templateUrl:"4.html",
 		controller:'boardsCtrl'
-	})
+	})	
 	.when("/boards/read/:bno",{
+		// 게시판 상세내용 
 		templateUrl:"5.html",
 		controller:'boardsReadCtrl'
 	})
-	.otherwise({
-      redirectTo: '/'
-  });	
+	.when("/boards/writePage",{
+		templateUrl:"6.html",
+		controller:'boardsWriteCtrl'
+	})
+	.when("/boards/write",{
+		// 게시판 작성페이지 
+		templateUrl:"6.html",
+		controller:"boardsWriteCtrl"
+	})
+	.when("/users/register",{
+		templateUrl:"register.html",
+		controller:"registerCtrl"
+	});
+	
 });
+
+
 // boards 리스트를 REST방식으로 가져와서 boardsList에 담는다.
 app.controller('boardsCtrl',function($scope, $http){
 	 $http.get("/aboard2/boards2").then(function(response){
@@ -74,16 +99,40 @@ app.controller('boardsCtrl',function($scope, $http){
   });
 // routeParams로 Query의 값을 받을 수 있다.
 // 그 값을 GET 방식 REST로 전달해서 resp변수에 값을 저장한다.
-app.controller('boardsReadCtrl',function($scope,$http,$location,$routeParams){
+app.controller('boardsReadCtrl',function($scope,$http,$routeParams){
 	var bno = $routeParams.bno
 	$http.get("/aboard2/boards/read/"+bno)
 	.then(function(response){
 		$scope.resp = response.data;
-	})
+	});
+	$http.get("/aboard2/boards/reply/list?bno="+bno)
+	.then(function(response){
+		$scope.list = response.data.list;
+		
+	});
+
+	$scope.myFuc=function(){
+		var data = {"replytext":$scope.rText,"bno":bno,"id":"service"};
+		$http({
+		url : '/aboard2/boards/reply/insert',
+		method : 'post',
+		data: "reply="+JSON.stringify(data),
+		contentType:"application/json;charset=UTF-8",
+		headers : {'Content-Type': 'application/x-www-form-urlencoded'},
+		success: function(){
+			alert('zz');
+		}
+		,
+		error: function(){
+			alert('Ajaxerror');
+		}	})
+	
+	};
 });
 app.config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
 }]);
+//Input에서 ng-model을 사용했을때 한글 dataBinding을 해주는 directive
 app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, restrict : 'A', compile : function(element) { element.on('compositionstart', function(e) { e.stopImmediatePropagation(); }); }, }; } ]);
 
 </script>

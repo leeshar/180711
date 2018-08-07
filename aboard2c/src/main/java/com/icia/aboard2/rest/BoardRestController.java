@@ -1,21 +1,49 @@
 package com.icia.aboard2.rest;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.commons.io.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.http.*;
-import org.springframework.util.*;
-import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
 
-import com.icia.aboard2.entity.*;
-import com.icia.aboard2.rest_service.*;
-import com.icia.aboard2.util.*;
+import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.icia.aboard2.dto.ReplyDto.InsertReply;
+import com.icia.aboard2.entity.Attachment;
+import com.icia.aboard2.entity.Reply;
+import com.icia.aboard2.rest_service.BoardRestService;
+import com.icia.aboard2.rest_service.ReplyServiceImpl;
+import com.icia.aboard2.util.ABoard2Contstants;
+import com.icia.aboard2.util.MediaUtils;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@Slf4j
 public class BoardRestController {
 	@Autowired
 	private BoardRestService service;
+	@Autowired
+	private ReplyServiceImpl rService;
+	@Autowired
+	private ObjectMapper mapper;
 	@GetMapping("/board/displayFile")
 	public ResponseEntity<byte[]> displayFile(int bno, int ano) throws IOException {
 		Attachment attachment = service.getAttachment(bno, ano);
@@ -64,5 +92,31 @@ public class BoardRestController {
 				dest.delete();
 		}
 		return entity; 
+	}
+	// 댓글 작성
+	@RequestMapping(value="/boards/reply/insert")
+	public void insert(String reply)throws Exception{
+		JSONParser jsonparser = new JSONParser();
+		JSONObject obj = (JSONObject) jsonparser.parse(reply);
+		InsertReply insert = new InsertReply();
+		int bno = Integer.parseInt(obj.get("bno").toString());
+		String id = obj.get("id").toString();
+		String replytext = obj.get("replytext").toString();
+		insert.setBno(bno);
+		insert.setId(id);
+		insert.setReplytext(replytext);
+	
+		rService.insert(insert);
+		
+	}
+	// 댓글 리스트
+	@RequestMapping(value="/boards/reply/list", produces = "application/json; charset=UTF-8" )
+	public String replyList(@RequestParam int bno)throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", rService.list(bno));
+		String str = mapper.writeValueAsString(map);
+		log.info("{}", str);
+		return str;
+		
 	}
 }
