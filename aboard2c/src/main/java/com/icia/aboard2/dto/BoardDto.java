@@ -40,6 +40,7 @@ public class BoardDto {
 		private String writer;
 		private Date writeDate;
 		private Integer readCnt;
+		private Integer replyCnt;
 		private Boolean isAttachExist;
 	}
 	

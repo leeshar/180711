@@ -19,16 +19,14 @@
 	 -->
 	<select id="list" resultType="com.icia.aboard2.dto.BoardDto$ListBoard">
 	<![CDATA[
-	select r.*, nvl((select 1 from dual where exists 
-    	(select * from attach where attach.bno=r.bno)),0) isAttachExist 
-	from
-    	(select * from
+
+    	select * from
         	(select rownum rnum, b.* from 
             	(select /*+ index_desc(board board_pk_bno) */ bno, writer, title, write_date writeDate, 
-            	read_cnt readCnt, recommend_cnt recommendCnt from board order by bno desc
+            	read_cnt readCnt, recommend_cnt recommendCnt, reply_cnt replyCnt from board order by bno desc
             	) b
         	where rownum<=#{endRow}) 
-    	where rnum>=#{startRow}) r
+    	where rnum>=#{startRow}
     	order by bno desc
 	]]> 
 	</select>
@@ -40,7 +38,7 @@
 	<!-- 1.2 글 읽기 -->
 	<select id="read" resultType="board">
 		<![CDATA[
-			select bno, title, content, writer, write_date writeDate, read_cnt readCnt, 
+			select bno, title, content, writer, write_date writeDate, read_cnt readCnt,
 			recommend_cnt recommendCnt, report_cnt reportCnt from board where bno=#{bno} and rownum = 1
 			
 		]]>
@@ -54,8 +52,8 @@
 		<selectKey keyProperty="bno" resultType="int" order="BEFORE">
 			select board_seq.nextval from dual
 		</selectKey>
-		insert into board(bno, title, content, writer, write_date, read_cnt, recommend_cnt, report_cnt) 
-		values(#{bno},#{title},#{content},#{writer}, sysdate, 0,0,0)
+		insert into board(bno, title, content, writer, write_date, read_cnt, recommend_cnt, report_cnt, reply_cnt) 
+		values(#{bno},#{title},#{content},#{writer}, sysdate, 0,0,0,0)
 	</insert>
 	
 	<!--  추천 -->
@@ -78,6 +76,11 @@
 	<delete id="delete" parameterType="int">
 		delete from board where bno=#{bno}
 	</delete>
+	<!-- 댓글갯수증가 -->
+	<update id="upReplyCnt" parameterType="int">
+		update board set reply_cnt = reply_cnt+1 where bno = #{bno} and rownum=1
+	
+	</update>
 </mapper>
 
 

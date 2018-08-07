@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.aboard2.dao.AttachRepository;
 import com.icia.aboard2.dto.BoardDto.CreateBoard;
 import com.icia.aboard2.dto.ReplyDto.InsertReply;
+import com.icia.aboard2.entity.Board;
 import com.icia.aboard2.rest_service.ReplyServiceImpl;
 import com.icia.aboard2.service.BoardService;
 import com.icia.aboard2.util.ABoard2Contstants;
@@ -46,14 +47,12 @@ public class BoardController {
 	private AttachRepository aDao;
 	@Autowired
 	private ReplyServiceImpl rService;
-	@GetMapping("/boards")
-	public String list(Pageable pageable, Model model) throws JsonProcessingException {
-		return "boards/list";
-	}
 	//REST방식으로 list를 보여준다.
-	@GetMapping(value="/boards2",produces = "application/json; charset=UTF-8")
+	@GetMapping(value="/boards/list/{page}",produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public String lista(Pageable pageable, Model model) throws JsonProcessingException {
+	public String lista(@PathVariable int page, Model model) throws JsonProcessingException {
+		Pageable pageable = new Pageable();
+		pageable.setPage(page);
 		log.info("{}", pageable);
 		// 값을 빼서 넣어주기 위해 indexOf를 사용해 값을 잘라줘서 map에 담아 전달한다.
 		int first = service.list(pageable).indexOf("[");
@@ -64,7 +63,7 @@ public class BoardController {
 		
 		return str;
 	}
-	// 페이지네이션내용
+	/* 페이지네이션내용
 	@GetMapping(value="/boards3",produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public String listb(Pageable pageable, Model model) throws JsonProcessingException {
@@ -78,7 +77,7 @@ public class BoardController {
 		// ObjectMapper로 JSON으로 값을 넘겨준다.
 		String str = mapper.writeValueAsString(map);
 		return str;
-	}
+	}*/
 	// Rest 방식으로  GET 해줬다.
 	@GetMapping(value="/boards/read/{bno}",produces = "application/json; charset=UTF-8")
 	@ResponseBody
@@ -95,14 +94,19 @@ public class BoardController {
 		if(aDao.list(bno).getOriginalFileName()==null) {
 			map.put("savedFileName", "none.jpg");
 		}
-		map.put("bno", service.read(bno).getBno());
-		map.put("title",service.read(bno).getTitle());
-		map.put("content", service.read(bno).getContent());
-		map.put("writer", service.read(bno).getWriter());
-		map.put("writeDate",service.read(bno).getWriteDate());
-		map.put("readCnt", service.read(bno).getReadCnt());
-		map.put("recommendCnt", service.read(bno).getRecommendCnt());
-		map.put("reportCnt", service.read(bno).getReportCnt());
+		// b 객체를 생성해서 담아준 뒤 값을 빼서 map으로 집어넣었다.
+		// service.read(bno).get으로 뺐더니 너무 많이 실행됬다.
+		// 그래서 조회수가 한번에 8씩 증가했다.
+		// b를 만들어줘서 해결 할 수 있었다.
+		Board b = service.read(bno);
+		map.put("bno", b.getBno());
+		map.put("title", b.getTitle());
+		map.put("content", b.getContent());
+		map.put("writer", b.getWriter());
+		map.put("writeDate",b.getWriteDate());
+		map.put("readCnt", b.getReadCnt());
+		map.put("recommendCnt", b.getRecommendCnt());
+		map.put("reportCnt", b.getReportCnt());
 		maps.put("board", map);
 		String str = mapper.writeValueAsString(maps);
 		return str;
@@ -154,7 +158,7 @@ public class BoardController {
 			ra.addFlashAttribute("msg", ABoard2Contstants.WRITE_SUCCESS);
 		else
 			ra.addFlashAttribute("msg", ABoard2Contstants.JOB_FAIL);
-		return "redirect:/";
+		return "redirect:/#!/boards/list/1";
 	}
 	@GetMapping("/boards/delete")
 	public String delete(@RequestParam int bno) {

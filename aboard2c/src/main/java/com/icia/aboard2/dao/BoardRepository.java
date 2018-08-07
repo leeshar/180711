@@ -28,4 +28,6 @@ public interface BoardRepository {
 	public int update(Board board);
 
 	public void delete(int bno);
+	
+	public int upReplyCnt(int bno);
 }

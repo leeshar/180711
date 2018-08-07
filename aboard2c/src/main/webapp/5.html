@@ -36,7 +36,7 @@
 			<button type="button" id="btnRecommend">추천</button>
     		<button type="button" id="btnReport">신고</button>
     		<button type="button" id="btnReport"><a href="/aboard2/boards/delete?bno={{x.bno}}">삭제</a></button>
-    		<button type="button" id="btnReport"><a href="#!/boards/">목록</a></button>
+    		<button type="button" id="btnReport"><a href="#!/boards/list/1">목록</a></button>
 		</div>
 		
 	<form id="commentForm" name="commentForm" method="post">
@@ -57,7 +57,6 @@
                             <textarea style="width: 800px" rows="3" cols="30" id="replytext" name="replytext" placeholder="댓글을 입력하세요" ng-model="rText"></textarea>
                             <br>
                             <button type="button" name="test" ng-click="myFuc(rText)">등록</button>
-                            <p>{{rText}}</p>
  
                         </td>
                     </tr>
@@ -66,7 +65,7 @@
         </div>
          
     </form>
-<div class="commentList" ng-repeat="data in list">
+<div class="commentList" ng-repeat="data in list" style="border-bottom: 2px solid black;">
   <p>댓글번호:{{data.cno}}</p>
   <p>댓글:{{data.replytext}}</p>
   <p>작성자:{{data.id}}</p>

@@ -96,16 +96,18 @@ public class BoardRestController {
 	// 댓글 작성
 	@RequestMapping(value="/boards/reply/insert")
 	public ResponseEntity<Void> insert(String reply)throws Exception{
+		// JSONParser로 Object로 변환시켜준다.
 		JSONParser jsonparser = new JSONParser();
 		JSONObject obj = (JSONObject) jsonparser.parse(reply);
 		InsertReply insert = new InsertReply();
+		// 변환 된 객체를 문자열, 정수형 데이터 타입으로 변환한다.
 		int bno = Integer.parseInt(obj.get("bno").toString());
 		String id = obj.get("id").toString();
 		String replytext = obj.get("replytext").toString();
 		insert.setBno(bno);
 		insert.setId(id);
 		insert.setReplytext(replytext);
-	
+
 		rService.insert(insert);
 		
 		return new ResponseEntity<>(HttpStatus.OK);

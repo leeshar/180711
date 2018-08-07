@@ -16,5 +16,6 @@ public class Board {
 	private int readCnt;
 	private int recommendCnt;
 	private int reportCnt;
+	private int replyCnt;
 }
 
