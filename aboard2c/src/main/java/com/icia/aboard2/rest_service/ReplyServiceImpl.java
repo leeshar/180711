@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.aboard2.dao.BoardRepository;
 import com.icia.aboard2.dao.ReplyDao;
 import com.icia.aboard2.dto.ReplyDto.InsertReply;
@@ -19,8 +18,6 @@ public class ReplyServiceImpl{
 	private ReplyDao dao;
 	@Autowired
 	private BoardRepository bDao;
-	@Autowired
-	private ObjectMapper mapper;
 	@Autowired
 	private ModelMapper mmapper;
 	

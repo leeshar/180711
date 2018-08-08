@@ -14,20 +14,13 @@ public class UserDto {
 		private String id;
 		private String pwd;
 		private String irum;
-		private String tel;
 		private String email;
-		@DateTimeFormat(pattern="yyyy-MM-dd")
-		private Date birthDate;
 	}
 	@Data
 	public static class ReadUser {  // DB -> 사용자
 		private String id;
 		private String irum;
-		private String tel;
 		private String email;
-		private Date birthDate;
-		private int loginCnt;
-		private int writeCnt;
 	}
 	@Data
 	public static class ChangeUserPwd {
@@ -44,7 +37,6 @@ public class UserDto {
 	public static class UpdateUser {
 		private String id;
 		private String irum;
-		private String tel;
 		private String email;
 	}
 }

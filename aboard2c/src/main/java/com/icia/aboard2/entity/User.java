@@ -1,8 +1,6 @@
 package com.icia.aboard2.entity;
 
-import java.util.*;
 
-import org.springframework.format.annotation.*;
 
 import lombok.*;
 
@@ -16,10 +14,5 @@ public class User {
 	private String id;
 	private String pwd;
 	private String irum;
-	private String tel;
 	private String email;
-	private Integer enabled;
-	private Date birthDate;
-	private int loginCnt;
-	private int writeCnt;
 }

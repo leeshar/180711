@@ -14,7 +14,6 @@ import com.icia.aboard2.dto.UserDto.*;
 import com.icia.aboard2.service.*;
 import com.icia.aboard2.util.*;
 
-import lombok.*;
 
 @Controller
 public class UserController {

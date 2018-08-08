@@ -8,7 +8,9 @@ import com.icia.aboard2.entity.*;
 
 public interface BoardRepository {
 	public int count();
-
+	
+	public List<Board> listAll();
+	
 	public List<Board> list(@Param("startRow")int startRow, @Param("endRow") int endRow);
 
 	public int increaseReadCnt(Integer bno);

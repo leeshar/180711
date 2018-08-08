@@ -11,12 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,9 +23,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.aboard2.dao.AttachRepository;
 import com.icia.aboard2.dto.BoardDto.CreateBoard;
-import com.icia.aboard2.dto.ReplyDto.InsertReply;
 import com.icia.aboard2.entity.Board;
-import com.icia.aboard2.rest_service.ReplyServiceImpl;
 import com.icia.aboard2.service.BoardService;
 import com.icia.aboard2.util.ABoard2Contstants;
 import com.icia.aboard2.util.ABoard2Util;
@@ -45,8 +40,6 @@ public class BoardController {
 	private ObjectMapper mapper;
 	@Autowired
 	private AttachRepository aDao;
-	@Autowired
-	private ReplyServiceImpl rService;
 	//REST방식으로 list를 보여준다.
 	@GetMapping(value="/boards/list/{page}",produces = "application/json; charset=UTF-8")
 	@ResponseBody
@@ -59,9 +52,20 @@ public class BoardController {
 		int second = service.list(pageable).indexOf("]")+1;
 		Map<String, Object> map = new HashMap<>();
 		map.put("records", service.list(pageable).substring(first,second));
+		log.info("{}",map);
 		String str = mapper.writeValueAsString(map);
 		
 		return str;
+	}
+	@GetMapping(value="/boards/listAll",produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String listAll() throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("listAll", service.listAll());
+		log.info("{}", map);
+		String listAll = mapper.writeValueAsString(map);
+		return listAll;
 	}
 	/* 페이지네이션내용
 	@GetMapping(value="/boards3",produces = "application/json; charset=UTF-8")

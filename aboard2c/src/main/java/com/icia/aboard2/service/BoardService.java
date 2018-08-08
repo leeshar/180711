@@ -38,6 +38,11 @@ public class BoardService {
 	@Autowired
 	private Gson gson;
 	
+	public String listAll(){
+		return gson.toJson(boardDao.listAll());
+	}
+	
+	
 	@Transactional
 	public boolean write(CreateBoard create, MultipartFile[] files)  {
 		Board board = modelMapper.map(create, Board.class);

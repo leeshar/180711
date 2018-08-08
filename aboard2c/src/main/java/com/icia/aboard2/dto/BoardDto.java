@@ -2,11 +2,6 @@ package com.icia.aboard2.dto;
 
 import java.util.*;
 
-import javax.validation.constraints.*;
-
-import org.hibernate.validator.constraints.*;
-import org.springframework.format.annotation.*;
-
 import com.icia.aboard2.entity.*;
 
 import lombok.*;

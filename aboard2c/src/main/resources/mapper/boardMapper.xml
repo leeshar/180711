@@ -4,7 +4,9 @@
 	<select id="count" resultType="int">
 		select /*+ index_ffs(board_pk_bno) */ count(bno) from board
 	</select>
-	
+	<select id="listAll" resultType="com.icia.aboard2.dto.BoardDto$ListBoard">
+		select bno,title,writer,write_date writeDate,read_cnt readCnt,reply_cnt replyCnt from board
+	</select>
 	<!-- 
 		1. DB작업은 entity를 이용하기로 했다. entity는 테이블과 1:1
 		2. 사용자가 각 글마다 첨부파일이 있는지 출력해 줄것을 요구

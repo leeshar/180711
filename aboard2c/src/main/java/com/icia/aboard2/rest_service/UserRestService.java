@@ -2,13 +2,11 @@ package com.icia.aboard2.rest_service;
 
 import org.modelmapper.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 
 import com.icia.aboard2.dao.*;
 import com.icia.aboard2.dto.UserDto.*;
-import com.icia.aboard2.entity.*;
 import com.icia.aboard2.entity.User;
 import com.icia.aboard2.exception.*;
 

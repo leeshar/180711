@@ -1,10 +1,8 @@
 package com.icia.aboard2.dao;
 
-import java.util.*;
 
 import org.apache.ibatis.annotations.*;
 
-import com.icia.aboard2.dto.*;
 import com.icia.aboard2.entity.*;
 
 public interface AttachRepository {

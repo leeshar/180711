@@ -14,7 +14,7 @@
 <!-- header에 angular.bootstrap을 이용해 app두개를 생성할 수 있게되었다. -->
 <header>
 	<ul class="nav justify-content-end">
-		<li class="nav-item"><a class="nav-link" href="#!/users/register">회원가입</a></li>
+		<li class="nav-item"><a class="nav-link" href="#!/users/agree">회원가입</a></li>
 		<li class="nav-item"><a class="nav-link" href="/member/login">로그인</a></li>
 		</ul>
 		
@@ -78,10 +78,17 @@ app.config(function($routeProvider){
 		templateUrl:"6.html",
 		controller:'boardsWriteCtrl'
 	})
+	.when("/users/agree",{
+		// 약관동의 페이지
+		templateUrl:"agree.html"
+	})
 	.when("/users/register",{
 		// 회원가입 페이지
 		templateUrl:"register.html",
 		controller:"registerCtrl"
+	})
+	.when("/users/welcome",{
+		templateUrl:"welcome.html"
 	});
 	
 });
@@ -93,6 +100,12 @@ app.controller('boardsCtrl',function($scope, $http,$routeParams){
 	 $http.get("/aboard2/boards/list/"+page).then(function(response){
 			$scope.boardsList = JSON.parse(response.data.records);
 		});
+	 
+	 $scope.searchFuc=function(){
+		 $http.get("/aboard2/boards/listAll").then(function(response){
+				$scope.listAll = JSON.parse(response.data.listAll); 
+			 });
+	 };
 	 
   });
 // routeParams로 Query의 값을 받을 수 있다.
@@ -133,6 +146,40 @@ app.controller('boardsReadCtrl',function($scope,$http,$routeParams){
 	});
 	};
 });
+// UserController 부분
+app.controller('registerCtrl', function($scope, $http,$window,$location){
+	// Join
+	$scope.regFuc = function(){
+		$http({
+			url:"/aboard2/users/join",
+			method:'post',
+			data: 'user='+JSON.stringify($scope.user),
+			contentType:"application/json;charset=UTF-8",
+			headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+			
+		}).then(function(response){
+			alert("회원가입 되었습니다!");
+			$window.location.href="http://localhost:6305/aboard2/#!/users/welcome";
+		});
+	};
+	// idCheck
+	$scope.idCheck = function(){
+		var id = $scope.user.id;
+		
+		// 아이디가 중복 되면 400(Bad Request) status == 400 중복된아이디
+		// 아이디가 중복 되지 않으면 200 status == 200 사용가능
+		$http.get("/aboard2/users/idCheck/"+id)
+		.then(function(response) {
+			$scope.status = response.status;
+			console.log(response.status);
+		}, function myError(response){
+			$scope.status = response.status;
+			console.log(response.status);
+		});
+
+	};
+});
+
 app.config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
 }]);

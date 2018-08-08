@@ -28,7 +28,6 @@ public class UserService {
 		User user = mapper.map(create, User.class);
 		user.setPwd(encoder.encode(user.getPwd()));
 		dao.insertUser(user);
-		dao.insertAuthority(user.getId(), "ROLE_USER");
 	}
 	public String read(String id) {
 		User result = dao.read("hasaway11");

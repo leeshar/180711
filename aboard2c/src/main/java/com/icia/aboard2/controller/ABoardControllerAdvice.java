@@ -2,7 +2,6 @@ package com.icia.aboard2.controller;
 
 import java.util.*;
 
-import org.springframework.ui.*;
 import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.*;
