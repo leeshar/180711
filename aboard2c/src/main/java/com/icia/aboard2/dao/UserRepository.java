@@ -8,6 +8,8 @@ public interface UserRepository {
 
 	void insertUser(User user);
 	
+	void authorities(String id);
+	
 	User read(String id);
 
 	String getPwd(String id);

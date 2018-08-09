@@ -5,6 +5,7 @@ import org.modelmapper.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.*;
 import com.icia.aboard2.dao.*;
@@ -24,9 +25,12 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder encoder;
 	
+	@Transactional
 	public void join(CreateUser create) {
 		User user = mapper.map(create, User.class);
 		user.setPwd(encoder.encode(user.getPwd()));
+		String id = user.getId();
+		dao.authorities(id);
 		dao.insertUser(user);
 	}
 	public String read(String id) {

@@ -9,7 +9,10 @@
 		insert into users(id, pwd, irum, email) 
 		values(#{id}, #{pwd}, #{irum}, #{email})
 	</insert>
-	
+	<insert id="authorities">
+		insert into authorities(id,authority)
+		values(#{id}, 'ROLE_USER')
+	</insert>
 	
 	
 	<update id="pwdChange">

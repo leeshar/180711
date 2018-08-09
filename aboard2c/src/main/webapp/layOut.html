@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"> 
+<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 <title>Insert title here</title>
 <link rel="stylesheet" href="css/layOut.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -15,7 +17,7 @@
 <header>
 	<ul class="nav justify-content-end">
 		<li class="nav-item"><a class="nav-link" href="#!/users/agree">회원가입</a></li>
-		<li class="nav-item"><a class="nav-link" href="/member/login">로그인</a></li>
+		<li class="nav-item"><a class="nav-link" href="#!/users/login">로그인</a></li>
 		</ul>
 		
 </header>
@@ -52,7 +54,7 @@
 
 var app = angular.module("myApp",['ngRoute']);
 
-app.config(function($routeProvider){
+app.config(function($routeProvider, $httpProvider){
 	$routeProvider
 	.when("/1",{
 		templateUrl:"1.html"
@@ -88,14 +90,20 @@ app.config(function($routeProvider){
 		controller:"registerCtrl"
 	})
 	.when("/users/welcome",{
+		// 회원가입환영 페이지
 		templateUrl:"welcome.html"
+	})
+	.when("/users/login",{
+		// 로그인 페이지
+		templateUrl:"login.html"
 	});
 	
 });
 
 
-// boards 리스트를 REST방식으로 page값을 넘긴후 데이터를 가져와서 boardsList에 담는다.
+//boardList
 app.controller('boardsCtrl',function($scope, $http,$routeParams){
+	// boards 리스트 REST방식으로 page값을 넘긴후 데이터를 가져와서 boardsList에 담는다.
 	var page = $routeParams.page;
 	 $http.get("/aboard2/boards/list/"+page).then(function(response){
 			$scope.boardsList = JSON.parse(response.data.records);
@@ -108,28 +116,28 @@ app.controller('boardsCtrl',function($scope, $http,$routeParams){
 	 };
 	 
   });
-// routeParams로 Query의 값을 받을 수 있다.
-// 그 값을 GET 방식 Ajax비동기 통신으로 전달해서 resp변수에 값을 저장한다.
+// boardRead
 app.controller('boardsReadCtrl',function($scope,$http,$routeParams){
-	
+	// routeParams로 Query의 값을 받을 수 있다.
+	// 그 값을 GET 방식 Ajax비동기 통신으로 전달해서 resp변수에 값을 저장한다.
 	var bno = $routeParams.bno;
-	// 댓글 리스트를 보여주는 함수작성.
+	// ReplyList
 	function replyList(){$http.get("/aboard2/boards/reply/list?bno="+bno)
 		.then(function(response){
 			$scope.list = response.data.list;
 			
 		});
 		};
-	// 글을 읽을 때 댓글리스트를 보여주는 함수 실행.
+	// ReplyList
 	$http.get("/aboard2/boards/read/"+bno)
 	.then(function(response){
 		replyList();
 		$scope.resp = response.data;
 	});
-	
-	// ng-click 시 작동 되는 함수이다.
-	// myFuc으로 reply 라는 Object를 컨트롤러에 값을 넘겨준다
+	// ReplyInsert
 	$scope.myFuc=function(){
+		// ng-click 시 작동 되는 함수이다.
+		// myFuc으로 reply 라는 Object를 컨트롤러에 값을 넘겨준다
 		var data = {"replytext":$scope.rText,"bno":bno,"id":"service"};
 		$http({
 		url : '/aboard2/boards/reply/insert',
@@ -149,6 +157,7 @@ app.controller('boardsReadCtrl',function($scope,$http,$routeParams){
 // UserController 부분
 app.controller('registerCtrl', function($scope, $http,$window,$location){
 	// Join
+	
 	$scope.regFuc = function(){
 		$http({
 			url:"/aboard2/users/join",

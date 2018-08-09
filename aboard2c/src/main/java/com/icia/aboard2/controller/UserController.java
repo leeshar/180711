@@ -14,7 +14,7 @@ import com.icia.aboard2.dto.UserDto.*;
 import com.icia.aboard2.service.*;
 import com.icia.aboard2.util.*;
 
-
+@CrossOrigin(origins = "http://localhost:6305/aboard2" , maxAge=3600)
 @Controller
 public class UserController {
 	@Autowired
