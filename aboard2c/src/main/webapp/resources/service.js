@@ -43,6 +43,34 @@ angular.module('myApp').factory('myStorage',['$http',function($http){
 					return 'zz';
 					
 					});
+			},
+		// 유저 회원가입 (아이디 찾기) 메소드
+			idCheck: function(id){	
+				// 아이디가 중복 되면 400(Bad Request) status == 400 중복된아이디
+				// 아이디가 중복 되지 않으면 200 status == 200 사용가능
+				return $http.get("/aboard2/users/idCheck/"+id)
+				.then(
+				function(response) {
+					return response.status;
+					console.log(response.status);
+				},
+				function myError(response){
+					return response.status;
+					console.log(response.status);
+					});
+			},
+		// 유저 회원가입 메소드
+			join: function(user){
+				return $http({
+					url:"/aboard2/users/join",
+					method:'post',
+					data: 'user='+JSON.stringify(user),
+					contentType:"application/json;charset=UTF-8",
+					headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+					
+				}).then(function(response){
+					return "회원가입을 환영합니다!";
+				});
 			}
 			
 	};
