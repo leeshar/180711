@@ -20,7 +20,7 @@
 			<span id="reportCnt">신고누적수:{{x.reportCnt}}</span><br>
 			<span id="recommendCnt">추천누적수:{{x.recommendCnt}}</span><br>
 			<span id="readCnt">조회수:{{x.readCnt}}</span><br>
-			<div>이미지<img src="http://localhost:8082/upload/{{x.savedFileName}}"class="rounded mx-auto d-block"></div>
+			<div>이미지<img src="http://localhost:8081/upload/{{x.savedFileName}}"class="rounded mx-auto d-block"></div>
 			</div>
 			<div id="right">추천<span id="recommendCnt"></span>조회<span id="readCnt"></span></div>
 		</div>
@@ -51,12 +51,12 @@
                 <table class="table">                    
                     <tr>
            
-                    <td><input type="hidden" name="product_id" value="${product.product_id}"/></td>
+                    <td><input type="hidden" name="bno" value="{{bno}}"/></td>
 
                         <td>
                             <textarea style="width: 800px" rows="3" cols="30" id="replytext" name="replytext" placeholder="댓글을 입력하세요" ng-model="rText"></textarea>
                             <br>
-                            <button type="button" name="test" ng-click="myFuc(rText)">등록</button>
+                            <button type="button" name="test" ng-click="myFuc(rText,bno)">등록</button>
  
                         </td>
                     </tr>
