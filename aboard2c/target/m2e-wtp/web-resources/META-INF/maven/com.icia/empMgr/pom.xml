@@ -261,6 +261,13 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>4.2.3.RELEASE</version>
 		</dependency>
+		<!-- security token -->
+<dependency>
+    <groupId>org.webjars.bower</groupId>
+    <artifactId>spring-security-csrf-token-interceptor</artifactId>
+    <version>0.1.5</version>
+</dependency>
+		
 		<!-- java mail -->
 		<dependency>
 			<groupId>javax.mail</groupId>

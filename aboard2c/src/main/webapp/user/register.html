@@ -38,7 +38,8 @@
       <label for="email" style="margin: 0;">email</label>
       <input type="email" ng-model="user.email" class="form-control" id="email" name="email" ng-required="true" ng-pattern="/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i">
     </div>
-	<div ng-show="regFrm.email.$error.pattern" style="color:red;">이메일형식이 옳지 않습니다</div>   
+	<div ng-show="regFrm.email.$error.pattern" style="color:red;">이메일형식이 옳지 않습니다</div>
+	   
 <button type="button" ng-click="regFuc();" class="btn btn-outline-dark" style="margin-left: 300px; margin-top: 100px;">가입하기</button>
 </form>
 </body>

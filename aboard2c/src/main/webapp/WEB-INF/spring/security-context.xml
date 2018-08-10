@@ -27,4 +27,6 @@
 			<sec:password-encoder ref="pwdEncoder"/>
 		</sec:authentication-provider>
 	</sec:authentication-manager>
+
+
 </beans>
