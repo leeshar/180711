@@ -1,6 +1,7 @@
 package com.icia.aboard2.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -154,7 +155,7 @@ public class BoardController {
 	public String write(@Valid CreateBoard board, BindingResult results, MultipartFile[] files, RedirectAttributes ra) throws BindException, IOException {
 		ABoard2Util.throwBindException(results);
 		// 원래는 로그인한 아이디를 글쓴이로 저장하면 되는데...각자 알아서 아이디 넣어줄것
-		board.setWriter("hasaway11");
+		
 		System.out.println(board);
 		System.out.println(files);
 		boolean result = service.write(board, files);

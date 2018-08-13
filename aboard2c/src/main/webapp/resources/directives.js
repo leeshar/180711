@@ -32,8 +32,7 @@ app.directive("headerTpl",function(){
 	})
 	.when("/boards/writePage",{
 		// 게시판 글쓰기페이지
-		templateUrl:"./boards/write.html",
-		controller:'boardsWriteCtrl'
+		templateUrl:"./boards/writePage.html"
 	})
 	.when("/users/agree",{
 		// 약관동의 페이지

@@ -1,4 +1,4 @@
-angular.module('myApp').factory('myStorage',['$http',function($http){
+angular.module('myApp').factory('myStorage',['$http','$cookieStore',function($http,$cookieStore){
 	
 	return {
 		// 게시판 리스트를 불러오는 메소드
@@ -31,7 +31,17 @@ angular.module('myApp').factory('myStorage',['$http',function($http){
 			},
 		// 댓글 작성 메소드
 			replyInsert: function(rText,bno){
-				var data = {"replytext":rText,"bno":bno,"id":"service"};
+			// 로그인 작성시
+			if($cookieStore.get("globals")!=null){
+				var cookie = $cookieStore.get("globals");
+				var currentUser = cookie[Object.keys(cookie)[0]];
+				var id = currentUser[Object.keys(currentUser)[0]];
+				var data = {"replytext":rText,"bno":bno,"id":id};
+			}
+			//비로그인 댓글 작성시
+			if($cookieStore.get("globals")==null){
+				var data = {"replytext":rText, "bno":bno, "id":"익명"};
+			}
 				return $http({
 				url : '/aboard2/boards/reply/insert',
 				method : 'post',

@@ -33,6 +33,7 @@ app.controller('boardsReadCtrl',function($scope,$http,$routeParams,myStorage){
 			});
 	}
 	// 댓글 작성
+	
 	$scope.myFuc = function(rText,bno){
 		myStorage.replyInsert(rText,bno).then(function(data){
 			replyList(bno);
