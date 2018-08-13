@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.icia.aboard2.dto.UserDto.ChangeIrum;
 import com.icia.aboard2.dto.UserDto.ChangeUserPwd;
 import com.icia.aboard2.dto.UserDto.CreateUser;
 import com.icia.aboard2.dto.UserDto.LoginUser;
@@ -67,14 +66,6 @@ public class UserRestController {
 	public ResponseEntity<Void> changePwd(@Valid ChangeUserPwd user, BindingResult results) throws BindException {
 		ABoard2Util.throwBindException(results);
 		service.pwdChange(user);
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
-	
-	// 이름 변경 : irumChange
-	@PostMapping("/users/changeIrum")
-	public ResponseEntity<Void> changeIrum(@Valid ChangeIrum user, BindingResult results) throws BindException {
-		ABoard2Util.throwBindException(results);
-		service.irumChange(user);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	@PostMapping("/users/login")

@@ -29,11 +29,6 @@ public class UserDto {
 		private String newPwd;
 	}
 	@Data
-	public static class ChangeIrum {
-		private String id;
-		private String irum;
-	}
-	@Data
 	public static class UpdateUser {
 		private String id;
 		private String irum;

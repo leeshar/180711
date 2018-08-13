@@ -14,8 +14,6 @@ public interface UserRepository {
 
 	void pwdChange(User user);
 	
-	int irumChange(User user);
-
 	String idCheck(String id);
 
 	Map<String, Object> login(User user);

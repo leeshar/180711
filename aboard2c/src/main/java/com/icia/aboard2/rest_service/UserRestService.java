@@ -34,12 +34,6 @@ public class UserRestService {
 		dao.pwdChange(user);
 	}
 	
-	public void irumChange(ChangeIrum u) {
-		User user = mapper.map(u, User.class);
-		if(dao.irumChange(user)==0)
-			throw new UserNotFoundException(user.getId());
-	}
-	
 	public boolean idCheck(String id) {
 		return dao.idCheck(id)==null? true: false;
 	}
