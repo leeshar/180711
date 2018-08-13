@@ -58,3 +58,25 @@ app.controller('registerCtrl', function($scope, $http,$window,$location,myStorag
 	};
 	
 });
+
+// 로그인 인증 부분
+angular.module('myApp')
+.controller('LoginCtrl',
+    ['$scope', '$rootScope', '$location', 'AuthenticationService','$http',
+    function ($scope, $rootScope, $location, AuthenticationService, $http) {
+        // reset login status
+        AuthenticationService.ClearCredentials();
+ 
+        $scope.login = function () {
+            $scope.dataLoading = true;
+            AuthenticationService.Login($scope.id, $scope.pwd, function(response) {
+                if(response.data) {
+                    AuthenticationService.SetCredentials($scope.id, $scope.pwd);
+                    $location.path('/');
+                } else {
+                    $scope.error = response.message;
+                    $scope.dataLoading = false;
+                }
+            });
+        };
+    }]);

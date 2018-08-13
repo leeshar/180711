@@ -17,10 +17,10 @@ public class UserDto {
 		private String email;
 	}
 	@Data
-	public static class ReadUser {  // DB -> 사용자
+	public static class LoginUser{
 		private String id;
-		private String irum;
-		private String email;
+		private String pwd;
+		
 	}
 	@Data
 	public static class ChangeUserPwd {

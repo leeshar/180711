@@ -10,7 +10,10 @@ import com.icia.aboard2.dto.UserDto.*;
 import com.icia.aboard2.entity.User;
 import com.icia.aboard2.exception.*;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class UserRestService {
 	@Autowired
 	private UserRepository dao;
@@ -40,5 +43,17 @@ public class UserRestService {
 	public boolean idCheck(String id) {
 		return dao.idCheck(id)==null? true: false;
 	}
-
+	public boolean login(LoginUser logi) {
+		User user = mapper.map(logi, User.class);
+		if(dao.login(user)==null) {
+			return false;
+		}	
+		if(dao.login(user)!=null) {
+			String encodedPwd = dao.login(user).get("PWD").toString();
+			if(encoder.matches(user.getPwd(), encodedPwd))
+				return true;
+		}
+		return false;
+		
+	}
 }

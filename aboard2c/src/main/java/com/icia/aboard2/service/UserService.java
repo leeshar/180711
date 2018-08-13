@@ -33,11 +33,7 @@ public class UserService {
 		dao.authorities(id);
 		dao.insertUser(user);
 	}
-	public String read(String id) {
-		User result = dao.read("hasaway11");
-		UserDto.ReadUser user = mapper.map(result, UserDto.ReadUser.class);
-		return gson.toJson((user));
-	}
+
 	public void update(UpdateUser u) {
 		User user = mapper.map(u, User.class);
 		if(dao.update(user)==0)

@@ -1,5 +1,10 @@
 <header>
-	<ul class="nav justify-content-end">
+
+<ul class="nav justify-content-end" ng-show="globals!=null">
+	<li class="nav-item" ng-repeat="x in globals"><a class="nav-link" href="#">{{x.id}}님 반갑습니다</a></li>
+	<li class="nav-item"><a class="nav-link" href="#!/users/login">로그아웃</a></li>
+	</ul>
+	<ul class="nav justify-content-end" ng-show="globals==null">
 	<li class="nav-item"><a class="nav-link" href="#!/users/agree">회원가입</a></li>
 	<li class="nav-item"><a class="nav-link" href="#!/users/login">로그인</a></li>
 	</ul>

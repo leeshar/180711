@@ -1,14 +1,15 @@
-
-var app = angular.module("myApp",["ngRoute"]);
+var app = angular.module('myApp', [
+    'ngRoute',
+    'ngCookies'
+]);
 app.directive("headerTpl",function(){
 	return{templateUrl:"./template/header.tpl.html"};
-});
-app.directive("navTpl",function(){
+}).directive("navTpl",function(){
 	return{templateUrl:"./template/nav.tpl.html"};
-});
+})
 //Input에서 ng-model을 사용했을때 한글 dataBinding을 해주는 directive
-app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, restrict : 'A', compile : function(element) { element.on('compositionstart', function(e) { e.stopImmediatePropagation(); }); }, }; } ]);
-app.config(function($routeProvider){
+.directive('krInput', [ '$parse', function($parse) { return { priority : 2, restrict : 'A', compile : function(element) { element.on('compositionstart', function(e) { e.stopImmediatePropagation(); }); }, }; } ])
+.config(function($routeProvider){
 	$routeProvider
 	.when("/1",{
 		templateUrl:"./menu/1.html"
@@ -49,10 +50,27 @@ app.config(function($routeProvider){
 	})
 	.when("/users/login",{
 		// 로그인 페이지
-		templateUrl:"./user/login.html"
+		templateUrl:"./user/login.html",
+		controller:"LoginCtrl",
+		hideMenus: true
 	});
 	
-});
-app.config(['$qProvider', function ($qProvider) {
+})
+.config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
-}]);
+}])
+.run(['$rootScope', '$location', '$cookieStore', '$http',
+    function ($rootScope, $location, $cookieStore, $http) {
+        // keep user logged in after page refresh
+        $rootScope.globals = $cookieStore.get('globals') || {};
+        if ($rootScope.globals.currentUser) {
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
+        }
+ 
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            // redirect to login page if not logged in
+            if ($location.path() !== '/users/login' && !$rootScope.globals.currentUser) {
+                $location.path('/users/login');
+            }
+        });
+    }]);

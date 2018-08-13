@@ -1,16 +1,14 @@
 package com.icia.aboard2.dao;
 
-import org.apache.ibatis.annotations.*;
+import java.util.Map;
 
-import com.icia.aboard2.entity.*;
+import com.icia.aboard2.entity.User;
 
 public interface UserRepository {
 
 	void insertUser(User user);
 	
 	void authorities(String id);
-	
-	User read(String id);
 
 	String getPwd(String id);
 
@@ -20,5 +18,7 @@ public interface UserRepository {
 
 	String idCheck(String id);
 
+	Map<String, Object> login(User user);
+	
 	int update(User user);
 }
