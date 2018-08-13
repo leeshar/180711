@@ -99,7 +99,7 @@ angular.module('myApp')
 			}).then(function(response){
 				console.log(response.data);
 				if(!response.data){
-					response.message = '아이디와 비밀번호가 옳지않습니다';
+					response.message = '아이디와 비밀번호가 틀립니다';
 				}
 				callback(response);
 			})

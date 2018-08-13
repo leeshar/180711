@@ -78,18 +78,21 @@ public class UserRestController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	@PostMapping("/users/login")
-	public ResponseEntity<String> login(String login) throws ParseException, JsonProcessingException{
+	public ResponseEntity<String> login(String login) throws ParseException, JsonProcessingException, InterruptedException{
 		JSONParser jsonParser = new JSONParser();
 		JSONObject obj = (JSONObject) jsonParser.parse(login);
 		LoginUser logi = new LoginUser();
 		logi.setId(obj.get("id").toString());
 		logi.setPwd(obj.get("pwd").toString());
+		
 		if(service.login(logi)) {
 			Object success = true;
 			log.info("{}", success);
+			Thread.sleep(1000);
 			return new ResponseEntity<String>(mapper.writeValueAsString(success),HttpStatus.OK);
 		}
 		Object failed = false;
+		Thread.sleep(1000);
 		return new ResponseEntity<String>(mapper.writeValueAsString(failed),HttpStatus.OK);
 		
 		
