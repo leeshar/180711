@@ -5,7 +5,7 @@ import java.util.List;
 import com.icia.aboard2.entity.Reply;
 
 
-public interface ReplyRepository {
+public interface ReplyDao {
 	public void insert(Reply reply)throws Exception;
 	
 	public void delete(int cno)throws Exception;

@@ -80,9 +80,10 @@ public void sendMail(String email,String authToken) throws FileNotFoundException
 
 }
 //비밀번호 리셋
-public void pwdMail(String email,String pwd) throws FileNotFoundException, URISyntaxException { 
+@Transactional
+public void pwdMail(String email,String pwd, String id) throws FileNotFoundException, URISyntaxException { 
 User user = new User();
-user.setEmail(email);
+user.setId(id);
 user.setPwd(encoder.encode(pwd));
 dao.pwdReset(user);
 
@@ -90,11 +91,14 @@ try{
 
 MimeMessage message = mailSender.createMimeMessage();
 
-String setfrom = "snrntpa2z@gmail.com";        
+String setfrom = "InhoWebTest@gmail.com";        
 String tomail  = email;    // 받는 사람 이메일
 String title   = "비밀번호 찾기 메일입니다 ";      // 제목
-String content = "비밀번호가 초기화 되었습니다." + pwd 
-				+"비밀번호를 바꿔주세요";    // 내용
+String content = "비밀번호가 초기화 되었습니다<br>"
+				+ "비밀번호 : " + pwd 
+				+"<br>비밀번호를 바꿔주세요"
+				+"<br><a href='http://localhost:8081/aboard2/'>여기로</a>"
+				;
 
 message.setFrom(new InternetAddress(setfrom));  
 message.addRecipient(RecipientType.TO, new InternetAddress(tomail));

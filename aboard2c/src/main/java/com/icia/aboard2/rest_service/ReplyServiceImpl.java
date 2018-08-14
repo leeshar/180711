@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.icia.aboard2.dao.BoardRepository;
-import com.icia.aboard2.dao.ReplyRepository;
+import com.icia.aboard2.dao.ReplyDao;
 import com.icia.aboard2.dto.ReplyDto.InsertReply;
 import com.icia.aboard2.entity.Reply;
 
 @Service
 public class ReplyServiceImpl{
 	@Autowired
-	private ReplyRepository dao;
+	private ReplyDao dao;
 	@Autowired
 	private BoardRepository bDao;
 	@Autowired

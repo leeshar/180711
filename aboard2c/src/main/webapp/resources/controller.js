@@ -64,9 +64,11 @@ app.controller('findIdCtrl',function($rootScope,$scope, $http,$window, $location
 	$rootScope.authToken = Math.floor((Math.random() * 99999) + 1);
 	// 1. 인증번호
 	$scope.emailAuth = function(email){
+        $scope.dataLoading = true;
 		userStorage.emailToken(email).then(function(data){
 			alert(data);
 			$scope.emailInput=1;
+			$scope.dataLoading = false;
 		});
 	}
 	// 2. 아이디 찾기
@@ -79,18 +81,26 @@ app.controller('findIdCtrl',function($rootScope,$scope, $http,$window, $location
 		});
 	}
 });
+
 app.controller('findPwdCtrl',function($scope,$http, userStorage){
+	//비밀번호 찾기 
 	$scope.findPwd = function(id){
 		userStorage.findPwd(id).then(function(data){
+			if(data=="error"){
+				return alert("해당아이디없음");
+			}
 			$scope.pwdSuccess=1;
 			$scope.email=data;
 			
 			
 		});
 	};
+	//비밀번호 리셋 
 	$scope.pwdSend = function(id){
+        $scope.dataLoading = true;
 		userStorage.pwdSend(id).then(function(data){
-			
+			alert(data);
+	        $scope.dataLoading = false;
 		});
 	};
 	

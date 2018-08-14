@@ -144,7 +144,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 				contentType:"application/json;charset=UTF-8",
 				headers:{"Content-Type":'application/x-www-form-urlencoded'}
 			}).then(function(response){
-				return '성공';
+				return '메일이 발송 됬습니다';
 			});
 		}
 		

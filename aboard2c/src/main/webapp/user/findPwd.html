@@ -21,6 +21,14 @@
 	이메일 : {{email}}
 	<button type="button" ng-click="pwdSend(id)">등록된 이메일로 인증</button>
 </div>
+<div class="center" style="width: 100%; height: 50px; text-align: center;">
+<div class="cp-spinner" style="margin-top: 400px;">
+<div class="cp-heart" ng-if="dataLoading"></div>
+</div>
+<div class="center" ng-if="dataLoading">
+	메일발송중입니다...
+</div>
+</div>
 <!-- 등록된 아이디 체크.. 아이디가 있다면 다음 페이지에서 이메일 인증 -->
 </body>
 </html>
