@@ -16,7 +16,9 @@
 		insert into authorities(id,authority)
 		values(#{id}, 'ROLE_USER')
 	</insert>
-	
+	<select id="findId" resultType="string" parameterType="com.icia.aboard2.dto.UserDto$FindId">
+		select id from users where irum=#{irum} and email=#{email} and rownum=1
+	</select>
 	
 	<update id="pwdChange">
 		update users set pwd=#{pwd} where id=#{id} and rownum = 1

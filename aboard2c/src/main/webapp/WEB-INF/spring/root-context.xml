@@ -49,4 +49,19 @@
 	<mybatis-spring:scan
 		base-package="com.icia.aboard2.dao" />
 
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="snrntpa2z" />
+		<property name="password" value="qkektrk1!" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.timeout">8500</prop>
+				<prop key="mail.debug">true</prop>
+				<!--  log를 보고 싶다면 사용 -->
+			</props>
+		</property>
+	</bean>
 </beans>

@@ -23,15 +23,15 @@ public class UserDto {
 		
 	}
 	@Data
+	public static class FindId{
+		private String irum;
+		private String email;
+	}
+	@Data
 	public static class ChangeUserPwd {
 		private String id;
 		private String oldPwd;
 		private String newPwd;
-	}
-	@Data
-	public static class ChangeIrum {
-		private String id;
-		private String irum;
 	}
 	@Data
 	public static class UpdateUser {

@@ -2,6 +2,7 @@ package com.icia.aboard2.dao;
 
 import java.util.Map;
 
+import com.icia.aboard2.dto.UserDto.FindId;
 import com.icia.aboard2.entity.User;
 
 public interface UserRepository {
@@ -12,10 +13,10 @@ public interface UserRepository {
 
 	String getPwd(String id);
 
+	String findId(FindId findId);
+	
 	void pwdChange(User user);
 	
-	int irumChange(User user);
-
 	String idCheck(String id);
 
 	Map<String, Object> login(User user);

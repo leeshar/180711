@@ -1,4 +1,5 @@
-angular.module('myApp').factory('myStorage',['$http',function($http){
+// 게시판 서비스
+angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function($http,$cookieStore){
 	
 	return {
 		// 게시판 리스트를 불러오는 메소드
@@ -31,7 +32,17 @@ angular.module('myApp').factory('myStorage',['$http',function($http){
 			},
 		// 댓글 작성 메소드
 			replyInsert: function(rText,bno){
-				var data = {"replytext":rText,"bno":bno,"id":"service"};
+			// 로그인 작성시
+			if($cookieStore.get("globals")!=null){
+				var cookie = $cookieStore.get("globals");
+				var currentUser = cookie[Object.keys(cookie)[0]];
+				var id = currentUser[Object.keys(currentUser)[0]];
+				var data = {"replytext":rText,"bno":bno,"id":id};
+			}
+			//비로그인 댓글 작성시
+			if($cookieStore.get("globals")==null){
+				var data = {"replytext":rText, "bno":bno, "id":"익명"};
+			}
 				return $http({
 				url : '/aboard2/boards/reply/insert',
 				method : 'post',
@@ -44,43 +55,79 @@ angular.module('myApp').factory('myStorage',['$http',function($http){
 					
 					});
 			},
-		// 유저 회원가입 (아이디 찾기) 메소드
-			idCheck: function(id){	
-				// 아이디가 중복 되면 400(Bad Request) status == 400 중복된아이디
-				// 아이디가 중복 되지 않으면 200 status == 200 사용가능
-				return $http.get("/aboard2/users/idCheck/"+id)
-				.then(
-				function(response) {
-					return response.status;
-					console.log(response.status);
-				},
-				function myError(response){
-					return response.status;
-					console.log(response.status);
-					});
-			},
-		// 유저 회원가입 메소드
-			join: function(user){
-				return $http({
-					url:"/aboard2/users/join",
-					method:'post',
-					data: 'user='+JSON.stringify(user),
-					contentType:"application/json;charset=UTF-8",
-					headers : {'Content-Type': 'application/x-www-form-urlencoded'}
-					
-				}).then(function(response){
-					return "회원가입을 환영합니다!";
-				});
-			}
+		
 			
 	};
 	
 }]);
-
-// 로그인 인증 부분
-angular.module('myApp')
- 
-.factory('AuthenticationService',
+// 유저 서비스
+angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScope',function($http,$cookieStore,$rootScope){
+	
+	return{
+		// 유저 회원가입 (아이디 찾기) 메소드
+		idCheck: function(id){	
+			// 아이디가 중복 되면 400(Bad Request) status == 400 중복된아이디
+			// 아이디가 중복 되지 않으면 200 status == 200 사용가능
+			return $http.get("/aboard2/users/idCheck/"+id)
+			.then(
+			function(response) {
+				return response.status;
+				console.log(response.status);
+			},
+			function myError(response){
+				return response.status;
+				console.log(response.status);
+				});
+		},
+	// 유저 회원가입 메소드
+		join: function(user){
+			return $http({
+				url:"/aboard2/users/join",
+				method:'post',
+				data: 'user='+JSON.stringify(user),
+				contentType:"application/json;charset=UTF-8",
+				headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+				
+			}).then(function(response){
+				return "회원가입을 환영합니다!";
+			});
+		},
+		// 이메일인증
+		emailToken: function(email){
+			return $http({
+				url:"/aboard2/users/findId/emailAuth",
+				method:'POST',
+				data:'mail='+JSON.stringify({'email':email,'authToken': $rootScope.authToken}),
+				contentType:"application/json;charset=UTF-8",
+				headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).then(function(response){
+				console.log($rootScope.authToken);
+				return "인증번호발송했습니다.";
+			})
+		},
+		//아이디 찾기
+		findId: function(irum, email,emailToken){
+			if(emailToken==$rootScope.authToken){
+			return $http({
+				url:"/aboard2/users/findId",
+				method:'POST',
+				data:'find='+JSON.stringify({'irum':irum, 'email':email}),
+				contentType:"application/json;charset=UTF-8",
+				headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).then(function(response){
+				return response.data;
+			});
+			}
+			if(emailToken!=$rootScope.authToken){
+				alert('인증번호가 틀립니다');
+			}
+			
+		}
+		
+	}
+}]);
+// 로그인 서비스
+angular.module('myApp').factory('AuthenticationService',
     ['Base64', '$http', '$cookieStore', '$rootScope', '$timeout',
     function (Base64, $http, $cookieStore, $rootScope, $timeout) {
         var service = {};

@@ -32,8 +32,7 @@ app.directive("headerTpl",function(){
 	})
 	.when("/boards/writePage",{
 		// 게시판 글쓰기페이지
-		templateUrl:"./boards/write.html",
-		controller:'boardsWriteCtrl'
+		templateUrl:"./boards/writePage.html"
 	})
 	.when("/users/agree",{
 		// 약관동의 페이지
@@ -53,6 +52,14 @@ app.directive("headerTpl",function(){
 		templateUrl:"./user/login.html",
 		controller:"LoginCtrl",
 		hideMenus: true
+	})
+	.when("/users/findId",{
+		// 아이디 찾기 페이지
+		templateUrl:"./user/findId.html",
+		controller:"findIdCtrl"
+	})
+	.when("/users/findPwd",{
+		templateUrl:"./user/findPwd.html"
 	});
 	
 })

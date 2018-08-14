@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#!/users/findId">아이디 찾기</a></li>
+    <li class="breadcrumb-item"><a href="#!/users/findPwd">비밀번호 찾기</a></li>
+  </ol>
+</nav>
+<p>아이디찾기</p>
+<form>
+이름 : <input type="text" name="irum" id="irum" ng-model="irum"><br>
+이메일 : <input type="text" name="email" id="email" ng-model="email"><br><button type="button" ng-click="emailAuth(email)">인증번호발급</button>
+<div ng-show="emailInput==1">
+인증번호입력 : <input type="text" name="emailToken" id="emailToken" ng-model="emailToken">
+</div> 
+<button type="button" ng-click="findId(irum, email, emailToken)">아이디 찾기</button>
+</form>
+</body>
+</html>
