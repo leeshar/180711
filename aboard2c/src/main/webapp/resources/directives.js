@@ -3,7 +3,8 @@ var app = angular.module('myApp', [
     'ngCookies'
 ]);
 app.directive("headerTpl",function(){
-	return{templateUrl:"./template/header.tpl.html"};
+	return{templateUrl:"./template/header.tpl.html",
+		   controller:"slideCtrl"};
 }).directive("navTpl",function(){
 	return{templateUrl:"./template/nav.tpl.html"};
 })

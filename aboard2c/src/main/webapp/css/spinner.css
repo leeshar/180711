@@ -71,12 +71,10 @@ p.credits a{
 	margin: 0px;
 }
 a:link, a:active, a:visited{
-	color: #3F51B5;
 	text-decoration: none;
 	font-size: 1em;
 	text-transform: uppercase;
-	border-bottom: dashed 1px #3F51B5;
-	margin: 0px 10px;
+	
 }
 a:hover{
 	border-bottom: none;
