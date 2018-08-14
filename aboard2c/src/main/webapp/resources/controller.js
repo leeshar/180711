@@ -60,7 +60,7 @@ app.controller('registerCtrl', function($scope, $http,$window,$location,userStor
 	
 });
 // 아이디 찾기
-app.controller('findIdCtrl',function($rootScope,$scope, $http, $location,userStorage){
+app.controller('findIdCtrl',function($rootScope,$scope, $http,$window, $location,userStorage){
 	$rootScope.authToken = Math.floor((Math.random() * 99999) + 1);
 	// 1. 인증번호
 	$scope.emailAuth = function(email){
@@ -72,7 +72,10 @@ app.controller('findIdCtrl',function($rootScope,$scope, $http, $location,userSto
 	// 2. 아이디 찾기
 	$scope.findId = function(irum, email,emailToken){
 		userStorage.findId(irum, email, emailToken).then(function(data){
-			alert(data);
+			$scope.success=1;
+			$rootScope.findId=data;
+			console.log($scope.id);
+			$window.location.href="http://localhost:8081/aboard2/#!/users/findId/result";
 		});
 	}
 });
@@ -81,6 +84,7 @@ app.controller('findPwdCtrl',function($scope,$http, userStorage){
 		userStorage.findPwd(id).then(function(data){
 			$scope.pwdSuccess=1;
 			$scope.email=data;
+			
 			
 		});
 	};

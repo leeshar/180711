@@ -58,7 +58,11 @@ app.directive("headerTpl",function(){
 		templateUrl:"./user/findId.html",
 		controller:"findIdCtrl"
 	})
+	.when("/users/findId/result",{
+		templateUrl:"./user/findIdResutl.html"
+	})
 	.when("/users/findPwd",{
+		// 비밀번호 찾기 페이지
 		templateUrl:"./user/findPwd.html",
 		controller:"findPwdCtrl"
 	});
