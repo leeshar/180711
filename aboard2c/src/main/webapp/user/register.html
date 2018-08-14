@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active">약관동의</li>
+    <li class="breadcrumb-item" aria-current="page">회원가입</li>
+  </ol>
+</nav>
+<form name="regFrm" style="width: 700px; margin-left: 300px; margin-top: 100px;">
+<label for="id">아이디</label>
+<div class="form-row">
+	<input type="text" style="width: 630px; float: left;" ng-model="user.id" name="id" class="form-control" placeholder="아이디를 입력하세요" ng-required="true" ng-pattern="/^[A-Za-z0-9]{8,12}$/"><button type="button" ng-click="idCheck(user.id);">중복체크</button>
+	</div>
+<div ng-show="status==400" style="color: red;">중복된 아이디 입니다</div>
+<div ng-show="status==200" style="color: blue;">사용가능한 아이디 입니다</div>
+<div ng-show="regFrm.id.$error.pattern" style="color: red;">아이디는 숫자와 영문자 8~12자리 입니다</div>
+<div class="form-row">
+    <label for="pwd">비밀번호</label>
+	<input type="password" ng-model="user.pwd" id="pwd" name="pwd" class="form-control" placeholder="비밀번호를 입력하세요" ng-required="true" ng-pattern="/^[a-zA-Z0-9]{8,12}$/">
+	</div>
+<div ng-show="regFrm.pwd.$error.pattern" style="color: red;">숫자와 영문자 조합으로 8~12자리를 사용해야 합니다</div>
+<div class="form-row">
+    <label for="pwdCheck">비밀번호 확인</label>
+	<input type="password" ng-model="pwdCheck" id="pwdCheck" name="pwdCheck" class="form-control" placeholder="비밀번호확인을 입력하세요" ng-required="true" maxlength="12">
+	</div>
+<div ng-show="regFrm.pwdCheck.$modelValue!=regFrm.pwd.$modelValue" style="color: red;">비밀번호와 같지 않습니다</div>
+<div class="form-row">
+    <label for="irum">이름</label>
+	<input type="text" ng-model="user.irum" id="irum" name="irum" class="form-control" placeholder="이름을 입력하세요" ng-required="true" ng-pattern="/^[가-힣]{2,4}$/">
+	</div>
+	<div ng-show="regFrm.irum.$error.pattern" style="color:red;">이름은 한글 최소 두글자 이상입니다</div>
+	<div class="form-row">
+      <label for="email" style="margin: 0;">email</label>
+      <input type="email" ng-model="user.email" class="form-control" id="email" name="email" ng-required="true" ng-pattern="/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i">
+    </div>
+	<div ng-show="regFrm.email.$error.pattern" style="color:red;">이메일형식이 옳지 않습니다</div>
+	   
+<button type="button" ng-click="regFuc(user);" class="btn btn-outline-dark" style="margin-left: 300px; margin-top: 100px;">가입하기</button>
+</form>
+</body>
+</html>

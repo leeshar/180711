@@ -46,7 +46,7 @@
 		<ul id="slide-out" class="sidenav">
     <li><div class="user-view">
       <div class="background">
-        <img src="/upload/33.jpg">
+        <img src="/upload/33.jpg" style="width: 100%; height: 100%;">
       </div>
       <a href="#user"><img class="circle" src="/upload/${list.photo }"></a>
       <a href="#name"><span class="white-text name">${list.id}님 환영합니다</span></a>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div style="overflow-y: scroll; width: 1250px; height: 800px;">
+		<div id="upper">
+			<div id="title"></div>
+			<div id="writer"></div>
+			
+		</div>
+		<div id="lower" >
+			<div id="left" ng-repeat="x in resp"><span id="bno">{{x.bno}}</span><br>
+			<span id="title">제목:{{x.title}}</span><br>
+			<span id="content">내용:{{x.content}}</span><br>
+			<span id="writer">작성자:{{x.writer}}</span><br>
+			<span id="writeDate">작성일:{{x.writeDate | date:'yyyy-MM-dd HH:mm:ss '}}</span><br>
+			<span id="reportCnt">신고누적수:{{x.reportCnt}}</span><br>
+			<span id="recommendCnt">추천누적수:{{x.recommendCnt}}</span><br>
+			<span id="readCnt">조회수:{{x.readCnt}}</span><br>
+			<div>이미지<img src="http://localhost:8081/upload/{{x.savedFileName}}"class="rounded mx-auto d-block"></div>
+			</div>
+			<div id="right">추천<span id="recommendCnt"></span>조회<span id="readCnt"></span></div>
+		</div>
+		<div id="body">
+			<textarea id="content">
+			</textarea>
+		</div>
+		<div >
+			<ul id="attach">
+			</ul>
+		</div>
+		<div id="btnArea" ng-repeat="x in resp">
+			<button type="button" id="btnRecommend">추천</button>
+    		<button type="button" id="btnReport">신고</button>
+    		<button type="button" id="btnReport"><a href="/aboard2/boards/delete?bno={{x.bno}}">삭제</a></button>
+    		<button type="button" id="btnReport"><a href="#!/boards/list/1">목록</a></button>
+		</div>
+		
+	<form id="commentForm" name="commentForm" method="post">
+    <br>
+    <div id="loading">LOADING...</div>
+    <br>
+        <div>
+            <div>
+                <span><strong>Comments</strong></span> <span id="cCnt"></span>
+            </div>
+            <div>
+                <table class="table">                    
+                    <tr>
+           
+                    <td><input type="hidden" name="bno" value="{{bno}}"/></td>
+
+                        <td>
+                            <textarea style="width: 800px" rows="3" cols="30" id="replytext" name="replytext" placeholder="댓글을 입력하세요" ng-model="rText"></textarea>
+                            <br>
+                            <button type="button" name="test" ng-click="myFuc(rText,bno)">등록</button>
+ 
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+         
+    </form>
+<div class="commentList" ng-repeat="data in list" style="border-bottom: 2px solid black;">
+  <p>댓글번호:{{data.cno}}</p>
+  <p>댓글:{{data.replytext}}</p>
+  <p>작성자:{{data.id}}</p>
+  <p>작성날짜:{{data.write_date | date:'yyyy-MM-dd HH:mm' }}</p>
+</div>
+ 
+</div>
+
+</body>
+</html>

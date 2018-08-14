@@ -26,7 +26,9 @@
 <body>
 <div class="container">
     <form id="commentForm" name="commentForm" method="post">
-    <br><br>
+    <br>
+    <p id="show" style="display: none;">LOADING...</p>
+    <br>
         <div>
             <div>
                 <span><strong>Comments</strong></span> <span id="cCnt"></span>
@@ -80,6 +82,9 @@ function commentList(){
         type : 'get',
         data : {'product_id': product_id},
         dataType : 'text',
+        beforeSend: function(){
+        	$('#show').show();
+        },
         success : function(data){
             var a =''; 
             $.each(JSON.parse(data), function(key, value){ 
@@ -92,7 +97,11 @@ function commentList(){
             });
             
             $(".commentList").html(a);
+        },
+        complete: function(){
+        	$('#show').hide();
         }
+        	
     });
 }
  
@@ -102,10 +111,16 @@ function commentInsert(insertData){
         url : '/board/reply/insert',
         type : 'post',
         data : insertData,
+        beforeSend: function(){
+        	$('#show').show();
+        },
         success : function(data){
         	 commentList();
-        	 alert("댓글작성완료");
+        
             
+        },
+        complete: function(){
+        	$('#show').hide();
         }
     });
 }

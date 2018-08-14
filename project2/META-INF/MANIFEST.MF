@@ -7,5 +7,7 @@ Export-Package: com.icia.controller,
  com.icia.dao,
  com.icia.service,
  com.icia.vo,
- com.icia.wen,
- mapper
+ com.icia.wen
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: com.icia.service,
+ com.icia.vo

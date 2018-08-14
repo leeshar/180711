@@ -25,6 +25,7 @@ $(function() {
 $(function(){
 	$("#join").on("click",function(){
 		var irum_reg = /^[가-힣]{2,5}$/;
+		var id_reg = /^[a-z0-9]{8,12}$/;
 		var pwd_reg = /^[a-zA-Z0-9]{8,10}$/;
 		var email_reg = /^[0-9a-zA-Z]+@[0-9a-zA-Z]+\.[0-9a-zA-Z]+$/;
 		var $irum = $("#irum");
@@ -32,6 +33,9 @@ $(function(){
 		var $pwd2 = $("#pwd2");
 		var $email = $("#email");
 		var $id = $("#id");
+		if($id_reg.text($id.val())==false){
+			$("#id_msg").text("ID는 8~12자리 입니다.").css("color","#ee6e73");
+		}
 		if($id.val()==''){
 			$("#id_msg").text("ID는 필수입력입니다").css("color","#ee6e73");			
 			return;
