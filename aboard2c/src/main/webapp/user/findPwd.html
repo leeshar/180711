@@ -13,7 +13,14 @@
 </nav>
 <p>비밀번호찾기</p>
 <p>비밀번호 찾고자 하는 아이디를 입력해주세요</p>
+<div ng-hide="pwdSuccess==1">
 <input type="text" name="id" id="id" ng-model="id">
+<button type="button" ng-click="findPwd(id)">찾기</button>
+</div>
+<div ng-show="pwdSuccess==1">
+	이메일 : {{email}}
+	<button type="button" ng-click="pwdSend(id)">등록된 이메일로 인증</button>
+</div>
 <!-- 등록된 아이디 체크.. 아이디가 있다면 다음 페이지에서 이메일 인증 -->
 </body>
 </html>

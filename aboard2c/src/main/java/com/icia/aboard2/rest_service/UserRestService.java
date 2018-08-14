@@ -1,14 +1,18 @@
 package com.icia.aboard2.rest_service;
 
-import org.modelmapper.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.security.crypto.password.*;
-import org.springframework.stereotype.*;
+import java.util.Map;
 
-import com.icia.aboard2.dao.*;
-import com.icia.aboard2.dto.UserDto.*;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.icia.aboard2.dao.UserRepository;
+import com.icia.aboard2.dto.UserDto.ChangeUserPwd;
+import com.icia.aboard2.dto.UserDto.LoginUser;
 import com.icia.aboard2.entity.User;
-import com.icia.aboard2.exception.*;
+import com.icia.aboard2.exception.InvalidPasswordException;
+import com.icia.aboard2.exception.UserNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,5 +53,8 @@ public class UserRestService {
 		}
 		return false;
 		
+	}
+	public Map<String, Object> getEmail(String id) {
+		return dao.getEmail(id);
 	}
 }

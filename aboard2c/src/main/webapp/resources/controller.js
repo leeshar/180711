@@ -60,7 +60,7 @@ app.controller('registerCtrl', function($scope, $http,$window,$location,userStor
 	
 });
 // 아이디 찾기
-app.controller('findIdCtrl',function($rootScope,$scope, $http, userStorage){
+app.controller('findIdCtrl',function($rootScope,$scope, $http, $location,userStorage){
 	$rootScope.authToken = Math.floor((Math.random() * 99999) + 1);
 	// 1. 인증번호
 	$scope.emailAuth = function(email){
@@ -72,12 +72,26 @@ app.controller('findIdCtrl',function($rootScope,$scope, $http, userStorage){
 	// 2. 아이디 찾기
 	$scope.findId = function(irum, email,emailToken){
 		userStorage.findId(irum, email, emailToken).then(function(data){
-			alert('성공');
 			alert(data);
 		});
 	}
 });
-
+app.controller('findPwdCtrl',function($scope,$http, userStorage){
+	$scope.findPwd = function(id){
+		userStorage.findPwd(id).then(function(data){
+			$scope.pwdSuccess=1;
+			$scope.email=data;
+			
+		});
+	};
+	$scope.pwdSend = function(id){
+		userStorage.pwdSend(id).then(function(data){
+			
+		});
+	};
+	
+	
+});
 // 로그인 인증 부분
 angular.module('myApp')
 .controller('LoginCtrl',

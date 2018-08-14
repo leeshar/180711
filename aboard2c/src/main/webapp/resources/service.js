@@ -101,7 +101,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 				contentType:"application/json;charset=UTF-8",
 				headers : {'Content-Type': 'application/x-www-form-urlencoded'}
 			}).then(function(response){
-				console.log($rootScope.authToken);
+				console.log($rootScope.authToken);//TEST
 				return "인증번호발송했습니다.";
 			})
 		},
@@ -122,6 +122,30 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 				alert('인증번호가 틀립니다');
 			}
 			
+		},
+		// 비밀번호 찾기
+		findPwd: function(id){
+			return $http({
+				url:"/aboard2/users/findPwd",
+				method:"POST",
+				data:'id='+id,
+				contentType:"application/json;charset=UTF-8",
+				headers:{"Content-Type":'application/x-www-form-urlencoded'}
+			}).then(function(response){
+				return response.data;
+			});
+			
+		},
+		pwdSend: function(id){
+			return $http({
+				url:"/aboard2/users/findPwd/emailAuth",
+				method:"POST",
+				data:'id='+id,
+				contentType:"application/json;charset=UTF-8",
+				headers:{"Content-Type":'application/x-www-form-urlencoded'}
+			}).then(function(response){
+				return '성공';
+			});
 		}
 		
 	}

@@ -1,6 +1,9 @@
 package com.icia.aboard2.rest;
 
 
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -22,6 +25,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.aboard2.dto.UserDto.ChangeUserPwd;
 import com.icia.aboard2.dto.UserDto.CreateUser;
+import com.icia.aboard2.dto.UserDto.FindId;
 import com.icia.aboard2.dto.UserDto.LoginUser;
 import com.icia.aboard2.rest_service.UserRestService;
 import com.icia.aboard2.service.UserService;
@@ -88,6 +92,47 @@ public class UserRestController {
 		
 		
 }
+		//인증번호발송
+		@RequestMapping("/users/findId/emailAuth")
+		public void emailAuth(String mail) throws FileNotFoundException, URISyntaxException, ParseException {
+			JSONParser jsonparser = new JSONParser();
+			JSONObject obj = (JSONObject) jsonparser.parse(mail);
+			String authToken = obj.get("authToken").toString();
+			String email = obj.get("email").toString();
+			uService.sendMail(email,authToken);
+			
+			
+		}
+		//비밀번호리셋
+		@RequestMapping("/users/findPwd/emailAuth")
+		public void pwdEmailAuth(String id) throws FileNotFoundException, URISyntaxException {
+			String pwd = uService.getRandomPassword(10);
+			String email = service.getEmail(id).get("REALEMAIL").toString();
+			uService.pwdMail(email,pwd);
+		}
+		//아이디 찾기
+		@RequestMapping("/users/findId")
+		public ResponseEntity<String> findId(String find) throws FileNotFoundException, URISyntaxException, ParseException, JsonProcessingException {
+			JSONParser jsonparser = new JSONParser();
+			JSONObject obj = (JSONObject) jsonparser.parse(find);
+			FindId findId = new FindId();
+			findId.setEmail(obj.get("email").toString());
+			findId.setIrum(obj.get("irum").toString());
+			String result = uService.findId(findId);
+			if(uService.findId(findId)!=null)
+			return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
+			
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		//비밀번호 찾기
+		@RequestMapping("/users/findPwd")
+		public ResponseEntity<String> findPwd(String id) throws JsonProcessingException{
+			Object result = service.getEmail(id).get("EMAIL");
+			log.info("{}", id);
+			return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
+			
+			
+		}
 }
 
 

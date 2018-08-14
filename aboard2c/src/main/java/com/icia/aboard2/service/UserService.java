@@ -3,6 +3,7 @@ package com.icia.aboard2.service;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
+import java.util.Random;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -78,7 +79,47 @@ public void sendMail(String email,String authToken) throws FileNotFoundException
  }
 
 }
+//비밀번호 리셋
+public void pwdMail(String email,String pwd) throws FileNotFoundException, URISyntaxException { 
+User user = new User();
+user.setEmail(email);
+user.setPwd(encoder.encode(pwd));
+dao.pwdReset(user);
 
+try{
+
+MimeMessage message = mailSender.createMimeMessage();
+
+String setfrom = "snrntpa2z@gmail.com";        
+String tomail  = email;    // 받는 사람 이메일
+String title   = "비밀번호 찾기 메일입니다 ";      // 제목
+String content = "비밀번호가 초기화 되었습니다." + pwd 
+				+"비밀번호를 바꿔주세요";    // 내용
+
+message.setFrom(new InternetAddress(setfrom));  
+message.addRecipient(RecipientType.TO, new InternetAddress(tomail));
+message.setSubject(title);
+message.setText(content, "utf-8", "html");
+mailSender.send(message);
+
+}catch(Exception e){
+
+e.printStackTrace();
+
+}
+
+}
+public static String getRandomPassword( int length ){
+    char[] charaters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9'};
+    StringBuilder sb = new StringBuilder("");
+    Random rn = new Random();
+    for( int i = 0 ; i < length ; i++ ){
+        sb.append( charaters[ rn.nextInt( charaters.length ) ] );
+    }
+    return sb.toString();
+}
+
+//아이디 찾기
 public String findId(FindId findId) throws FileNotFoundException, URISyntaxException {
 	
 	return dao.findId(findId);

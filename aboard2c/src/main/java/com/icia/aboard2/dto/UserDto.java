@@ -28,6 +28,11 @@ public class UserDto {
 		private String email;
 	}
 	@Data
+	public static class PwdReset{
+		private String email;
+		private String pwd;
+	}
+	@Data
 	public static class ChangeUserPwd {
 		private String id;
 		private String oldPwd;

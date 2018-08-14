@@ -22,4 +22,8 @@ public interface UserRepository {
 	Map<String, Object> login(User user);
 	
 	int update(User user);
+	
+	Map<String, Object> getEmail(String id);
+	
+	int pwdReset(User user);
 }

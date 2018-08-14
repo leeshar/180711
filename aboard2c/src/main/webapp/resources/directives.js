@@ -59,7 +59,8 @@ app.directive("headerTpl",function(){
 		controller:"findIdCtrl"
 	})
 	.when("/users/findPwd",{
-		templateUrl:"./user/findPwd.html"
+		templateUrl:"./user/findPwd.html",
+		controller:"findPwdCtrl"
 	});
 	
 })
