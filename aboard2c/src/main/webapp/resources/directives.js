@@ -3,7 +3,8 @@ var app = angular.module('myApp', [
     'ngCookies'
 ]);
 app.directive("headerTpl",function(){
-	return{templateUrl:"./template/header.tpl.html"};
+	return{templateUrl:"./template/header.tpl.html",
+		   controller:"slideCtrl"};
 }).directive("navTpl",function(){
 	return{templateUrl:"./template/nav.tpl.html"};
 })
@@ -65,6 +66,11 @@ app.directive("headerTpl",function(){
 		// 비밀번호 찾기 페이지
 		templateUrl:"./user/findPwd.html",
 		controller:"findPwdCtrl"
+	})
+	.when("/users/updateUser",{
+		// 회원정보수정
+		templateUrl:"./user/updateUser.html",
+		controller:"updateUserCtrl"
 	});
 	
 })

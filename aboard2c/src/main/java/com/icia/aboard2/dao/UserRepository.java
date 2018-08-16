@@ -6,7 +6,8 @@ import com.icia.aboard2.dto.UserDto.FindId;
 import com.icia.aboard2.entity.User;
 
 public interface UserRepository {
-
+	Map<String, Object> information(String id);
+	
 	void insertUser(User user);
 	
 	void authorities(String id);
@@ -14,14 +15,12 @@ public interface UserRepository {
 	String getPwd(String id);
 
 	String findId(FindId findId);
-	
-	void pwdChange(User user);
-	
+
 	String idCheck(String id);
 
 	Map<String, Object> login(User user);
 	
-	int update(User user);
+	int updateUser(User user);
 	
 	Map<String, Object> getEmail(String id);
 	

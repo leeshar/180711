@@ -4,8 +4,6 @@ package com.icia.aboard2.rest;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -13,23 +11,19 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.icia.aboard2.dto.UserDto.ChangeUserPwd;
 import com.icia.aboard2.dto.UserDto.CreateUser;
 import com.icia.aboard2.dto.UserDto.FindId;
 import com.icia.aboard2.dto.UserDto.LoginUser;
+import com.icia.aboard2.dto.UserDto.UpdateUser;
 import com.icia.aboard2.rest_service.UserRestService;
 import com.icia.aboard2.service.UserService;
-import com.icia.aboard2.util.ABoard2Util;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,12 +60,7 @@ public class UserRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@PostMapping("/users/changePwd")
-	public ResponseEntity<Void> changePwd(@Valid ChangeUserPwd user, BindingResult results) throws BindException {
-		ABoard2Util.throwBindException(results);
-		service.pwdChange(user);
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
+
 	@PostMapping("/users/login")
 	public ResponseEntity<String> login(String login) throws ParseException, JsonProcessingException, InterruptedException{
 		JSONParser jsonParser = new JSONParser();
@@ -133,6 +122,29 @@ public class UserRestController {
 			
 			
 		}
+		//회원정보
+		@RequestMapping(value="/users/userInfo/{id}",produces = "application/json; charset=UTF-8")
+		public String userInfo(@PathVariable String id) throws JsonProcessingException {
+			System.out.println(id);
+			String str = mapper.writeValueAsString(uService.userInfo(id));
+			return str;
+		}
+		//회원정보수정
+		@RequestMapping(value="/users/updateUser")
+		public ResponseEntity<Void> updateUser(String update) throws ParseException{
+			JSONParser jsonparser = new JSONParser();
+			JSONObject obj = (JSONObject) jsonparser.parse(update);
+			UpdateUser u = new UpdateUser();
+			u.setEmail(obj.get("email").toString());
+			u.setId(obj.get("id").toString());
+			u.setPwd(obj.get("pwd").toString());
+			uService.updateUser(u);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+			
+			
+		}
+		
+		
 }
 
 

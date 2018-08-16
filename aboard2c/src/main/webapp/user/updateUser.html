@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form name="udtFrm" style="width: 700px; margin-left: 300px; margin-top: 100px;">
+<div class="form-row">
+	<input type="text" class="form-control" name="id" id="id" value={{id}} readonly="readonly">
+</div>
+<div class="form-row">
+	<input type="text" class="form-control" name="irum" id="irum" value={{irum}} readonly="readonly">
+</div>
+<div class="form-row">
+	<input type="text" class="form-control" name="email" id="email" value={{email}} ng-model="email">
+</div>
+<small ng-show="udtFrm.email.$error.pattern" style="color:red;">이메일형식이 옳지 않습니다</small>
+<div class="form-row"> 
+	<input type="password" class="form-control" name="pwd" id="pwd" ng-model="pwd">
+</div>
+<div class="form-row">
+	<input type="password" class="form-control" name="pwdCheck" id="pwdCheck" ng-model="pwdCheck">
+</div>
+<small ng-show="udtFrm.pwdCheck.$modelValue!=udtFrm.pwd.$modelValue" style="color: red;">비밀번호와 같지 않습니다</small><br>
+	<button type="button" ng-click="updateUser(pwd,email,id)">정보수정</button>
+
+
+
+
+</form>
+</body>
+</html>

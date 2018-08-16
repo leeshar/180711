@@ -14,12 +14,12 @@
   
    
   <div ng-show="select==1">
-      <input ng-keyup="search.writer=''" ng-model="search.title" class="input-box" class="form-control mr-sm-2" type="text" placeholder="검색" aria-label="Search" kr-input>
+      <input ng-keyup="search.writer=''" ng-model="search.title" ng-model-option="{updateOn:'blur'}" class="input-box" class="form-control mr-sm-2" type="text" placeholder="검색" aria-label="Search" kr-input>
       
       </div>
    <div ng-show="select==2">
    
-      <input ng-keyup="search.title=''" class="input-box" ng-model="search.writer" class="form-control mr-sm-2" type="text" placeholder="검색" aria-label="Search" kr-input>
+      <input ng-keyup="search.title=''" class="input-box" ng-model="search.writer" ng-model-option="{updateOn:'blur'}" class="form-control mr-sm-2" type="text" placeholder="검색" aria-label="Search" kr-input>
       
  	</div>
       <button class="btn btn-outline-success my-2 my-sm-0" type="button" ng-click="searchFuc();">검색</button>

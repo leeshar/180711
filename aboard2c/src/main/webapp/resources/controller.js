@@ -79,7 +79,9 @@ app.controller('findIdCtrl',function($rootScope,$scope, $http,$window, $location
 		});
 	}
 });
+// 비밀번호 찾기
 app.controller('findPwdCtrl',function($scope,$http, userStorage){
+	// 비밀번호 아이디
 	$scope.findPwd = function(id){
 		userStorage.findPwd(id).then(function(data){
 			$scope.pwdSuccess=1;
@@ -88,6 +90,7 @@ app.controller('findPwdCtrl',function($scope,$http, userStorage){
 			
 		});
 	};
+	// 비밀번호 이메일
 	$scope.pwdSend = function(id){
 		userStorage.pwdSend(id).then(function(data){
 			
@@ -96,6 +99,28 @@ app.controller('findPwdCtrl',function($scope,$http, userStorage){
 	
 	
 });
+//회원정보수정
+app.controller('updateUserCtrl',function($scope,$http,$window,$cookieStore,userStorage){
+	var id = $cookieStore.get("userId");
+	// 회원정보
+	userStorage.userInfo(id).then(function(data){
+		$scope.id=data.ID;
+		$scope.email=data.EMAIL;
+		$scope.irum=data.IRUM;
+	});
+	// 회원정보수정
+	$scope.updateUser = function(pwd,email,id){
+		userStorage.updateUser(pwd,email,id)
+		.then(function(data){
+			alert(data);
+			$window.location.href="http://localhost:8081/aboard2";
+		});
+		
+		
+	};
+	
+});
+
 // 로그인 인증 부분
 angular.module('myApp')
 .controller('LoginCtrl',
@@ -117,3 +142,17 @@ angular.module('myApp')
             });
         };
     }]);
+// slide nav
+app.controller("slideCtrl",function($scope){
+	$scope.openNav = function openNav() {
+	    document.getElementById("mySidenav").style.width = "250px";
+	    document.getElementById("main").style.marginLeft = "250px";
+	    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+	}
+	$scope.closeNav = function closeNav() {
+	    document.getElementById("mySidenav").style.width = "0";
+	    document.getElementById("main").style.marginLeft= "0";
+	    document.body.style.backgroundColor = "white";
+	}
+
+});

@@ -136,6 +136,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 			});
 			
 		},
+		// 비밀번호 이메일
 		pwdSend: function(id){
 			return $http({
 				url:"/aboard2/users/findPwd/emailAuth",
@@ -146,7 +147,33 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 			}).then(function(response){
 				return '성공';
 			});
+		},
+		// 회원정보
+		userInfo: function(id){
+			return $http.get("/aboard2/users/userInfo/"+id)
+			.then(function(response){
+				console.log(response.data);
+				return response.data;
+			});
+		},
+		// 회원정보수정
+		updateUser: function(pwd,email,id){
+			return $http({
+				url:"/aboard2/users/updateUser",
+				method:"POST",
+				data:"update="+JSON.stringify({'pwd':pwd,'email':email,'id':id}),
+				contentType:"application/json;charset=UTF-8",
+				headers:{"Content-Type":'application/x-www-form-urlencoded'}
+				
+			}).then(function(response){
+				 if(response.status==200){
+					 return "정보수정되었습니다";
+				 }
+			});
+			
+			
 		}
+		
 		
 	}
 }]);
@@ -180,7 +207,7 @@ angular.module('myApp').factory('AuthenticationService',
  
         service.SetCredentials = function (id, pwd) {
             var authdata = Base64.encode(id + ':' + pwd);
- 
+            $rootScope.userId = id;
             $rootScope.globals = {
                 currentUser: {
                     id: id,
@@ -190,11 +217,13 @@ angular.module('myApp').factory('AuthenticationService',
  
             $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
             $cookieStore.put('globals', $rootScope.globals);
+            $cookieStore.put('userId', $rootScope.userId);
         };
  
         service.ClearCredentials = function () {
             $rootScope.globals = null;
             $cookieStore.remove('globals');
+            $cookieStore.remove('userId');
             $http.defaults.headers.common.Authorization = 'Basic ';
         };
  

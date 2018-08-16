@@ -3,6 +3,7 @@ package com.icia.aboard2.service;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.Random;
 
 import javax.mail.internet.InternetAddress;
@@ -39,6 +40,7 @@ public class UserService {
 	private PasswordEncoder encoder;
 	@Autowired
 	private JavaMailSender mailSender;
+	// 회원가입
 	@Transactional
 	public void join(CreateUser create) {
 		User user = mapper.map(create, User.class);
@@ -47,11 +49,16 @@ public class UserService {
 		dao.authorities(id);
 		dao.insertUser(user);
 	}
-
-	public void update(UpdateUser u) {
+	//회원정보수정
+	public void updateUser(UpdateUser u) {
+		u.setPwd(encoder.encode(u.getPwd()));//패스워드 암호화
 		User user = mapper.map(u, User.class);
-		if(dao.update(user)==0)
+		if(dao.updateUser(user)==0)
 			throw new UserNotFoundException(user.getId());
+	}
+	//회원정보
+	public Map<String, Object> userInfo(String id){
+		return dao.information(id);
 	}
 // 인증번호
 public void sendMail(String email,String authToken) throws FileNotFoundException, URISyntaxException {

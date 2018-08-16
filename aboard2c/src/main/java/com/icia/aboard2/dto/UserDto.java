@@ -1,8 +1,5 @@
 package com.icia.aboard2.dto;
 
-import java.util.*;
-
-import org.springframework.format.annotation.*;
 
 import lombok.*;
 
@@ -33,17 +30,12 @@ public class UserDto {
 		private String pwd;
 	}
 	@Data
-	public static class ChangeUserPwd {
-		private String id;
-		private String oldPwd;
-		private String newPwd;
-	}
-	@Data
 	public static class UpdateUser {
 		private String id;
-		private String irum;
+		private String pwd;
 		private String email;
 	}
+	
 }
 
 
