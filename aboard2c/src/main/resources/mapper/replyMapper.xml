@@ -14,7 +14,9 @@
 <select id="list" resultType="com.icia.aboard2.entity.Reply" parameterType="int">
 	select cno, bno,id, replytext, write_date
 	from reply
-	where bno = #{bno} order by cno desc
+	where bno = #{bno}
+	order by cno desc
+
 </select>
 </mapper>
 

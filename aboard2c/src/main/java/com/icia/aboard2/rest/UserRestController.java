@@ -31,7 +31,6 @@ import com.icia.aboard2.rest_service.UserRestService;
 import com.icia.aboard2.service.UserService;
 import com.icia.aboard2.util.ABoard2Util;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -106,11 +105,10 @@ public class UserRestController {
 		}
 		//비밀번호리셋
 		@RequestMapping("/users/findPwd/emailAuth")
-		public ResponseEntity<Void> pwdEmailAuth(String id) throws FileNotFoundException, URISyntaxException {
+		public void pwdEmailAuth(String id) throws FileNotFoundException, URISyntaxException {
 			String pwd = uService.getRandomPassword(10);
 			String email = service.getEmail(id).get("REALEMAIL").toString();
-			uService.pwdMail(email,pwd,id);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			uService.pwdMail(email,pwd);
 		}
 		//아이디 찾기
 		@RequestMapping("/users/findId")
@@ -129,15 +127,10 @@ public class UserRestController {
 		//비밀번호 찾기
 		@RequestMapping("/users/findPwd")
 		public ResponseEntity<String> findPwd(String id) throws JsonProcessingException{
-			try {
 			Object result = service.getEmail(id).get("EMAIL");
+			log.info("{}", id);
 			return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
-			}
-			catch(NullPointerException np) {
-				String error = "error";
-				System.out.println("해당아이디 없음");
-				return new ResponseEntity<String>(mapper.writeValueAsString(error),HttpStatus.OK);
-			}
+			
 			
 		}
 }

@@ -29,7 +29,7 @@ public class UserDto {
 	}
 	@Data
 	public static class PwdReset{
-		private String id;
+		private String email;
 		private String pwd;
 	}
 	@Data

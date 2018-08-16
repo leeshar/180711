@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +27,6 @@ import com.icia.aboard2.entity.Attachment;
 import com.icia.aboard2.rest_service.BoardRestService;
 import com.icia.aboard2.rest_service.ReplyServiceImpl;
 import com.icia.aboard2.util.ABoard2Contstants;
-import com.icia.aboard2.util.ABoard2Util;
 import com.icia.aboard2.util.MediaUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -114,7 +112,6 @@ public class BoardRestController {
 	@RequestMapping(value="/boards/reply/list", produces = "application/json; charset=UTF-8" )
 	public String replyList(@RequestParam int bno)throws Exception{
 		Map<String, Object> map = new HashMap<>();
-		System.out.println(bno);
 		map.put("list", rService.list(bno));
 		String str = mapper.writeValueAsString(map);
 		log.info("{}", str);
