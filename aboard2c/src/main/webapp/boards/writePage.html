@@ -5,13 +5,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="/aboard2/boards/write" method="post" id="writeForm" class="col s12" enctype="multipart/form-data" accept-charset="UTF-8">
-		<input type="text" name="title" id="title">
-		<textarea id="content" id="content" name="content"></textarea>
-		<input type="file" name="files" id="files" multiple="multiple">
-		<input type="hidden" name="writer" id="writer" ng-repeat="x in globals" value="{{x.id}}"/>
-		<input type="hidden" name="categoriName" id="categoriName" value={{categoriName}}>
-		<button type="submit" id="write">작성하기</button>
-	</form>
+<form action="/aboard2/boards/write" method="post" id="writeForm" class="center" enctype="multipart/form-data" accept-charset="UTF-8">
+	<input type="text" name="title" id="title">
+    <textarea name="content" id="smarteditor" rows="10" cols="100" style="width:766px; height:412px;"></textarea>
+    <input type="hidden" name="writer" id="writer" ng-repeat="x in globals" value="{{x.id}}"/>
+    <input type="hidden" name="categoriName" id="categoriName" value={{categoriName}}>
+    <button type="submit" id="write">작성하기</button>
+</form>
+
+	
 </body>
 </html>
