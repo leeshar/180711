@@ -13,6 +13,7 @@ public class BoardDto {
 		private String title;
 		private String content;
 		private String writer;
+		private String categoriName;
 	}
 	
 	@Data

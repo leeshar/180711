@@ -11,7 +11,7 @@ public interface BoardRepository {
 	
 	public List<Board> listAll();
 	
-	public List<Board> list(@Param("startRow")int startRow, @Param("endRow") int endRow);
+	public List<Board> list(@Param("startRow")int startRow, @Param("endRow") int endRow, @Param("categoriName") String categoriName);
 
 	public int increaseReadCnt(Integer bno);
 

@@ -42,17 +42,17 @@ public class BoardController {
 	@Autowired
 	private AttachRepository aDao;
 	//REST방식으로 list를 보여준다.
-	@GetMapping(value="/boards/list/{page}",produces = "application/json; charset=UTF-8")
+	@GetMapping(value="/boards/list/{page}/{categoriName}",produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public String lista(@PathVariable int page, Model model) throws JsonProcessingException {
+	public String lista(@PathVariable int page,@PathVariable String categoriName, Model model) throws JsonProcessingException {
 		Pageable pageable = new Pageable();
 		pageable.setPage(page);
 		log.info("{}", pageable);
 		// 값을 빼서 넣어주기 위해 indexOf를 사용해 값을 잘라줘서 map에 담아 전달한다.
-		int first = service.list(pageable).indexOf("[");
-		int second = service.list(pageable).indexOf("]")+1;
+		int first = service.list(pageable,categoriName).indexOf("[");
+		int second = service.list(pageable,categoriName).indexOf("]")+1;
 		Map<String, Object> map = new HashMap<>();
-		map.put("records", service.list(pageable).substring(first,second));
+		map.put("records", service.list(pageable,categoriName).substring(first,second));
 		log.info("{}",map);
 		String str = mapper.writeValueAsString(map);
 		
@@ -100,12 +100,6 @@ public class BoardController {
 		maps.put("board", map);
 		String str = mapper.writeValueAsString(maps);
 		return str;
-	}
-	
-	
-	@GetMapping("/boards/write")
-	public String write() {
-		return "boards/write";
 	}
 	@PostMapping("/boards/write")
 	public String write(@Valid CreateBoard board, BindingResult results, MultipartFile[] files, RedirectAttributes ra) throws BindException, IOException {

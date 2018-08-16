@@ -17,5 +17,6 @@ public class Board {
 	private int recommendCnt;
 	private int reportCnt;
 	private int replyCnt;
+	private String categoriName;
 }
 

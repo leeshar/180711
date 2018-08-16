@@ -71,9 +71,12 @@
     </li>
   </ul>
 </nav>
-
-<a href="#!/boards/writePage" ng-show="globals!=null"><button type="button" id="write" class="btn btn-dark">글쓰기</button></a>
-
+<div ng-show="write==1">
+<a href="#!/boards/writePage/공지사항" ng-show="globals!=null"><button type="button" id="write" class="btn btn-dark">글쓰기</button></a>
+</div>
+<div ng-show="write==2">
+<a href="#!/boards/writePage/이벤트" ng-show="globals!=null"><button type="button" id="write" class="btn btn-dark">글쓰기</button></a>
+</div>
 </body>
 
 </html>

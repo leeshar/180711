@@ -10,6 +10,7 @@
 		<textarea id="content" id="content" name="content"></textarea>
 		<input type="file" name="files" id="files" multiple="multiple">
 		<input type="hidden" name="writer" id="writer" ng-repeat="x in globals" value="{{x.id}}"/>
+		<input type="hidden" name="categoriName" id="categoriName" value={{categoriName}}>
 		<button type="submit" id="write">작성하기</button>
 	</form>
 </body>

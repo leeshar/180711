@@ -2,8 +2,14 @@
 app.controller('boardsCtrl',function($scope, $http,$routeParams,boardStorage){
 	// boards 리스트 REST방식으로 page값을 넘긴후 데이터를 가져와서 boardsList에 담는다.
 	var page = $routeParams.page;
+	var categoriName = $routeParams.categoriName;
+	if(categoriName=="공지사항")
+		$scope.write=1;
+	if(categoriName=="이벤트")
+		$scope.write=2;
 	// 게시판 리스트 메소드
-	boardStorage.get(page).then(function(data){
+	console.log(categoriName);
+	boardStorage.get(page,categoriName).then(function(data){
 		$scope.boardsList = data;
 	});
 	// 게시판 검색 메소드
@@ -14,6 +20,11 @@ app.controller('boardsCtrl',function($scope, $http,$routeParams,boardStorage){
 		 
 	 };
   });
+// boardsWrite
+app.controller('boardsWriteCtrl',function($scope,$routeParams){
+	$scope.categoriName = $routeParams.categoriName;
+});
+
 // boardsRead
 app.controller('boardsReadCtrl',function($scope,$http,$routeParams,boardStorage){
 	// routeParams로 Query의 값을 받을 수 있다.

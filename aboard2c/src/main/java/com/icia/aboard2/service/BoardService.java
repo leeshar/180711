@@ -81,10 +81,10 @@ public class BoardService {
 		return boardDao.read(bno);
 	}
 
-	public String list(Pageable pageable) {
+	public String list(Pageable pageable,String categoriName) {
 		Integer count = boardDao.count();
 		Pagination pagination = PagingUtil.getPagination(pageable, count);
-		List list = boardDao.list(pagination.getStartRow(), pagination.getEndRow());
+		List list = boardDao.list(pagination.getStartRow(), pagination.getEndRow(),categoriName);
 		Page page = Page.builder().list(list).pagination(pagination).build();
 		return gson.toJson(page);
 	}
