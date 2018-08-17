@@ -10,6 +10,10 @@
 	 	select a.authority, u.pwd pwd from users u, authorities a
 		where u.id = a.id and u.id=#{id}
 	</select>
+	<!-- 로그인 인증 아이디확인 -->
+	<select id="loginCheck" parameterType="string" resultType="string">
+		select id from users where id=#{id}
+	</select>
 	<!-- 회원가입 -->
 	<insert id="insertUser" parameterType="com.icia.aboard2.dto.UserDto$CreateUser">
 		insert into users(id, pwd, irum, email) 

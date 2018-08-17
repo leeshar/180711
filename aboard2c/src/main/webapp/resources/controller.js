@@ -77,9 +77,11 @@ app.controller('findIdCtrl',function($rootScope,$scope, $http,$window, $location
 	$rootScope.authToken = Math.floor((Math.random() * 99999) + 1);
 	// 1. 인증번호
 	$scope.emailAuth = function(email){
+        $scope.dataLoading = true;
 		userStorage.emailToken(email).then(function(data){
 			alert(data);
 			$scope.emailInput=1;
+			$scope.dataLoading = false;
 		});
 	}
 	// 2. 아이디 찾기
@@ -145,7 +147,7 @@ angular.module('myApp')
         $scope.login = function () {
             $scope.dataLoading = true;
             AuthenticationService.Login($scope.id, $scope.pwd, function(response) {
-                if(response.data) {
+                if(response.status==200&&response.data==="성공") {
                     AuthenticationService.SetCredentials($scope.id, $scope.pwd);
                     $location.path('/');
                 } else {

@@ -195,10 +195,11 @@ angular.module('myApp').factory('AuthenticationService',
 				headers : {'Content-Type': 'application/x-www-form-urlencoded'}
 				
 			}).then(function(response){
-				console.log(response.data);
-				if(!response.data){
-					response.message = '아이디와 비밀번호가 틀립니다';
-				}
+				console.log(response.status);
+				if(response.status==200&&response.data==='아이디다름')
+					response.message="회원정보가 없습니다";
+				if(response.status==200&&response.data==='비밀번호다름')
+					response.message="비밀번호가 다릅니다";
 				callback(response);
 			})
            

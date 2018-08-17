@@ -53,6 +53,7 @@ public class UserRestController {
 	@RequestMapping("/users/idCheck/{id}")
 	public ResponseEntity<Void> idCheck(@PathVariable String id) {
 		boolean result = service.idCheck(id);
+		//아이디가 없으면 OK, 있으면 BAD_REQUEST
 		if(result)
 			return new ResponseEntity<>(HttpStatus.OK);
 		else
@@ -60,7 +61,7 @@ public class UserRestController {
 	}
 	
 	//로그인인증
-	@PostMapping("/users/login")
+	@PostMapping(value="/users/login",produces = "application/json; charset=UTF-8")
 	public ResponseEntity<String> login(String login) throws ParseException, JsonProcessingException, InterruptedException{
 		JSONParser jsonParser = new JSONParser();
 		JSONObject obj = (JSONObject) jsonParser.parse(login);
@@ -68,15 +69,23 @@ public class UserRestController {
 		logi.setId(obj.get("id").toString());
 		logi.setPwd(obj.get("pwd").toString());
 		
-		if(service.login(logi)) {
-			Object success = true;
-			log.info("{}", success);
+		if(service.login(logi)=="아이디다름") {
+			String msg = service.login(logi);
+			log.info("{}", msg);
+			//쓰레드로 로딩 지연
 			Thread.sleep(1000);
-			return new ResponseEntity<String>(mapper.writeValueAsString(success),HttpStatus.OK);
+			return new ResponseEntity<String>(mapper.writeValueAsString(msg),HttpStatus.OK);
 		}
-		Object failed = false;
+		if(service.login(logi)=="비밀번호다름") {
+			String msg = service.login(logi);
+			//쓰레드로 로딩 지연
+			Thread.sleep(1000);
+			return new ResponseEntity<String>(mapper.writeValueAsString(msg),HttpStatus.OK);
+		}
+		// SUCCESS
+		String msg = service.login(logi);
 		Thread.sleep(1000);
-		return new ResponseEntity<String>(mapper.writeValueAsString(failed),HttpStatus.OK);
+		return new ResponseEntity<String>(mapper.writeValueAsString(msg),HttpStatus.OK);
 		
 		
 }
@@ -115,10 +124,17 @@ public class UserRestController {
 		//비밀번호 찾기
 		@RequestMapping("/users/findPwd")
 		public ResponseEntity<String> findPwd(String id) throws JsonProcessingException{
+			try {
+			if(service.getEmail(id)!=null) {
 			Object result = service.getEmail(id).get("EMAIL");
 			log.info("{}", id);
 			return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
-			
+			}
+				}catch(NullPointerException np) {
+				System.out.println("NULL");
+			}
+			String result = "해당이메일없음";
+			return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
 			
 		}
 		//회원정보

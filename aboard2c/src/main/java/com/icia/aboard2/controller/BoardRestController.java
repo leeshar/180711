@@ -82,15 +82,10 @@ public class BoardRestController {
 		JSONObject obj = (JSONObject) jsonparser.parse(reply);
 		InsertReply insert = new InsertReply();
 		// 변환 된 객체를 문자열, 정수형 데이터 타입으로 변환한다.
-		int bno = Integer.parseInt(obj.get("bno").toString());
-		String id = obj.get("id").toString();
-		String replytext = obj.get("replytext").toString();
-		insert.setBno(bno);
-		insert.setId(id);
-		insert.setReplytext(replytext);
-
+		insert.setBno(Integer.parseInt(obj.get("bno").toString()));
+		insert.setId(obj.get("id").toString());
+		insert.setReplytext(obj.get("replytext").toString());
 		rService.insert(insert);
-		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	// 댓글 리스트

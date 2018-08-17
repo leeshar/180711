@@ -145,18 +145,17 @@ public class UserService {
 	}
 
 	// 로그인인증
-	public boolean login(LoginUser logi) {
+	@Transactional
+	public String login(LoginUser logi) {
 		User user = mapper.map(logi, User.class);
-		if (dao.login(user) == null) {
-			return false;
-		}
-		if (dao.login(user) != null) {
-			String encodedPwd = dao.login(user).get("PWD").toString();
-			if (encoder.matches(user.getPwd(), encodedPwd))
-				return true;
-		}
-		return false;
-
+	if(dao.loginCheck(logi.getId())!=null) {	
+		String encodedPwd = dao.login(user).get("PWD").toString();
+		if (encoder.matches(user.getPwd(), encodedPwd))
+			return "성공";
+		else
+			return "비밀번호다름";
+	}
+		return "아이디다름";
 	}
 
 	// 이메일 가져오기

@@ -47,24 +47,19 @@ public class BoardController {
 	public String lista(@PathVariable int page,@PathVariable String categoriName, Model model) throws JsonProcessingException {
 		Pageable pageable = new Pageable();
 		pageable.setPage(page);
-		log.info("{}", pageable);
 		// 값을 빼서 넣어주기 위해 indexOf를 사용해 값을 잘라줘서 map에 담아 전달한다.
 		int first = service.list(pageable,categoriName).indexOf("[");
 		int second = service.list(pageable,categoriName).indexOf("]")+1;
 		Map<String, Object> map = new HashMap<>();
 		map.put("records", service.list(pageable,categoriName).substring(first,second));
-		log.info("{}",map);
 		String str = mapper.writeValueAsString(map);
-		
 		return str;
 	}
 	@GetMapping(value="/boards/listAll",produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public String listAll() throws Exception{
 		Map<String, Object> map = new HashMap<>();
-		
 		map.put("listAll", service.listAll());
-		log.info("{}", map);
 		String listAll = mapper.writeValueAsString(map);
 		return listAll;
 	}
@@ -100,6 +95,7 @@ public class BoardController {
 	}
 	@GetMapping("/boards/delete")
 	public String delete(@RequestParam int bno) {
+		// 자신의 글만 삭제
 		service.delete(bno);
 		return "redirect:/";
 	}
