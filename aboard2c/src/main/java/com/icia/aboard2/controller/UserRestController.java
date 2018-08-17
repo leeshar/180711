@@ -91,11 +91,12 @@ public class UserRestController {
 }
 		//인증번호발송
 		@RequestMapping("/users/findId/emailAuth")
-		public void emailAuth(String mail) throws FileNotFoundException, URISyntaxException, ParseException {
+		public void emailAuth(String mail) throws FileNotFoundException, URISyntaxException, ParseException, InterruptedException {
 			JSONParser jsonparser = new JSONParser();
 			JSONObject obj = (JSONObject) jsonparser.parse(mail);
 			String authToken = obj.get("authToken").toString();
 			String email = obj.get("email").toString();
+			Thread.sleep(1000);
 			service.sendMail(email,authToken);
 			
 			
@@ -115,11 +116,14 @@ public class UserRestController {
 			FindId findId = new FindId();
 			findId.setEmail(obj.get("email").toString());
 			findId.setIrum(obj.get("irum").toString());
-			String result = service.findId(findId);
-			if(service.findId(findId)!=null)
-			return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
 			
-			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			if(service.findId(findId)!=null) {
+				String result = service.findId(findId);
+				return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
+		}	
+			String result = "NO";
+			// 아이디가 없을 경우
+			return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
 		}
 		//비밀번호 찾기
 		@RequestMapping("/users/findPwd")

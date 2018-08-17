@@ -12,16 +12,16 @@
   </ol>
 </nav>
 <p>아이디찾기</p>
-<form class="center" name="findIdFrm" style="width: 700px; margin: 0 auto;">
-이름  <input type="text" class="form-control" name="irum" id="irum" ng-model="irum" ng-required="true" ng-pattern="/^[가-힣]{2,4}$/" placeholder="이름을 입력해주세요">
+<form class="center" name="findIdFrm" ng-submit="emailAuth(findIdFrm.$valid)" style="width: 700px; margin: 0 auto;">
+이름  <input type="text" class="form-control" name="irum" id="irum" ng-model="find.irum" ng-required="true" ng-pattern="/^[가-힣]{2,4}$/" placeholder="이름을 입력해주세요" required>
 <small ng-show="findIdFrm.irum.$error.pattern" style="color:red;">이름은 한글 최소 두글자 이상입니다</small>
-이메일  <input type="text"class="form-control" name="email" id="email" ng-model="email" ng-required="true" ng-pattern="/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i" placeholder="이메일을 입력해주세요">
+이메일  <input type="text"class="form-control" name="email" id="email" ng-model="find.email" ng-required="true" ng-pattern="/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i" placeholder="이메일을 입력해주세요" required>
 <small ng-show="findIdFrm.email.$error.pattern" style="color:red;">이메일형식이 옳지 않습니다</small>
-<br><button type="button" class="btn btn-warning" ng-click="emailAuth(email)">인증번호발급</button>
+<br><button type="submit" class="btn btn-warning">인증번호발급</button>
 <div ng-show="emailInput==1">
 인증번호<input type="text" class="form-control" name="emailToken" id="emailToken" ng-model="emailToken" style="width: 400px; margin-bottom: 40px;">
 </div> 
-<button type="button" class="btn btn-danger" ng-click="findId(irum, email, emailToken)">아이디 찾기</button>
+<button type="button" class="btn btn-danger" ng-click="findId(find,emailToken)">아이디 찾기</button>
 </form>
 <div class="center" style="width: 100%; height: 50px; text-align: center;">
 <div class="cp-spinner">

@@ -62,7 +62,8 @@ app.directive("headerTpl",function(){
 	})
 	.when("/users/findId/result",{
 		// 아이디 찾기 결과 페이지
-		templateUrl:"./user/findIdResutl.html"
+		templateUrl:"./user/findIdResult.html",
+		controller:"findIdResultCtrl"
 	})
 	.when("/users/findPwd",{
 		// 비밀번호 찾기 페이지

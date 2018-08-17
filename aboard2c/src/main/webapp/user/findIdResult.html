@@ -13,7 +13,8 @@
 </nav>
 <div class="center" style="width: 700px; margin: 0 auto;">
 	<h1>아이디찾은결과</h1>
-	<p> {{findId}} 입니다.</p>
+	<div ng-show="success==1" ng-hide="success==2"><p> {{findId}} 입니다.</p></div>
+	<div ng-show="success==2" ng-hide="success==1"><p>찾으실 아이디가 없습니다</p></div>
 	<a href="#!/users/login" ><button class="btn btn-success" style="margin-top: 500px;">로그인하러가기</button></a>
 
 </div>

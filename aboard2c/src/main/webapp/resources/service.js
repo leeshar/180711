@@ -106,15 +106,17 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 			})
 		},
 		//아이디 찾기
-		findId: function(irum, email,emailToken){
+		findId: function(find,emailToken){
+			console.log(find);
 			if(emailToken==$rootScope.authToken){
 			return $http({
 				url:"/aboard2/users/findId",
 				method:'POST',
-				data:'find='+JSON.stringify({'irum':irum, 'email':email}),
+				data:'find='+JSON.stringify({'irum':find.irum, 'email':find.email}),
 				contentType:"application/json;charset=UTF-8",
 				headers : {'Content-Type': 'application/x-www-form-urlencoded'}
 			}).then(function(response){
+				console.log(response);
 				return response.data;
 			});
 			}

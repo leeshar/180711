@@ -76,23 +76,37 @@ app.controller('registerCtrl', function($scope, $http,$window,$location,userStor
 app.controller('findIdCtrl',function($rootScope,$scope, $http,$window, $location,userStorage){
 	$rootScope.authToken = Math.floor((Math.random() * 99999) + 1);
 	// 1. 인증번호
-	$scope.emailAuth = function(email){
-        $scope.dataLoading = true;
-		userStorage.emailToken(email).then(function(data){
-			alert(data);
-			$scope.emailInput=1;
-			$scope.dataLoading = false;
-		});
-	}
+	$scope.emailAuth = function(isValid){
+       if(!isValid)
+    	   alert("제대로 입력해주세요");
+       if(isValid){
+    	   $scope.dataLoading = true;
+   		userStorage.emailToken(email).then(function(data){
+   			alert(data);
+   			$scope.emailInput=1;
+   			$scope.dataLoading = false;
+   		});
+       }
+	};
 	// 2. 아이디 찾기
-	$scope.findId = function(irum, email,emailToken){
-		userStorage.findId(irum, email, emailToken).then(function(data){
-			$scope.success=1;
+	$scope.findId = function(find,emailToken){
+		console.log(find.irum);
+		console.log(emailToken);
+		userStorage.findId(find, emailToken).then(function(data){
+			if(data=='NO')
+				$rootScope.success=2;
+			if(data!='NO')
+				$rootScope.success=1;
 			$rootScope.findId=data;
-			console.log($scope.id);
+			console.log($rootScope.success);
 			$window.location.href="http://localhost:8081/aboard2/#!/users/findId/result";
 		});
 	}
+});
+// 아이디 찾기 결과
+app.controller('findIdResultCtrl', function($scope,$rootScope){
+	$scope.success = $rootScope.success;
+	
 });
 // 비밀번호 찾기
 app.controller('findPwdCtrl',function($scope,$http, userStorage){
