@@ -1,4 +1,4 @@
-package com.icia.aboard2.rest;
+package com.icia.aboard2.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.aboard2.dto.ReplyDto.InsertReply;
 import com.icia.aboard2.entity.Attachment;
 import com.icia.aboard2.rest_service.BoardRestService;
-import com.icia.aboard2.rest_service.ReplyServiceImpl;
+import com.icia.aboard2.service.ReplyServiceImpl;
 import com.icia.aboard2.util.ABoard2Contstants;
 import com.icia.aboard2.util.MediaUtils;
 
@@ -50,31 +50,16 @@ public class BoardRestController {
 		InputStream in = null;
 		File dest = null;
 		try {
-			// abc.jpg로 업로드했고 저장된 파일 이름은 11223344-abc.jpg라고 하자
-			//		왜 원본 이름으로 저장하지 않는가? 파일 이름이 겹칠 수 있으니까
-			// 사용자가 abc.jpg 파일을 보겠다고 한 경우 11223344-abc.jpg를 abc.jpg로 복사한 다음 다운로드하고 abc.jpg는 삭제한다
-			
-			// 11223344-abc.jpg 파일을 연다
 			File src = new File(ABoard2Contstants.UPLOAD_PATH, attachment.getSavedFileName());
-			// abc.jpg 파일을 생성한다
 			dest = new File(ABoard2Contstants.UPLOAD_PATH, originalFileName);
-			// 11223344-abc.jpg를 abc.jpg로 복사한다
 			FileCopyUtils.copy(src, dest);
-			// 파일이 이미지인지 아닌지 판단 : abc.jpg의 jpg를 잘라낸 다음 대문자로 바꿔 MediaUtil을 이용해 판단
 			MediaType mType = MediaUtils.getMediaType(originalFileName.substring(originalFileName.lastIndexOf(".")+1).toUpperCase());
-			
-			// 응답을 위한 헤더를 생성
-			// 헤더에 contentType을 지정 -> 다운로드한 브라우저가 자신이 처리가능한 contentType인 경우 처리, 불가능한 경우 다운로드
 			HttpHeaders headers = new HttpHeaders();
-			// setContentType으로 파일의 mediaType을 지정한다.
-			// Content-Disposition 은 컨텐트 타입의 옵션으로 파일 처리방법과 파일명을 지정한다
 			if(mType!=null) {
-				// 이미지일 경우 Content-Disposition을 inline으로 지정해 브라우저가 처리하도록 함. 처리못할 경우 다운로드
 				headers.setContentType(mType);
 				headers.add("Content-Disposition", "inline;filename=" + originalFileName +";");
 			}
 			else {
-				// 이미지가 아닐 경우 무조건 다운로드
 				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 				headers.add("Content-Disposition", "attachment;filename=" + originalFileName +";");
 			}

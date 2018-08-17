@@ -1,6 +1,7 @@
 package com.icia.aboard2.util;
 
 public interface ABoard2Contstants {
+	// 이미지 파일 폴더 PATH
 	public static final String UPLOAD_PATH = "d:/service/upload";
 	
 	public static final String WELCOME = "가입을 환영합니다";

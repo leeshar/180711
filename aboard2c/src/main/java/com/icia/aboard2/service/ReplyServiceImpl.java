@@ -1,4 +1,4 @@
-package com.icia.aboard2.rest_service;
+package com.icia.aboard2.service;
 
 import java.util.List;
 
@@ -20,20 +20,20 @@ public class ReplyServiceImpl{
 	private BoardRepository bDao;
 	@Autowired
 	private ModelMapper mmapper;
-	
+	// 댓글쓰기
 	@Transactional
 	public void insert(InsertReply insert) throws Exception {
 		Reply reply = mmapper.map(insert, Reply.class);
 		bDao.upReplyCnt(insert.getBno());
 		dao.insert(reply);
 	}
-
+	// 댓글삭제
 	public void delete(int cno) throws Exception {
 		dao.delete(cno);
 		
 	}
 
-
+	// 댓글리스트
 	public List<Reply> list(int bno) throws Exception {
 		return dao.list(bno);
 	}

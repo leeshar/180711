@@ -4,9 +4,11 @@
 	<select id="count" resultType="int">
 		select /*+ index_ffs(board_pk_bno) */ count(bno) from board
 	</select>
+	<!-- 전체리스트 -->
 	<select id="listAll" resultType="com.icia.aboard2.dto.BoardDto$ListBoard">
 		select bno,title,writer,write_date writeDate,read_cnt readCnt,reply_cnt replyCnt from board
 	</select>
+	<!-- 리스트 -->
 	<select id="list" resultType="com.icia.aboard2.dto.BoardDto$ListBoard">
 	<![CDATA[
 
@@ -33,6 +35,7 @@
 			
 		]]>
 	</select>
+	<!-- 글쓰기 -->
 	<insert id="write" useGeneratedKeys="true" keyProperty="bno">
 		<selectKey keyProperty="bno" resultType="int" order="BEFORE">
 			select board_seq.nextval from dual
@@ -45,7 +48,7 @@
 	<update id="recommend">
 		update board set recommend_cnt = recommend_cnt+1 where bno = #{bno} and rownum=1
 	</update>
-	
+	<!-- 추천횟수 -->
 	<select id="getRecommendCnt" resultType="int">
 		select recommend_cnt from board where bno=#{bno} and rownum=1
 	</select>
@@ -54,10 +57,11 @@
 	<update id="report">
 		update board set recommend_cnt = recommend_cnt+1 where bno = #{bno} and rownum=1
 	</update>
-	
+	<!-- 신고횟수 -->
 	<select id="getReportCnt" resultType="int">
 		select report_cnt from board where bno=#{bno} and rownum=1
 	</select>
+	<!-- 글삭제 -->
 	<delete id="delete" parameterType="int">
 		delete from board where bno=#{bno}
 	</delete>

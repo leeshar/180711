@@ -1,4 +1,4 @@
-package com.icia.aboard2.rest;
+package com.icia.aboard2.controller;
 
 
 import java.io.FileNotFoundException;
@@ -37,6 +37,7 @@ public class UserRestController {
 	private UserService uService;
 	@Autowired
 	private ObjectMapper mapper;
+	//회원가입
 	@PostMapping("/users/join")
 	public ResponseEntity<Void> userJoin(String user) throws ParseException {
 		JSONParser jsonParser = new JSONParser();
@@ -51,6 +52,7 @@ public class UserRestController {
 		
 		
 	}
+	//아이디중복확인
 	@RequestMapping("/users/idCheck/{id}")
 	public ResponseEntity<Void> idCheck(@PathVariable String id) {
 		boolean result = service.idCheck(id);
@@ -60,7 +62,7 @@ public class UserRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-
+	//로그인인증
 	@PostMapping("/users/login")
 	public ResponseEntity<String> login(String login) throws ParseException, JsonProcessingException, InterruptedException{
 		JSONParser jsonParser = new JSONParser();

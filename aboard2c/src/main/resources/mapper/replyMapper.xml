@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.icia.aboard2.dao.ReplyRepository">
-
+<!-- 댓글쓰기 -->
 <insert id="insert" parameterType="com.icia.aboard2.dto.ReplyDto$InsertReply">
 	insert into reply(cno,bno,id,replytext,write_date)
 	values(cno_seq.nextval,#{bno},#{id},#{replytext},sysdate)
 </insert>
-
+<!-- 댓글삭제 -->
 <delete id="delete">
 	delete from reply where cno=#{cno} and rownum=1
 </delete>
-
+<!-- 댓글리스트 -->
 <select id="list" resultType="com.icia.aboard2.entity.Reply" parameterType="int">
 	select cno, bno,id, replytext, write_date
 	from reply

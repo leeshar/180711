@@ -1,6 +1,7 @@
 package com.icia.aboard2.service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -38,11 +39,19 @@ public class BoardService {
 	@Autowired
 	private Gson gson;
 	
+	//전체리스트
 	public String listAll(){
 		return gson.toJson(boardDao.listAll());
 	}
-	
-	
+	// 리스트
+	public String list(Pageable pageable,String categoriName) {
+		Integer count = boardDao.count();
+		Pagination pagination = PagingUtil.getPagination(pageable, count);
+		List list = boardDao.list(pagination.getStartRow(), pagination.getEndRow(),categoriName);
+		Page page = Page.builder().list(list).pagination(pagination).build();
+		return gson.toJson(page);
+	}
+	// 글쓰기
 	@Transactional
 	public boolean write(CreateBoard create, MultipartFile[] files)  {
 		Board board = modelMapper.map(create, Board.class);
@@ -70,7 +79,7 @@ public class BoardService {
 		}
 		return true;
 	}
-
+	// 글읽기
 	@Transactional
 	public Map<String, Object> read(Integer bno, String categoriName) {
 		int result = boardDao.increaseReadCnt(bno);
@@ -80,16 +89,30 @@ public class BoardService {
 		
 		return boardDao.read(bno,categoriName);
 	}
-
-	public String list(Pageable pageable,String categoriName) {
-		Integer count = boardDao.count();
-		Pagination pagination = PagingUtil.getPagination(pageable, count);
-		List list = boardDao.list(pagination.getStartRow(), pagination.getEndRow(),categoriName);
-		Page page = Page.builder().list(list).pagination(pagination).build();
-		return gson.toJson(page);
-	}
+	// 글삭제
 	public void delete(int bno) {
 		boardDao.delete(bno);
+	}
+	// 추천
+	public int recommend(String id, int bno, boolean alreadyRecommend) {
+		int result = boardDao.recommend(bno);
+		if(result==0)
+			throw new BoardNotFoundException();
+		return boardDao.getRecommendCnt(bno);
+	}
+	// 신고
+	public int report(String id, int bno, boolean alreadyReport) {
+		int result = boardDao.report(bno);
+		if(result==0)
+			throw new BoardNotFoundException();
+		return boardDao.getReportCnt(bno);
+	}
+	// 파일
+	public Attachment getAttachment(int bno, int ano) throws FileNotFoundException {
+		Attachment attachment = attachDao.getAttachment(bno, ano);
+		if(attachment==null)
+			throw new FileNotFoundException("원본 파일을 찾을 수 없습니다 ");
+		return attachment;
 	}
 }
 

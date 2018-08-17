@@ -11,8 +11,6 @@ public interface AttachRepository {
 
 	Attachment list(Integer bno);
 
-	void deleteAll(int bno);
-
 	Attachment getAttachment(@Param("bno") int bno, @Param("ano") int ano);
 
 }
