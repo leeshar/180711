@@ -64,12 +64,17 @@ app.controller('registerCtrl', function($scope, $http,$window,$location,userStor
 		});
 	};
 	// 유저 회원가입
-	$scope.regFuc = function(user){
+	$scope.regFuc = function(user,isValid){
+		console.log(isValid);
 		userStorage.join(user).then(function(data){
 			alert(data);
 			$window.location.href="http://localhost:8081/aboard2/#!/users/welcome";
 		});
 	};
+	
+});
+// 약관동의
+app.controller('agreeCtrl',function($scope){
 	
 });
 // 아이디 찾기

@@ -38,7 +38,8 @@ app.directive("headerTpl",function(){
 	})
 	.when("/users/agree",{
 		// 약관동의 페이지
-		templateUrl:"./user/agree.html"
+		templateUrl:"./user/agree.html",
+		controller:"agreeCtrl"
 	})
 	.when("/users/register",{
 		// 회원가입 페이지
