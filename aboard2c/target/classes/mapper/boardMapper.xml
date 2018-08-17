@@ -26,10 +26,10 @@
 		update board set read_cnt = read_cnt+1 where bno = #{bno} and rownum=1
 	</update>
 	<!-- 1.2 글 읽기 -->
-	<select id="read" resultType="board">
+	<select id="read" resultType="hashmap">
 		<![CDATA[
 			select bno, title, content, writer, write_date writeDate, read_cnt readCnt,
-			recommend_cnt recommendCnt, report_cnt reportCnt from board where bno=#{bno} and rownum = 1
+			recommend_cnt recommendCnt, report_cnt reportCnt from board where categori_name=#{categoriName} and bno=#{bno} and rownum = 1
 			
 		]]>
 	</select>

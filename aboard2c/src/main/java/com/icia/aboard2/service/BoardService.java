@@ -72,13 +72,13 @@ public class BoardService {
 	}
 
 	@Transactional
-	public Board read(Integer bno) {
+	public Map<String, Object> read(Integer bno, String categoriName) {
 		int result = boardDao.increaseReadCnt(bno);
 		if(result==0)
 			throw new BoardNotFoundException();
 		
 		
-		return boardDao.read(bno);
+		return boardDao.read(bno,categoriName);
 	}
 
 	public String list(Pageable pageable,String categoriName) {

@@ -15,7 +15,7 @@ public interface BoardRepository {
 
 	public int increaseReadCnt(Integer bno);
 
-	public Board read(Integer bno);
+	public Map<String, Object> read(@Param("bno") Integer bno, @Param("categoriName") String categoriName);
 	
 	public int recommend(int bno);
 	

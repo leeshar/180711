@@ -37,7 +37,7 @@
 			<th scope="col">조회수</th></tr>
 			<tr ng-repeat="x in boardsList">
 			<td>{{ $index + 1 }}</td>
-			<td><a href="#!/boards/read/{{x.bno}}" style="color: white; padding-right: 20px;">{{x.title}}({{x.replyCnt}})</a><span class="badge badge-pill badge-danger" >NEW</span></td>
+			<td><a href="#!/boards/read/{{x.bno}}/{{categoriName}}" style="color: white; padding-right: 20px;">{{x.title}}({{x.replyCnt}})</a><span class="badge badge-pill badge-danger" >NEW</span></td>
 			<td>{{x.writer}}</td>
 			<td>{{x.writeDate}}</td>
 			<td>{{x.readCnt}}</td>

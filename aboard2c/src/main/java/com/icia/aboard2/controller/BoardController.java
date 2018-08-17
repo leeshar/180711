@@ -69,34 +69,21 @@ public class BoardController {
 		return listAll;
 	}
 	// Rest 방식으로  GET 해줬다.
-	@GetMapping(value="/boards/read/{bno}",produces = "application/json; charset=UTF-8")
+	@GetMapping(value="/boards/read/{bno}/{categoriName}",produces = "application/json; charset=UTF-8")
 	@ResponseBody
-	public String read(@PathVariable Integer bno) throws JsonProcessingException {
+	public String read(@PathVariable Integer bno,@PathVariable String categoriName) throws JsonProcessingException {
 		Map<String, Object> maps = new HashMap<>();
-		Map<String, Object> map = new HashMap<>();
-		
-		System.out.println(aDao.list(bno));
+		Map<String, Object> map = service.read(bno, categoriName);
 		// 저장된 사진이 없으니까 read를 했을 때 null이 뜬다.
 		// attach에 null 이 담겼을 때 이미지 처리를 해준다.
-		if(aDao.list(bno).getOriginalFileName()!=null) {
-		map.put("savedFileName", aDao.list(bno).getSavedFileName());	
+		try {
+			if(aDao.list(bno).getOriginalFileName()!=null)
+				map.put("savedFileName", aDao.list(bno).getSavedFileName());
+			if(aDao.list(bno).getOriginalFileName()==null)
+				map.put("savedFileName", "none.jpg");
+		}catch(NullPointerException np) {
+			System.out.println("해당사진없음");
 		}
-		if(aDao.list(bno).getOriginalFileName()==null) {
-			map.put("savedFileName", "none.jpg");
-		}
-		// b 객체를 생성해서 담아준 뒤 값을 빼서 map으로 집어넣었다.
-		// service.read(bno).get으로 뺐더니 너무 많이 실행됬다.
-		// 그래서 조회수가 한번에 8씩 증가했다.
-		// b를 만들어줘서 해결 할 수 있었다.
-		Board b = service.read(bno);
-		map.put("bno", b.getBno());
-		map.put("title", b.getTitle());
-		map.put("content", b.getContent());
-		map.put("writer", b.getWriter());
-		map.put("writeDate",b.getWriteDate());
-		map.put("readCnt", b.getReadCnt());
-		map.put("recommendCnt", b.getRecommendCnt());
-		map.put("reportCnt", b.getReportCnt());
 		maps.put("board", map);
 		String str = mapper.writeValueAsString(maps);
 		return str;

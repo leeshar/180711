@@ -16,8 +16,8 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 					 });
 			},
 		// 게시글 상세내용 불러오는 메소드
-			boardsRead: function(bno){
-				return $http.get("/aboard2/boards/read/"+bno)
+			boardsRead: function(bno,categoriName){
+				return $http.get("/aboard2/boards/read/"+bno+"/"+categoriName)
 				.then(function(response){
 					return response.data;
 				});

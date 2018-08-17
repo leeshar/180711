@@ -3,6 +3,7 @@ app.controller('boardsCtrl',function($scope, $http,$routeParams,boardStorage){
 	// boards 리스트 REST방식으로 page값을 넘긴후 데이터를 가져와서 boardsList에 담는다.
 	var page = $routeParams.page;
 	var categoriName = $routeParams.categoriName;
+	$scope.categoriName = categoriName;
 	if(categoriName=="공지사항")
 		$scope.write=1;
 	if(categoriName=="이벤트")
@@ -29,10 +30,11 @@ app.controller('boardsWriteCtrl',function($scope,$routeParams){
 app.controller('boardsReadCtrl',function($scope,$http,$routeParams,boardStorage){
 	// routeParams로 Query의 값을 받을 수 있다.
 	var bno = $routeParams.bno;
+	var categoriName = $routeParams.categoriName;
 	$scope.bno = bno;
 	var rText = $scope.rText;
 	// 게시판 글 상세정보
-	boardStorage.boardsRead(bno).then(function(data){
+	boardStorage.boardsRead(bno,categoriName).then(function(data){
 		replyList(bno);
 		$scope.resp = data;
 	});

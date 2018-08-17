@@ -26,7 +26,7 @@ app.directive("headerTpl",function(){
 		templateUrl:"./boards/list.html",
 		controller:'boardsCtrl'
 	})	
-	.when("/boards/read/:bno",{
+	.when("/boards/read/:bno/:categoriName",{
 		// 게시판 상세내용 
 		templateUrl:"./boards/read.html",
 		controller:'boardsReadCtrl'

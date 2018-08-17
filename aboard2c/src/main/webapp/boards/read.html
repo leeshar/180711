@@ -12,21 +12,17 @@
 			
 		</div>
 		<div id="lower" >
-			<div id="left" ng-repeat="x in resp"><span id="bno">{{x.bno}}</span><br>
-			<span id="title">제목:{{x.title}}</span><br>
-			<span id="content">내용:{{x.content}}</span><br>
-			<span id="writer">작성자:{{x.writer}}</span><br>
-			<span id="writeDate">작성일:{{x.writeDate | date:'yyyy-MM-dd HH:mm:ss '}}</span><br>
-			<span id="reportCnt">신고누적수:{{x.reportCnt}}</span><br>
-			<span id="recommendCnt">추천누적수:{{x.recommendCnt}}</span><br>
-			<span id="readCnt">조회수:{{x.readCnt}}</span><br>
+			<div id="left" ng-repeat="x in resp"><span id="bno">{{x.BNO}}</span><br>
+			<span id="title">제목:{{x.TITLE}}</span><br>
+			<span id="content">내용:{{x.CONTENT}}</span><br>
+			<span id="writer">작성자:{{x.WRITER}}</span><br>
+			<span id="writeDate">작성일:{{x.WRITEDATE | date:'yyyy-MM-dd HH:mm:ss '}}</span><br>
+			<span id="reportCnt">신고누적수:{{x.REPORTCNT}}</span><br>
+			<span id="recommendCnt">추천누적수:{{x.RECOMMENDCNT}}</span><br>
+			<span id="readCnt">조회수:{{x.READCNT}}</span><br>
 			<div>이미지<img src="http://localhost:8081/upload/{{x.savedFileName}}"class="rounded mx-auto d-block"></div>
 			</div>
 			<div id="right">추천<span id="recommendCnt"></span>조회<span id="readCnt"></span></div>
-		</div>
-		<div id="body">
-			<textarea id="content">
-			</textarea>
 		</div>
 		<div >
 			<ul id="attach">
