@@ -113,7 +113,13 @@ app.controller('findPwdCtrl',function($scope,$http, userStorage){
 	// 비밀번호 아이디
 	$scope.findPwd = function(id){
 		userStorage.findPwd(id).then(function(data){
-			$scope.pwdSuccess=1;
+			if(data=='해당이메일없음'){
+				alert('해당이메일이 없습니다');
+				$scope.pwdSuccess=2;
+			}
+			console.log(data);
+			if(data!='해당이메일없음')
+				$scope.pwdSuccess=1;
 			$scope.email=data;
 			
 			
@@ -121,8 +127,10 @@ app.controller('findPwdCtrl',function($scope,$http, userStorage){
 	};
 	// 비밀번호 이메일
 	$scope.pwdSend = function(id){
+		$scope.dataLoading=true;
 		userStorage.pwdSend(id).then(function(data){
-			
+				alert(data);
+			$scope.dataLoading=false;
 		});
 	};
 	

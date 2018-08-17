@@ -93,6 +93,7 @@ public class UserService {
 
 	// 비밀번호 리셋
 	public void pwdMail(String email, String pwd) throws FileNotFoundException, URISyntaxException {
+		log.info("{}", pwd);
 		User user = new User();
 		user.setEmail(email);
 		user.setPwd(encoder.encode(pwd));
@@ -149,11 +150,15 @@ public class UserService {
 	public String login(LoginUser logi) {
 		User user = mapper.map(logi, User.class);
 	if(dao.loginCheck(logi.getId())!=null) {	
+		try {
 		String encodedPwd = dao.login(user).get("PWD").toString();
 		if (encoder.matches(user.getPwd(), encodedPwd))
 			return "성공";
 		else
 			return "비밀번호다름";
+		}catch(NullPointerException np) {
+			System.out.println("NULL");
+		}
 	}
 		return "아이디다름";
 	}

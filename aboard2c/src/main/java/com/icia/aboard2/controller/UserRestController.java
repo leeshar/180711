@@ -126,18 +126,15 @@ public class UserRestController {
 			return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
 		}
 		//비밀번호 찾기
-		@RequestMapping("/users/findPwd")
+		@RequestMapping(value="/users/findPwd",produces = "application/json; charset=UTF-8")
 		public ResponseEntity<String> findPwd(String id) throws JsonProcessingException{
-			try {
-			if(service.getEmail(id)!=null) {
+			// service.getEmail <= NULL 일 경우는 ID가 존재하지 않는다
+			if(service.getEmail(id)==null) {
+				Object result = "해당이메일없음";
+				return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
+			}
+			// NULL이 아닐경우 담아서 보냄
 			Object result = service.getEmail(id).get("EMAIL");
-			log.info("{}", id);
-			return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
-			}
-				}catch(NullPointerException np) {
-				System.out.println("NULL");
-			}
-			String result = "해당이메일없음";
 			return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
 			
 		}

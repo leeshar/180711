@@ -147,7 +147,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 				contentType:"application/json;charset=UTF-8",
 				headers:{"Content-Type":'application/x-www-form-urlencoded'}
 			}).then(function(response){
-				return '성공';
+				return '비밀번호를 발송했습니다.';
 			});
 		},
 		// 회원정보
