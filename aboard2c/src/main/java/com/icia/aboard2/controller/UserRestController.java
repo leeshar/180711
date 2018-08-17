@@ -68,24 +68,21 @@ public class UserRestController {
 		LoginUser logi = new LoginUser();
 		logi.setId(obj.get("id").toString());
 		logi.setPwd(obj.get("pwd").toString());
-		
-		if(service.login(logi)=="아이디다름") {
-			String msg = service.login(logi);
-			log.info("{}", msg);
+		String loginMsg = service.login(logi);
+		System.out.println(loginMsg);
+		if(loginMsg=="아이디다름") {
 			//쓰레드로 로딩 지연
 			Thread.sleep(1000);
-			return new ResponseEntity<String>(mapper.writeValueAsString(msg),HttpStatus.OK);
+			return new ResponseEntity<String>(mapper.writeValueAsString(loginMsg),HttpStatus.OK);
 		}
-		if(service.login(logi)=="비밀번호다름") {
-			String msg = service.login(logi);
+		if(loginMsg=="비밀번호다름") {
 			//쓰레드로 로딩 지연
 			Thread.sleep(1000);
-			return new ResponseEntity<String>(mapper.writeValueAsString(msg),HttpStatus.OK);
+			return new ResponseEntity<String>(mapper.writeValueAsString(loginMsg),HttpStatus.OK);
 		}
 		// SUCCESS
-		String msg = service.login(logi);
 		Thread.sleep(1000);
-		return new ResponseEntity<String>(mapper.writeValueAsString(msg),HttpStatus.OK);
+		return new ResponseEntity<String>(mapper.writeValueAsString(loginMsg),HttpStatus.OK);
 		
 		
 }
@@ -106,7 +103,7 @@ public class UserRestController {
 		public void pwdEmailAuth(String id) throws FileNotFoundException, URISyntaxException {
 			String pwd = service.getRandomPassword(10);
 			String email = service.getEmail(id).get("REALEMAIL").toString();
-			service.pwdMail(email,pwd);
+			service.pwdMail(id,pwd,email);
 		}
 		//아이디 찾기
 		@RequestMapping("/users/findId")

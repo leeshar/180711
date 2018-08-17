@@ -92,10 +92,10 @@ public class UserService {
 	}
 
 	// 비밀번호 리셋
-	public void pwdMail(String email, String pwd) throws FileNotFoundException, URISyntaxException {
+	public void pwdMail(String id, String pwd, String email) throws FileNotFoundException, URISyntaxException {
 		log.info("{}", pwd);
 		User user = new User();
-		user.setEmail(email);
+		user.setId(id);
 		user.setPwd(encoder.encode(pwd));
 		dao.pwdReset(user);
 
