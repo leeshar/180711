@@ -22,7 +22,6 @@ import com.icia.aboard2.dto.UserDto.CreateUser;
 import com.icia.aboard2.dto.UserDto.FindId;
 import com.icia.aboard2.dto.UserDto.LoginUser;
 import com.icia.aboard2.dto.UserDto.UpdateUser;
-import com.icia.aboard2.rest_service.UserRestService;
 import com.icia.aboard2.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserRestController {
 	@Autowired
-	private UserRestService service;
-	@Autowired
-	private UserService uService;
+	private UserService service;
 	@Autowired
 	private ObjectMapper mapper;
 	//회원가입
@@ -47,7 +44,7 @@ public class UserRestController {
 		create.setPwd(obj.get("pwd").toString());
 		create.setEmail(obj.get("email").toString());
 		create.setIrum(obj.get("irum").toString());
-		uService.join(create);
+		service.join(create);
 		return new ResponseEntity<>(HttpStatus.OK);
 		
 		
@@ -90,16 +87,16 @@ public class UserRestController {
 			JSONObject obj = (JSONObject) jsonparser.parse(mail);
 			String authToken = obj.get("authToken").toString();
 			String email = obj.get("email").toString();
-			uService.sendMail(email,authToken);
+			service.sendMail(email,authToken);
 			
 			
 		}
 		//비밀번호리셋
 		@RequestMapping("/users/findPwd/emailAuth")
 		public void pwdEmailAuth(String id) throws FileNotFoundException, URISyntaxException {
-			String pwd = uService.getRandomPassword(10);
+			String pwd = service.getRandomPassword(10);
 			String email = service.getEmail(id).get("REALEMAIL").toString();
-			uService.pwdMail(email,pwd);
+			service.pwdMail(email,pwd);
 		}
 		//아이디 찾기
 		@RequestMapping("/users/findId")
@@ -109,8 +106,8 @@ public class UserRestController {
 			FindId findId = new FindId();
 			findId.setEmail(obj.get("email").toString());
 			findId.setIrum(obj.get("irum").toString());
-			String result = uService.findId(findId);
-			if(uService.findId(findId)!=null)
+			String result = service.findId(findId);
+			if(service.findId(findId)!=null)
 			return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
 			
 			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
@@ -128,7 +125,7 @@ public class UserRestController {
 		@RequestMapping(value="/users/userInfo/{id}",produces = "application/json; charset=UTF-8")
 		public String userInfo(@PathVariable String id) throws JsonProcessingException {
 			System.out.println(id);
-			String str = mapper.writeValueAsString(uService.userInfo(id));
+			String str = mapper.writeValueAsString(service.userInfo(id));
 			return str;
 		}
 		//회원정보수정
@@ -140,7 +137,7 @@ public class UserRestController {
 			u.setEmail(obj.get("email").toString());
 			u.setId(obj.get("id").toString());
 			u.setPwd(obj.get("pwd").toString());
-			uService.updateUser(u);
+			service.updateUser(u);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 			
 			

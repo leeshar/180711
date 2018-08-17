@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.aboard2.dto.ReplyDto.InsertReply;
 import com.icia.aboard2.entity.Attachment;
-import com.icia.aboard2.rest_service.BoardRestService;
+import com.icia.aboard2.service.BoardService;
 import com.icia.aboard2.service.ReplyServiceImpl;
 import com.icia.aboard2.util.ABoard2Contstants;
 import com.icia.aboard2.util.MediaUtils;
@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BoardRestController {
 	@Autowired
-	private BoardRestService service;
+	private BoardService service;
 	@Autowired
 	private ReplyServiceImpl rService;
 	@Autowired
