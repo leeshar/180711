@@ -39,7 +39,7 @@
 			<td>{{ $index + 1 }}</td>
 			<td><a href="#!/boards/read/{{x.bno}}/{{categoriName}}" style="color: white; padding-right: 20px;">{{x.title}}({{x.replyCnt}})</a><span class="badge badge-pill badge-danger" >NEW</span></td>
 			<td>{{x.writer}}</td>
-			<td>{{x.writeDate}}</td>
+			<td>{{x.writeDate | date : "yyyy년 MM월 dd일"}}</td>
 			<td>{{x.readCnt}}</td>
 		</table>
 
@@ -55,7 +55,7 @@
 			<td>{{ $index + 1 }}</td>
 			<td><a href="#!/boards/read/{{x.bno}}" style="color: white; padding-right: 20px;">{{x.title}}({{x.replyCnt}})</a><span class="badge badge-pill badge-danger" >NEW</span></td>
 			<td>{{x.writer}}</td>
-			<td>{{x.writeDate}}</td>
+			<td>{{x.writeDate | date : "yyyy년 MM월 dd일"}}</td>
 			<td>{{x.readCnt}}</td>
 		</table>
 		<nav aria-label="Page navigation example">

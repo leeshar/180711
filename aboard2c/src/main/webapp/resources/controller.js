@@ -10,8 +10,9 @@ app.controller('boardsCtrl',function($scope, $http,$routeParams,boardStorage){
 		$scope.write=2;
 	// 게시판 리스트 메소드
 	boardStorage.get(page,categoriName).then(function(data){
-
+		// 게시판 리스트 데이터 
 		$scope.boardsList = data.list;
+		// 게시판 페이징 데이터
 		$scope.pagination = data.pagination;
 		$scope.startPage = data.pagination.startPage;
 		var startPage= data.pagination.startPage;
@@ -20,13 +21,9 @@ app.controller('boardsCtrl',function($scope, $http,$routeParams,boardStorage){
 		for(var startPage = startPage; startPage<endPage+1; startPage++){
 			// push로 해결. ui-bootstrap 안쓰고 페이징 
 			render.push(startPage);
-			console.log(render[startPage]);
 			
 		}
-		
 		$scope.render = render;
-		console.log($scope.pagination);
-		console.log($scope.render);
 	});
 	// 게시판 검색 메소드
 	 $scope.searchFuc = function(search){

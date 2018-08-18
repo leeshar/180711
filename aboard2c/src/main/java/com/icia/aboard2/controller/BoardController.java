@@ -62,15 +62,11 @@ public class BoardController {
 	public String read(@PathVariable Integer bno,@PathVariable String categoriName) throws JsonProcessingException {
 		Map<String, Object> maps = new HashMap<>();
 		Map<String, Object> map = service.read(bno, categoriName);
-		// 저장된 사진이 없으니까 read를 했을 때 null이 뜬다.
-		// attach에 null 이 담겼을 때 이미지 처리를 해준다.
-		try {
-			if(aDao.list(bno).getOriginalFileName()!=null)
+			
+		try{
 				map.put("savedFileName", aDao.list(bno).getSavedFileName());
-			if(aDao.list(bno).getOriginalFileName()==null)
-				map.put("savedFileName", "none.jpg");
 		}catch(NullPointerException np) {
-			System.out.println("해당사진없음");
+				map.put("savedFileName", "none.jpg");
 		}
 		maps.put("board", map);
 		String str = mapper.writeValueAsString(maps);
