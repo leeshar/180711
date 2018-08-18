@@ -9,9 +9,24 @@ app.controller('boardsCtrl',function($scope, $http,$routeParams,boardStorage){
 	if(categoriName=="이벤트")
 		$scope.write=2;
 	// 게시판 리스트 메소드
-	console.log(categoriName);
 	boardStorage.get(page,categoriName).then(function(data){
-		$scope.boardsList = data;
+
+		$scope.boardsList = data.list;
+		$scope.pagination = data.pagination;
+		$scope.startPage = data.pagination.startPage;
+		var startPage= data.pagination.startPage;
+		var endPage=data.pagination.endPage;
+		var render = [];
+		for(var startPage = startPage; startPage<endPage+1; startPage++){
+			// push로 해결. ui-bootstrap 안쓰고 페이징 
+			render.push(startPage);
+			console.log(render[startPage]);
+			
+		}
+		
+		$scope.render = render;
+		console.log($scope.pagination);
+		console.log($scope.render);
 	});
 	// 게시판 검색 메소드
 	 $scope.searchFuc = function(search){

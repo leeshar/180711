@@ -20,8 +20,9 @@ public class PagingUtil {
 		Integer endPage = startPage + block - 1;
 		int countOfPage = count/size + 1;
 		endPage = (endPage>countOfPage) ? countOfPage : endPage;
-		
 		Integer prev = startPage - 1;
+		if(startPage==1)
+			prev = 1;
 		Integer next = endPage + 1;
 		if(endPage == countOfPage)
 			next = 0; 

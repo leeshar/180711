@@ -60,14 +60,12 @@
 		</table>
 		<nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
-    <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">Previous</a>
+    <li class="page-item" ng-disabled="startPage === 1">
+      <a class="page-link" href="#!/boards/list/{{pagination.prev}}/{{categoriName}}">이전페이지</a>
     </li>
-    <li class="page-item"><a class="page-link" href="#!/boards/list/1">1</a></li>
-    <li class="page-item"><a class="page-link" href="#!/boards/list/2">2</a></li>
-    <li class="page-item"><a class="page-link" href="#!/boards/list/3">3</a></li>
+    <li class="page-item" ng-repeat="x in render" ng-if="x!=null"><a class="page-link" href="#!/boards/list/{{x}}/{{categoriName}}">{{x}}</a></li>
     <li class="page-item">
-      <a class="page-link" href="#">Next</a>
+      <a class="page-link" href="#!/boards/list/{{pagination.next}}/{{categoriName}}">다음페이지</a>
     </li>
   </ul>
 </nav>

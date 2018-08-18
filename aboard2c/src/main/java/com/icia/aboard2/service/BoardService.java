@@ -44,12 +44,15 @@ public class BoardService {
 		return gson.toJson(boardDao.listAll());
 	}
 	// 리스트
-	public String list(Pageable pageable,String categoriName) {
-		Integer count = boardDao.count();
+	public Map<String, Object> list(int page,String categoriName) {
+		Pageable pageable = new Pageable();
+		pageable.setPage(page);
+		Integer count = boardDao.count(categoriName);
+		Map<String, Object> map = new HashMap<>();
 		Pagination pagination = PagingUtil.getPagination(pageable, count);
-		List list = boardDao.list(pagination.getStartRow(), pagination.getEndRow(),categoriName);
-		Page page = Page.builder().list(list).pagination(pagination).build();
-		return gson.toJson(page);
+		map.put("list", boardDao.list(pagination.getStartRow(), pagination.getEndRow(), categoriName));
+		map.put("pagination", pagination);
+		return map;
 	}
 	// 글쓰기
 	@Transactional

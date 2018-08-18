@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
 import com.icia.aboard2.entity.*;
 
 public interface BoardRepository {
-	public int count();
+	public int count(String categoriName);
 	
 	public List<Board> listAll();
 	

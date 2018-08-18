@@ -5,7 +5,8 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 		// 게시판 리스트를 불러오는 메소드
 			get: function(page,categoriName){
 				return $http.get("/aboard2/boards/list/"+page+"/"+categoriName).then(function(response){
-					return JSON.parse(response.data.records);
+					
+					return response.data;
 					});
 				
 			},
