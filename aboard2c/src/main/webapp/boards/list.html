@@ -22,7 +22,7 @@
       <input ng-keyup="search.title=''" class="input-box" ng-model="search.writer" ng-model-option="{updateOn:'blur'}" class="form-control mr-sm-2" type="text" placeholder="검색" aria-label="Search" kr-input>
       
  	</div>
-      <button class="btn btn-outline-success my-2 my-sm-0" type="button" ng-click="searchFuc();">검색</button>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="button" ng-click="searchFuc()">검색</button>
 
     </form>
 
@@ -53,7 +53,7 @@
 			<th scope="col">조회수</th></tr>
 			<tr ng-repeat="x in listAll | filter: search">
 			<td>{{ $index + 1 }}</td>
-			<td><a href="#!/boards/read/{{x.bno}}" style="color: white; padding-right: 20px;">{{x.title}}({{x.replyCnt}})</a><span class="badge badge-pill badge-danger" >NEW</span></td>
+			<td><a href="#!/boards/read/{{x.bno}}/{{categoriName}}" style="color: white; padding-right: 20px;">{{x.title}}({{x.replyCnt}})</a><span class="badge badge-pill badge-danger" >NEW</span></td>
 			<td>{{x.writer}}</td>
 			<td>{{x.writeDate | date : "yyyy년 MM월 dd일"}}</td>
 			<td>{{x.readCnt}}</td>

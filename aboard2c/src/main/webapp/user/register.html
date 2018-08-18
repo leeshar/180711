@@ -11,7 +11,7 @@
     <li class="breadcrumb-item" aria-current="page">회원가입</li>
   </ol>
 </nav>
-<form name="regFrm" ng-submit="regFuc(user,regFrm.$valid)"style="width: 700px; margin-left: 300px; margin-top: 100px;">
+<form name="regFrm" ng-submit="regFuc(user,regFrm.$valid)"style="width: 700px; margin-left: 150px; margin-top: 100px;">
 <label for="id">아이디</label>
 <div class="form-row">
 	<input type="text" style="width: 620px; float: left;" ng-model="user.id" name="id" class="form-control" placeholder="아이디를 입력하세요" ng-required="true" ng-pattern="/^[A-Za-z0-9]{8,12}$/"><button type="button" ng-click="idCheck(user.id);" class="btn btn-outline-dark">중복체크</button>

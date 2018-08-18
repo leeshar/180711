@@ -36,6 +36,20 @@ app.controller('boardsCtrl',function($scope, $http,$routeParams,boardStorage){
 // boardsWrite
 app.controller('boardsWriteCtrl',function($scope,$routeParams){
 	$scope.categoriName = $routeParams.categoriName;
+	var oEditors = [];
+	nhn.husky.EZCreator.createInIFrame({
+	    oAppRef: oEditors,
+	    elPlaceHolder: "content",  //textarea ID
+	    sSkinURI: "resources/smarteditor/SmartEditor2Skin.html",  //skin경로
+	    fCreator: "createSEditor2",
+	});
+	$scope.write = function(){
+	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+	var content = document.getElementById('content');
+	$scope.text = content.value.replace(/(<([^>]+)>)/ig,"");
+	console.log($scope.text);
+	
+	};
 });
 
 // boardsRead
