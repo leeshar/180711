@@ -1,4 +1,4 @@
-﻿< check List > 18 - 08 - 17
+< check List > 18 - 08 - 17
 -회원 (USER)
  - LOGIN  ^check
 	*ID와 PWD 다를 시 아이디와 비밀번호가 틀리다고 알려줌 ^check
@@ -31,8 +31,12 @@
  - RECOMMEND --NO
  - REPORT --NO
  - SEARCH ^check
- - PAGING ^check
+================================================================
+ - PAGING ^check 
+	*페이징 ui-bootstrap 안쓰고 해결.
+	*리스트와 페이지네이션 데이터를 서버에서 따로 가져옴
 
+================================================================
 -댓글 (REPLY)
  - LIST ^check
  - WRITE ^check
