@@ -73,9 +73,9 @@ public class BoardController {
 		return str;
 	}
 	@PostMapping("/boards/write")
-	public String write(@Valid CreateBoard board, BindingResult results, MultipartFile[] files, RedirectAttributes ra) throws BindException, IOException {
+	public String write(@Valid CreateBoard board, BindingResult results, RedirectAttributes ra) throws BindException, IOException {
 		ABoard2Util.throwBindException(results);
-		boolean result = service.write(board, files);
+		boolean result = service.write(board);
 		if(result)
 			ra.addFlashAttribute("msg", ABoard2Contstants.WRITE_SUCCESS);
 		else

@@ -11,10 +11,12 @@
 			<div id="writer"></div>
 			
 		</div>
+		<div id="content">
+		</div>
 		<div id="lower" >
 			<div id="left" ng-repeat="x in resp"><span id="bno">{{x.BNO}}</span><br>
 			<span id="title">제목:{{x.TITLE}}</span><br>
-			<span id="content">내용:{{x.CONTENT}}</span><br>
+			<span id="content">내용:</span><textarea value={{x.CONTENT}} readonly="readonly"></textarea><br>
 			<span id="writer">작성자:{{x.WRITER}}</span><br>
 			<span id="writeDate">작성일:{{x.WRITEDATE | date:'yyyy-MM-dd HH:mm:ss '}}</span><br>
 			<span id="reportCnt">신고누적수:{{x.REPORTCNT}}</span><br>

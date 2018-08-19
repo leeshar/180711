@@ -34,8 +34,9 @@ app.controller('boardsCtrl',function($scope, $http,$routeParams,boardStorage){
 	 };
   });
 // boardsWrite
-app.controller('boardsWriteCtrl',function($scope,$routeParams){
+app.controller('boardsWriteCtrl',function($scope,$routeParams,$cookieStore){
 	$scope.categoriName = $routeParams.categoriName;
+	$scope.writer = $cookieStore.get("userId");
 	var oEditors = [];
 	nhn.husky.EZCreator.createInIFrame({
 	    oAppRef: oEditors,
@@ -46,23 +47,30 @@ app.controller('boardsWriteCtrl',function($scope,$routeParams){
 	$scope.write = function(){
 	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 	var content = document.getElementById('content');
-	$scope.text = content.value.replace(/(<([^>]+)>)/ig,"");
-	console.log($scope.text);
+	console.log($scope.title);
+	document.getElementById('writeFrm').submit();
+	
 	
 	};
 });
 
 // boardsRead
 app.controller('boardsReadCtrl',function($scope,$http,$routeParams,boardStorage){
+	
+	
 	// routeParams로 Query의 값을 받을 수 있다.
 	var bno = $routeParams.bno;
 	var categoriName = $routeParams.categoriName;
 	$scope.bno = bno;
 	var rText = $scope.rText;
+
 	// 게시판 글 상세정보
 	boardStorage.boardsRead(bno,categoriName).then(function(data){
 		replyList(bno);
 		$scope.resp = data;
+		$scope.content = data.board.CONTENT;
+		document.getElementById('content').innerHTML=$scope.content;
+		console.log(document.getElementById('content').value);
 	});
 	// 댓글 리스트
 	// 함수로 만들어준 이유는 작성후에 리로드 하기 위해서 이다.

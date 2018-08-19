@@ -48,40 +48,6 @@ public class BoardRestController {
 	private ReplyServiceImpl rService;
 	@Autowired
 	private ObjectMapper mapper;
-	@GetMapping("/board/displayFile")
-	public ResponseEntity<byte[]> displayFile(int bno, int ano) throws IOException {
-		Attachment attachment = service.getAttachment(bno, ano);
-		// 원본 파일의 이름 저장
-		String originalFileName = attachment.getOriginalFileName();
-		// response에 파일을 담아 보내기 위한 ResponseEntity<byte[]> 객체 생성
-		ResponseEntity<byte[]> entity = null;
-		InputStream in = null;
-		File dest = null;
-		try {
-			File src = new File(ABoard2Contstants.UPLOAD_PATH, attachment.getSavedFileName());
-			dest = new File(ABoard2Contstants.UPLOAD_PATH, originalFileName);
-			FileCopyUtils.copy(src, dest);
-			MediaType mType = MediaUtils.getMediaType(originalFileName.substring(originalFileName.lastIndexOf(".")+1).toUpperCase());
-			HttpHeaders headers = new HttpHeaders();
-			if(mType!=null) {
-				headers.setContentType(mType);
-				headers.add("Content-Disposition", "inline;filename=" + originalFileName +";");
-			}
-			else {
-				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-				headers.add("Content-Disposition", "attachment;filename=" + originalFileName +";");
-			}
-			in = new FileInputStream(dest);
-			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
-		} catch(IOException e) {
-			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
-		} finally {
-			in.close();
-			if(dest.exists())
-				dest.delete();
-		}
-		return entity; 
-	}
 	// 댓글 작성
 	@RequestMapping(value="/boards/reply/insert")
 	public ResponseEntity<Void> insert(String reply)throws Exception{
