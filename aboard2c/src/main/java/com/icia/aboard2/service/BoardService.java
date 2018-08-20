@@ -90,11 +90,19 @@ public class BoardService {
 		return "NO";
 	}
 	// 추천
-	public int recommend(String id, int bno, boolean alreadyRecommend) {
-		int result = boardDao.recommend(bno);
-		if(result==0)
-			throw new BoardNotFoundException();
-		return boardDao.getRecommendCnt(bno);
+	public String recommend(String id, String bno) {
+		String writer = id;
+		if(boardDao.postSearch(bno, writer)!=null)
+			return "NO";
+		boardDao.recommend(bno);
+		return "OK";
+				
+	}
+	// 추천취소
+	public String unrecommend(String id, String bno) {
+		boardDao.unrecommend(bno);
+		return "OK";
+				
 	}
 	// 신고
 	public int report(String id, int bno, boolean alreadyReport) {

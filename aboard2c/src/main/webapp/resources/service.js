@@ -35,6 +35,31 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 					return response.data;
 				});
 			},
+		// 게시판 글 추천
+			boardsRecommend : function(bno,id){
+				return $http({
+					url:"/aboard2/boards/recommend",
+					method:"POST",
+					data: "recommend="+JSON.stringify({'bno':bno, 'id':id }),
+					contentType:"application/json;charset=UTF-8",
+					headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+				}).then(function(response){
+					return response.data;
+				});
+				
+			},
+		// 게시판 글 추천 취소
+			boardsUnRecommend : function(bno,id){
+				return $http({
+					url:"/aboard2/boards/unrecommend",
+					method:"POST",
+					data: "unrecommend="+JSON.stringify({'bno':bno, 'id':id}),
+					contentType:"application/json;charset=UTF-8",
+					headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+				}).then(function(response){
+					return response.data;
+				});
+			},
 		// 댓글 리스트를 불러오는 메소드
 			replyList: function(bno){
 				return $http.get("/aboard2/boards/reply/list?bno="+bno)

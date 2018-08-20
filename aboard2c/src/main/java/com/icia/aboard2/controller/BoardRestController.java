@@ -85,7 +85,7 @@ public class BoardRestController {
 			String filename_ext = filename.substring(filename.lastIndexOf(".")+1);
 			filename_ext = filename_ext.toLowerCase();
 			String dftFilePath = request.getSession().getServletContext().getRealPath("/");
-			String filePath = "d:/service/upload/";
+			String filePath = "/Applications/member/";
 			File file = new File(filePath);
 			if(!file.exists()) {
 				file.mkdirs();
@@ -132,4 +132,21 @@ public class BoardRestController {
 		String result = service.delete(obj.get("bno").toString(),obj.get("id").toString(), obj.get("categoriName").toString());
 		return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
 	};
+	@RequestMapping("/boards/recommend")
+	public ResponseEntity<String> recommend(String recommend) throws ParseException, JsonProcessingException{
+		JSONParser jsonparser = new JSONParser();
+		JSONObject obj = (JSONObject) jsonparser.parse(recommend);
+		System.out.println(recommend);
+		System.out.println(obj.get("id").toString());
+		String result = service.recommend(obj.get("id").toString(), obj.get("bno").toString());
+		return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
+	}
+	@RequestMapping("/boards/unrecommend")
+	public ResponseEntity<String> unrecommend(String unrecommend) throws ParseException, JsonProcessingException{
+		JSONParser jsonparser = new JSONParser();
+		JSONObject obj = (JSONObject) jsonparser.parse(unrecommend);
+		String result = service.unrecommend(obj.get("id").toString(), obj.get("bno").toString());
+		return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
+		
+	}
 }

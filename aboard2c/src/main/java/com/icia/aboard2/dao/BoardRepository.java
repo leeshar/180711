@@ -18,7 +18,9 @@ public interface BoardRepository {
 
 	public Map<String, Object> read(@Param("bno") Integer bno, @Param("categoriName") String categoriName);
 	
-	public int recommend(int bno);
+	public int recommend(String bno);
+	
+	public int unrecommend(String bno);
 	
 	public int getRecommendCnt(int bno);
 

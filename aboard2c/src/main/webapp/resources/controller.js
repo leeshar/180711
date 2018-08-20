@@ -92,7 +92,7 @@ app.controller('boardsUpdateCtrl',function($scope,$http, $routeParams, $cookieSt
 
 // boardsRead
 app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieStore,
-		$location,$window,boardStorage) {
+		$location,$window,$rootScope,boardStorage) {
 
 	// routeParams로 Query의 값을 받을 수 있다.
 	var bno = $routeParams.bno;
@@ -100,13 +100,15 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 	$scope.bno = bno;
 	var rText = $scope.rText;
 	var id = $cookieStore.get('userId');
-
+	$scope.recommendState = $cookieStore.get("recommendState");
+	$scope.cookiebno = $cookieStore.get("bno");
 	// 게시판 글 상세정보
 	boardStorage.boardsRead(bno, categoriName).then(function(data) {
 		replyList(bno);
 		$scope.resp = data;
 		$scope.content = data.board.CONTENT;
 		$scope.writer = data.board.WRITER;
+		$scope.recommendCnt = data.board.RECOMMENDCNT;
 		document.getElementById('content').innerHTML = $scope.content;
 	});
 	// 게시판 글 삭제
@@ -127,6 +129,42 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 		}
 		
 	};
+	// 게시판 글 추천
+	$scope.recommend = function(){
+		if(id==null)
+			return alert('회원만 좋아요를 누를 수 있습니다');
+		
+		boardStorage.boardsRecommend(bno,id).then(function(data){
+			console.log(data);
+			if(data=="OK"){
+				$cookieStore.put("bno", bno);
+				$cookieStore.put("recommendState", true);
+				boardStorage.boardsRead(bno, categoriName).then(function(data) {
+					$scope.recommendCnt = data.board.RECOMMENDCNT;
+				});
+				return $scope.recommendState = $cookieStore.get("recommendState");
+			}
+			
+			alert("자신의 글은 좋아요를 누를 수 없습니다");
+		});
+		
+	}
+	//  게시판 글 추천 취소 
+	$scope.unrecommed = function(){
+		if(id==null)
+			return alert('회원만 좋아요를 누를 수 있습니다');
+		boardStorage.boardsUnRecommend(bno,id).then(function(data){
+			console.log(data);
+			$cookieStore.remove("recommendState");
+			$cookieStore.remove("bno");
+			$cookieStore.put("recommedState",false);
+			$scope.cookiebno = $cookieStore.get("bno");
+			boardStorage.boardsRead(bno, categoriName).then(function(data) {
+				$scope.recommendCnt = data.board.RECOMMENDCNT;
+			});
+			return $scope.recommendState = $cookieStore.get("recommendState");
+		});
+	}
 	
 	// 댓글 리스트
 	// 함수로 만들어준 이유는 작성후에 리로드 하기 위해서 이다.
