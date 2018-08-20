@@ -1,43 +1,36 @@
 //boardsList
-app
-		.controller(
-				'boardsCtrl',
-				function($scope, $http, $routeParams, boardStorage) {
-					// boards 리스트 REST방식으로 page값을 넘긴후 데이터를 가져와서 boardsList에 담는다.
-					var page = $routeParams.page;
-					var categoriName = $routeParams.categoriName;
-					$scope.categoriName = categoriName;
-					if (categoriName == "공지사항")
-						$scope.write = 1;
-					if (categoriName == "이벤트")
-						$scope.write = 2;
-					// 게시판 리스트 메소드
-					boardStorage
-							.get(page, categoriName)
-							.then(
-									function(data) {
-										// 게시판 리스트 데이터
-										$scope.boardsList = data.list;
-										// 게시판 페이징 데이터
-										$scope.pagination = data.pagination;
-										$scope.startPage = data.pagination.startPage;
-										var startPage = data.pagination.startPage;
-										var endPage = data.pagination.endPage;
-										var render = [];
-										for (var startPage = startPage; startPage < endPage + 1; startPage++) {
-											// push로 해결. ui-bootstrap 안쓰고 페이징
-											render.push(startPage);
-
-										}
-										$scope.render = render;
-									});
-					// 게시판 검색 메소드
-					$scope.searchFuc = function(search) {
-						boardStorage.listAll().then(function(data) {
-							$scope.listAll = data;
-						});
-
-					};
+app.controller('boardsCtrl',function($scope, $http, $routeParams, boardStorage)
+{
+// boards 리스트 REST방식으로 page값을 넘긴후 데이터를 가져와서 boardsList에 담는다.
+	var page = $routeParams.page;
+	var categoriName = $routeParams.categoriName;
+	$scope.categoriName = categoriName;
+	if (categoriName == "공지사항")
+		scope.write = 1;
+	if (categoriName == "이벤트")
+		$scope.write = 2;
+// 게시판 리스트 메소드
+	boardStorage.get(page, categoriName).then(function(data) {
+// 게시판 리스트 데이터
+	$scope.boardsList = data.list;
+// 게시판 페이징 데이터
+	$scope.pagination = data.pagination;
+	$scope.startPage = data.pagination.startPage;
+	var startPage = data.pagination.startPage;
+	var endPage = data.pagination.endPage;
+	var render = [];
+	for (var startPage = startPage; startPage < endPage + 1; startPage++) {
+		// push로 해결. ui-bootstrap 안쓰고 페이징
+		render.push(startPage);
+	}
+	$scope.render = render;
+				
+});	
+// 게시판 검색 메소드
+	$scope.searchFuc = function(search) {
+		boardStorage.listAll().then(function(data) {
+					$scope.listAll = data;});
+		};
 				});
 // boardsWrite
 app.controller('boardsWriteCtrl', function($scope, $routeParams, $cookieStore) {
@@ -115,49 +108,38 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 	};
 });
 // usersRegister
-app.controller(
-				'registerCtrl',
-				function($scope, $http, $filter, $window, $location,
-						userStorage) {
-					// 아이디 중복확인
-					$scope.idCheck = function(id) {
-						userStorage.idCheck(id).then(function(data) {
-							$scope.status = data;
-						});
-					};
-					$scope.month = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
-					// 유저 회원가입
-					$scope.regFuc = function(user, isValid) {
-						console.log(isValid);
-						var address = document
-								.getElementById('sample6_address').value;
-						var postBno = document
-								.getElementById('sample6_postcode').value;
-						// 주소 합치기
-						user.realAddress = postBno + "/" + address + "/"
-								+ $scope.user.detailAddress;
-						// 생년월일 합치기
-						user.realBirth = $scope.user.year + "0"
-								+ $scope.user.month + $scope.user.day;
-						console.log(user);
-						if (user.pwd != user.pwdCheck) {
-							document.getElementById('pwdCheck').focus();
-							return alert("비밀번호가 같지 않습니다");
-						}
-						if (!isValid) {
-							return alert("제대로 입력해주세요");
-						}
-						if (isValid) {
-							userStorage
-									.join(user)
-									.then(
-											function(data) {
-												alert(data);
-												$window.location.href = "http://localhost:8081/aboard2/#!/users/welcome";
-											});
-						}
-						;
-					};
+app.controller('registerCtrl',function($scope, $http, $filter, $window, $location,userStorage) {
+// 아이디 중복확인
+	$scope.idCheck = function(id) {
+	userStorage.idCheck(id).then(function(data) {
+			$scope.status = data;
+			});
+				};
+	$scope.month = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
+// 유저 회원가입
+	$scope.regFuc = function(user, isValid) {
+			console.log(isValid);
+			var address = document.getElementById('sample6_address').value;
+			var postBno = document.getElementById('sample6_postcode').value;
+			// 주소 합치기
+			user.realAddress = postBno + "/" + address + "/"+ $scope.user.detailAddress;
+			// 생년월일 합치기
+			user.realBirth = $scope.user.year + "0"+ $scope.user.month + $scope.user.day;
+						
+			if (user.pwd != user.pwdCheck) {
+				document.getElementById('pwdCheck').focus();
+				return alert("비밀번호가 같지 않습니다");
+			}
+			if (!isValid) {
+				return alert("제대로 입력해주세요");	
+			}
+			if (isValid) {
+				userStorage.join(user).then(function(data) {
+				alert(data);
+				$window.location.href = "http://localhost:8081/aboard2/#!/users/welcome";
+				});
+			};	
+				};
 
 				});
 // 약관동의
@@ -165,42 +147,33 @@ app.controller('agreeCtrl', function($scope) {
 
 });
 // 아이디 찾기
-app
-		.controller(
-				'findIdCtrl',
-				function($rootScope, $scope, $http, $window, $location,
-						userStorage) {
-					$rootScope.authToken = Math
-							.floor((Math.random() * 99999) + 1);
-					// 1. 인증번호
-					$scope.emailAuth = function(isValid) {
-						if (!isValid)
-							alert("제대로 입력해주세요");
-						if (isValid) {
-							$scope.dataLoading = true;
-							userStorage.emailToken(email).then(function(data) {
-								alert(data);
-								$scope.emailInput = 1;
-								$scope.dataLoading = false;
+app.controller('findIdCtrl',function($rootScope, $scope, $http, $window, $location,userStorage) {
+	$rootScope.authToken = Math.floor((Math.random() * 99999) + 1);
+// 1. 인증번호	
+	$scope.emailAuth = function(isValid) {
+			if (!isValid)
+				alert("제대로 입력해주세요");
+			if (isValid) {
+				$scope.dataLoading = true;
+				userStorage.emailToken(email).then(function(data) {
+				alert(data);
+				$scope.emailInput = 1;
+				$scope.dataLoading = false;
 							});
 						}
 					};
-					// 2. 아이디 찾기
-					$scope.findId = function(find, emailToken) {
-						console.log(find.irum);
-						console.log(emailToken);
-						userStorage
-								.findId(find, emailToken)
-								.then(
-										function(data) {
-											if (data == 'NO')
-												$rootScope.success = 2;
-											if (data != 'NO')
-												$rootScope.success = 1;
-											$rootScope.findId = data;
-											console.log($rootScope.success);
-											$window.location.href = "http://localhost:8081/aboard2/#!/users/findId/result";
-										});
+// 2. 아이디 찾기
+	$scope.findId = function(find, emailToken) {
+			console.log(find.irum);
+			console.log(emailToken);
+			userStorage.findId(find, emailToken).then(function(data) {
+				if (data == 'NO')
+					$rootScope.success = 2;
+				if (data != 'NO')
+					$rootScope.success = 1;
+				$rootScope.findId = data;
+				$window.location.href = "http://localhost:8081/aboard2/#!/users/findId/result";
+			});
 					}
 				});
 // 아이디 찾기 결과
