@@ -16,8 +16,8 @@
 	</select>
 	<!-- 회원가입 -->
 	<insert id="insertUser" parameterType="com.icia.aboard2.dto.UserDto$CreateUser">
-		insert into users(id, pwd, irum, email) 
-		values(#{id}, #{pwd}, #{irum}, #{email})
+		insert into users(id, pwd, irum, email, birthDay, address) 
+		values(#{id}, #{pwd}, #{irum}, #{email}, #{birthDay}, #{address})
 	</insert>
 	<!-- 회원권한 -->
 	<insert id="authorities">

@@ -47,7 +47,6 @@ app.controller('boardsWriteCtrl',function($scope,$routeParams,$cookieStore){
 	$scope.write = function(){
 	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 	var content = document.getElementById('content');
-	console.log($scope.title);
 	document.getElementById('writeFrm').submit();
 	
 	
@@ -70,7 +69,6 @@ app.controller('boardsReadCtrl',function($scope,$http,$routeParams,boardStorage)
 		$scope.resp = data;
 		$scope.content = data.board.CONTENT;
 		document.getElementById('content').innerHTML=$scope.content;
-		console.log(document.getElementById('content').value);
 	});
 	// 댓글 리스트
 	// 함수로 만들어준 이유는 작성후에 리로드 하기 위해서 이다.
@@ -90,20 +88,33 @@ app.controller('boardsReadCtrl',function($scope,$http,$routeParams,boardStorage)
 		};
 });
 // usersRegister
-app.controller('registerCtrl', function($scope, $http,$window,$location,userStorage){
+app.controller('registerCtrl', function($scope, $http,$filter,$window,$location,userStorage){
 	// 아이디 중복확인
 	$scope.idCheck = function(id){
 		userStorage.idCheck(id).then(function(data){
 			$scope.status = data;
 		});
 	};
+	$scope.month = [1,2,3,4,5,6,7,8,9,10,11,12];
 	// 유저 회원가입
 	$scope.regFuc = function(user,isValid){
 		console.log(isValid);
+		var address = document.getElementById('sample6_address').value;
+		var postBno = document.getElementById('sample6_postcode').value;
+		// 주소 합치기
+		user.realAddress = postBno+ "/" + address + "/" + $scope.user.detailAddress;
+		// 생년월일 합치기
+		user.realBirth = $scope.user.year + "0" + $scope.user.month + $scope.user.day;
+		console.log(user);
+		if(!isValid){
+			console.log("that");
+		}
+		if(isValid){
 		userStorage.join(user).then(function(data){
 			alert(data);
 			$window.location.href="http://localhost:8081/aboard2/#!/users/welcome";
 		});
+	};
 	};
 	
 });

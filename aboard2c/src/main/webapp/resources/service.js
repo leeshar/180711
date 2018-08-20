@@ -82,6 +82,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 		},
 	// 유저 회원가입 메소드
 		join: function(user){
+		
 			return $http({
 				url:"/aboard2/users/join",
 				method:'post',
