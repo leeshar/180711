@@ -39,6 +39,12 @@ public class BoardDto {
 		private Integer replyCnt;
 		private Boolean isAttachExist;
 	}
-	
+	@Data
+	public static class UpdateBoard{
+		private String bno;
+		private String title;
+		private String content;
+		private String categoriName;
+	}
 }
 

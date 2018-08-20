@@ -43,7 +43,10 @@
 		insert into board(bno, title, content, writer, write_date, read_cnt, recommend_cnt, report_cnt, reply_cnt,categori_name) 
 		values(#{bno},#{title},#{content},#{writer}, sysdate, 0,0,0,0,#{categoriName})
 	</insert>
-	
+	<!-- 글수정 -->
+	<update id="update" parameterType="string">
+		update board set title=#{title},content=#{content} where bno=#{bno}
+	</update>
 	<!--  추천 -->
 	<update id="recommend">
 		update board set recommend_cnt = recommend_cnt+1 where bno = #{bno} and rownum=1

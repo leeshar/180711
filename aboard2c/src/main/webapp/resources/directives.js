@@ -36,6 +36,11 @@ app.directive("headerTpl",function(){
 		templateUrl:"./boards/writePage.html",
 		controller:'boardsWriteCtrl'
 	})
+	.when("/boards/update/:bno/:categoriName",{
+		// 게시판 글수정페이지
+		templateUrl:"./boards/updatePage.html",
+		controller:'boardsUpdateCtrl'
+	})
 	.when("/users/agree",{
 		// 약관동의 페이지
 		templateUrl:"./user/agree.html",

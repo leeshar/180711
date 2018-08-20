@@ -1,12 +1,14 @@
 package com.icia.aboard2.controller;
 
 import java.io.IOException;
-import java.security.Principal;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,20 +17,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.aboard2.dao.AttachRepository;
 import com.icia.aboard2.dto.BoardDto.CreateBoard;
-import com.icia.aboard2.entity.Board;
+import com.icia.aboard2.dto.BoardDto.UpdateBoard;
 import com.icia.aboard2.service.BoardService;
 import com.icia.aboard2.util.ABoard2Contstants;
 import com.icia.aboard2.util.ABoard2Util;
-import com.icia.aboard2.util.pagination.Pageable;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,4 +81,17 @@ public class BoardController {
 			ra.addFlashAttribute("msg", ABoard2Contstants.JOB_FAIL);
 		return "redirect:/#!/boards/list/1";
 	}
+	@PostMapping("/boards/update")
+	public String update(@Valid UpdateBoard update,BindingResult results, RedirectAttributes ra) throws ParseException, JsonProcessingException, BindException, UnsupportedEncodingException {
+		ABoard2Util.throwBindException(results);
+		boolean result = service.update(update);
+		// 쿼리스트링을 한글로 인코더해줬다
+		String categori = URLEncoder.encode(update.getCategoriName(),"UTF-8");
+		if(result)
+			ra.addFlashAttribute("msg", ABoard2Contstants.WRITE_SUCCESS);
+		else
+			ra.addFlashAttribute("msg", ABoard2Contstants.JOB_FAIL);
+		return "redirect:/#!/boards/read/"+update.getBno()+"/"+ categori;
+	}
+	
 }

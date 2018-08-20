@@ -6,7 +6,7 @@ app.controller('boardsCtrl',function($scope, $http, $routeParams, boardStorage)
 	var categoriName = $routeParams.categoriName;
 	$scope.categoriName = categoriName;
 	if (categoriName == "공지사항")
-		scope.write = 1;
+		$scope.write = 1;
 	if (categoriName == "이벤트")
 		$scope.write = 2;
 // 게시판 리스트 메소드
@@ -57,6 +57,38 @@ app.controller('boardsWriteCtrl', function($scope, $routeParams, $cookieStore) {
 
 	};
 });
+// boardsUpdate
+app.controller('boardsUpdateCtrl',function($scope,$http, $routeParams, $cookieStore, boardStorage){
+	var bno = $routeParams.bno;
+	$scope.bno = bno;
+	var categoriName = $routeParams.categoriName;
+	$scope.categoriName = categoriName;
+	var oEditors = [];
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef : oEditors,
+		elPlaceHolder : "content", // textarea ID
+		sSkinURI : "resources/smarteditor/SmartEditor2Skin.html", // skin경로
+		fCreator : "createSEditor2",
+	});
+	boardStorage.boardsRead(bno, categoriName).then(function(data) {
+		$scope.content = data.board.CONTENT;
+		$scope.updateWriter = data.board.WRITER;
+		$scope.title = data.board.TITLE;
+		console.log($scope.updateWriter);
+		document.getElementById('content').innerHTML = $scope.content;
+	});
+	$scope.update = function(title){
+		if (title == null) {
+			document.getElementById('title').focus();
+			return alert("제목을 입력해주세요");
+		}
+		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+		var content = document.getElementById('content');
+		if (content.value === "<p>&nbsp;</p>")
+			return alert("내용을 입력해주세요");
+		document.getElementById('updateFrm').submit();
+	};
+});
 
 // boardsRead
 app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieStore,
@@ -74,6 +106,7 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 		replyList(bno);
 		$scope.resp = data;
 		$scope.content = data.board.CONTENT;
+		$scope.writer = data.board.WRITER;
 		document.getElementById('content').innerHTML = $scope.content;
 	});
 	// 게시판 글 삭제
@@ -85,10 +118,15 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 				alert("게시글을 삭제 했습니다");
 				return $window.location.href="/aboard2/#!/boards/list/1/"+categoriName;
 			}
-			
-		
 	});
-	}
+	};
+	// 게시판 글 수정
+	$scope.update = function(){
+		if(id==$scope.writer){
+			return $window.location.href="/aboard2/#!/boards/update/"+bno+"/"+categoriName;
+		}
+		
+	};
 	
 	// 댓글 리스트
 	// 함수로 만들어준 이유는 작성후에 리로드 하기 위해서 이다.

@@ -1,30 +1,23 @@
 package com.icia.aboard2.service;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.icia.aboard2.dao.AttachRepository;
 import com.icia.aboard2.dao.BoardRepository;
 import com.icia.aboard2.dao.UserRepository;
-import com.icia.aboard2.dto.BoardDto;
 import com.icia.aboard2.dto.BoardDto.CreateBoard;
+import com.icia.aboard2.dto.BoardDto.UpdateBoard;
 import com.icia.aboard2.entity.Attachment;
 import com.icia.aboard2.entity.Board;
 import com.icia.aboard2.exception.BoardNotFoundException;
-import com.icia.aboard2.util.ABoard2Contstants;
-import com.icia.aboard2.util.pagination.Page;
 import com.icia.aboard2.util.pagination.Pageable;
 import com.icia.aboard2.util.pagination.Pagination;
 import com.icia.aboard2.util.pagination.PagingUtil;
@@ -62,6 +55,14 @@ public class BoardService {
 		Board board = modelMapper.map(create, Board.class);
 		boardDao.write(board);
 		return true;
+	}
+	// 글수정
+	public boolean update(UpdateBoard update) {
+	System.out.println(boardDao.update(update.getTitle(), update.getContent(), update.getBno()));
+	boardDao.update(update.getTitle(), update.getContent(), update.getBno());
+	return true;	
+		
+		
 	}
 	// 글읽기
 	@Transactional

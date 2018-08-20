@@ -1,11 +1,11 @@
 package com.icia.aboard2.dao;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.annotations.*;
-import org.junit.runners.Parameterized.Parameters;
+import org.apache.ibatis.annotations.Param;
 
-import com.icia.aboard2.entity.*;
+import com.icia.aboard2.entity.Board;
 
 public interface BoardRepository {
 	public int count(String categoriName);
@@ -28,7 +28,7 @@ public interface BoardRepository {
 
 	public void write(Board board);
 
-	public int update(Board board);
+	public int update(@Param("title") String title,@Param("content") String content, @Param("bno") String bno);
 
 	public void delete(@Param("bno") String bno,@Param("categoriName") String categoriName);
 	
