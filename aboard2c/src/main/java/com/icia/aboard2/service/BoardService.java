@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.icia.aboard2.dao.AttachRepository;
 import com.icia.aboard2.dao.BoardRepository;
+import com.icia.aboard2.dao.UserRepository;
 import com.icia.aboard2.dto.BoardDto;
 import com.icia.aboard2.dto.BoardDto.CreateBoard;
 import com.icia.aboard2.entity.Attachment;
@@ -32,6 +33,8 @@ import com.icia.aboard2.util.pagination.PagingUtil;
 public class BoardService {
 	@Autowired
 	private BoardRepository boardDao;
+	@Autowired
+	private UserRepository userDao;
 	@Autowired
 	private AttachRepository attachDao;
 	@Autowired
@@ -71,8 +74,19 @@ public class BoardService {
 		return boardDao.read(bno,categoriName);
 	}
 	// 글삭제
-	public void delete(int bno) {
-		boardDao.delete(bno);
+	public String delete(String bno,String id, String categoriName) {
+		String writer = id;
+		System.out.println(boardDao.postSearch(bno,writer));
+			if(boardDao.postSearch(bno,writer)!=null) { 
+				boardDao.delete(bno,categoriName);
+				return "YES";
+			}
+			if(userDao.authoritySearch(id)=="ROLE_ADMIN") {
+				boardDao.delete(bno, categoriName);
+				return "YES";
+			}
+				
+		return "NO";
 	}
 	// 추천
 	public int recommend(String id, int bno, boolean alreadyRecommend) {

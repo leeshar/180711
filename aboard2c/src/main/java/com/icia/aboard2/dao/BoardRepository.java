@@ -3,6 +3,7 @@ package com.icia.aboard2.dao;
 import java.util.*;
 
 import org.apache.ibatis.annotations.*;
+import org.junit.runners.Parameterized.Parameters;
 
 import com.icia.aboard2.entity.*;
 
@@ -29,7 +30,9 @@ public interface BoardRepository {
 
 	public int update(Board board);
 
-	public void delete(int bno);
+	public void delete(@Param("bno") String bno,@Param("categoriName") String categoriName);
+	
+	public String postSearch(@Param("bno") String bno, @Param("writer") String writer);
 	
 	public int upReplyCnt(int bno);
 }

@@ -45,6 +45,10 @@
 	<update id="pwdReset" parameterType="com.icia.aboard2.dto.UserDto$PwdReset">
 		update users set pwd=#{pwd} where id=#{id} and rownum = 1
 	</update>
+	<!-- 회원 권한확인 -->
+	<select id="authoritySearch" resultType="string" parameterType="string">
+		select authority from authorities where id = #{id}
+	</select>
 </mapper>
 
 

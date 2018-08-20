@@ -82,13 +82,4 @@ public class BoardController {
 			ra.addFlashAttribute("msg", ABoard2Contstants.JOB_FAIL);
 		return "redirect:/#!/boards/list/1";
 	}
-	@GetMapping("/boards/delete")
-	public String delete(@RequestParam int bno) {
-		// 자신의 글만 삭제
-		service.delete(bno);
-		return "redirect:/";
-	}
-	
-	
-	
 }

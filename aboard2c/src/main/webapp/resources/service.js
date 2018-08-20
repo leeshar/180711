@@ -23,6 +23,18 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 					return response.data;
 				});
 			},
+		// 게시글 삭제 하는 메소드
+			boardsDelete: function(id,bno,categoriName){
+				return $http({
+					url:"/aboard2/boards/delete",
+					method:"POST",
+					data:"board="+JSON.stringify({'id':id,'bno':bno,'categoriName':categoriName}),
+					contentType:"application/json;charset=UTF-8",
+					headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+				}).then(function(response){
+					return response.data;
+				});
+			},
 		// 댓글 리스트를 불러오는 메소드
 			replyList: function(bno){
 				return $http.get("/aboard2/boards/reply/list?bno="+bno)

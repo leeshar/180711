@@ -61,10 +61,14 @@
 	<select id="getReportCnt" resultType="int">
 		select report_cnt from board where bno=#{bno} and rownum=1
 	</select>
-	<!-- 글삭제 -->
-	<delete id="delete" parameterType="int">
-		delete from board where bno=#{bno}
+	<!-- 글 삭제 -->
+	<delete id="delete" parameterType="string">
+		delete from board where bno=#{bno} and categori_name=#{categoriName}
 	</delete>
+	<!-- 자신의 글 확인-->
+	<select id="postSearch" resultType="string" parameterType="string">
+		select bno from board where bno=#{bno} and writer=#{writer}
+	</select>
 	<!-- 댓글갯수증가 -->
 	<update id="upReplyCnt" parameterType="int">
 		update board set reply_cnt = reply_cnt+1 where bno = #{bno} and rownum=1
