@@ -44,11 +44,18 @@ app.controller('boardsWriteCtrl',function($scope,$routeParams,$cookieStore){
 	    sSkinURI: "resources/smarteditor/SmartEditor2Skin.html",  //skin경로
 	    fCreator: "createSEditor2",
 	});
-	$scope.write = function(){
+	$scope.write = function(title){
+	if(title==null){
+		 document.getElementById('title').focus();
+		 return alert("제목을 입력해주세요");
+	}
 	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 	var content = document.getElementById('content');
-	document.getElementById('writeFrm').submit();
+	if(content.value==="<p>&nbsp;</p>")
+		return alert("내용을 입력해주세요");
 	
+	
+	document.getElementById('writeFrm').submit();
 	
 	};
 });
@@ -106,8 +113,12 @@ app.controller('registerCtrl', function($scope, $http,$filter,$window,$location,
 		// 생년월일 합치기
 		user.realBirth = $scope.user.year + "0" + $scope.user.month + $scope.user.day;
 		console.log(user);
+		if(user.pwd!=user.pwdCheck){
+			document.getElementById('pwdCheck').focus();
+			return alert("비밀번호가 같지 않습니다");
+		}
 		if(!isValid){
-			console.log("that");
+			return alert("제대로 입력해주세요");
 		}
 		if(isValid){
 		userStorage.join(user).then(function(data){

@@ -7,16 +7,16 @@
 <body>
 <form name="writeFrm" action="/aboard2/boards/write" method="POST" id="writeFrm">
 작성자 : <input type="text" id="writer" name="writer" value={{writer}} readonly="readonly"><br>
-<input type="text" id="title" name="title" ng-model="title" placeholder="제목을 입력해주세요">
-<input type="hidden" id="categoriName" name="categoriName" ng-model="categoriName" value={{categoriName}}>
+<input type="text" id="title" name="title" ng-model="title" placeholder="제목을 입력해주세요" required>
+<input type="hidden" id="categoriName" name="categoriName" ng-model="categoriName" value={{categoriName}} required>
 <table>
       <tr>
        <th>내용</th>
-       <td style="width: 880px;"><textarea id="content" name="content" ng-model="text" cols="108" rows="15"></textarea></td>
+       <td style="width: 880px;"><textarea id="content" name="content" ng-model="text" cols="108" rows="15" required></textarea></td>
       </tr> 
 </table>
 
-<button class="btn btn-primary" type="button" id="okBefore" ng-click="write()">확인</button>
+<button class="btn btn-primary" type="button" id="okBefore" ng-click="write(title)">확인</button>
 
 <button class="btn btn-primary" type="button" id="ok" ng-click="write()" style="display:none;">확인(hide)</button>
 
