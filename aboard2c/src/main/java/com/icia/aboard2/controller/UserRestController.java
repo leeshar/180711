@@ -44,6 +44,8 @@ public class UserRestController {
 		create.setPwd(obj.get("pwd").toString());
 		create.setEmail(obj.get("email").toString());
 		create.setIrum(obj.get("irum").toString());
+		create.setBirthDay(obj.get("realBirth").toString());
+		create.setAddress(obj.get("realAddress").toString());
 		service.join(create);
 		return new ResponseEntity<>(HttpStatus.OK);
 		

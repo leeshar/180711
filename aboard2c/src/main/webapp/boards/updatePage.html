@@ -5,9 +5,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form name="writeFrm" action="/aboard2/boards/write" method="POST" id="writeFrm">
-작성자 : <input type="text" id="writer" name="writer" value={{writer}} readonly="readonly"><br>
+<form name="updateFrm" action="/aboard2/boards/update" method="POST" id="updateFrm">
+작성자 : <input type="text" id="writer" name="writer" value={{updateWriter}} readonly="readonly"><br>
 <input type="text" id="title" name="title" ng-model="title" placeholder="제목을 입력해주세요" required>
+<input type="hidden" id="bno" name="bno" ng-model="bno" value={{bno}} required>
 <input type="hidden" id="categoriName" name="categoriName" ng-model="categoriName" value={{categoriName}} required>
 <table>
       <tr>
@@ -16,7 +17,7 @@
       </tr> 
 </table>
 
-<button class="btn btn-primary" type="button" id="okBefore" ng-click="write(title)">확인</button>
+<button class="btn btn-primary" type="button" id="okBefore" ng-click="update(title)">확인</button>
 
 <button class="btn btn-primary" type="button" id="ok" ng-click="write()" style="display:none;">확인(hide)</button>
 

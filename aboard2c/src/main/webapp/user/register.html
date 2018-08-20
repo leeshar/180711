@@ -11,14 +11,15 @@
     <li class="breadcrumb-item" aria-current="page">회원가입</li>
   </ol>
 </nav>
-<form name="regFrm" ng-submit="regFuc(user,regFrm.$valid)"style="width: 700px; margin-left: 150px; margin-top: 100px;">
+<form name="regFrm" ng-submit="regFuc(user,regFrm.$valid)"style="width: 700px; margin-left: 150px;">
 <label for="id">아이디</label>
 <div class="form-row">
-	<input type="text" style="width: 620px; float: left;" ng-model="user.id" name="id" class="form-control" placeholder="아이디를 입력하세요" ng-required="true" ng-pattern="/^[A-Za-z0-9]{8,12}$/"><button type="button" ng-click="idCheck(user.id);" class="btn btn-outline-dark">중복체크</button>
+	<input type="text" style="width: 620px; float: left;" ng-model="user.id" name="id" class="form-control" placeholder="아이디를 입력하세요" ng-required="true" ng-pattern="/^[A-Za-z0-9]{8,12}$/"><button type="button" ng-click="idCheck(user.id);" class="btn btn-outline-dark" required>중복체크</button>
 	</div>
 <div ng-show="status==400" style="color: red;">중복된 아이디 입니다</div>
 <div ng-show="status==200" style="color: blue;">사용가능한 아이디 입니다</div>
 <small ng-show="regFrm.id.$error.pattern" style="color: red;">아이디는 숫자와 영문자 8~12자리 입니다</small>
+<small ng-show="regFrm.id.$error.required" style="color: red;">아이디는 필수 입력입니다.</small>
 <div class="form-row">
     <label for="pwd">비밀번호</label>
 	<input type="password" ng-model="user.pwd" id="pwd" name="pwd" class="form-control" placeholder="비밀번호를 입력하세요" ng-required="true" ng-pattern="/^[a-zA-Z0-9]{8,12}$/">
@@ -26,20 +27,41 @@
 <small ng-show="regFrm.pwd.$error.pattern"style="color: red;" >숫자와 영문자 조합으로 8~12자리를 사용해야 합니다</small>
 <div class="form-row">
     <label for="pwdCheck">비밀번호 확인</label>
-	<input type="password" ng-model="pwdCheck" id="pwdCheck" name="pwdCheck" class="form-control" placeholder="비밀번호확인을 입력하세요" ng-required="true" maxlength="12">
+	<input type="password" ng-model="user.pwdCheck" id="pwdCheck" name="pwdCheck" class="form-control" placeholder="비밀번호확인을 입력하세요" ng-required="true" maxlength="12">
 	</div>
 <small ng-show="regFrm.pwdCheck.$modelValue!=regFrm.pwd.$modelValue" style="color: red;">비밀번호와 같지 않습니다</small>
+<small ng-show="regFrm.pwdCheck.$error.required" style="color: red;"></small>
 <div class="form-row">
     <label for="irum">이름</label>
 	<input type="text" ng-model="user.irum" id="irum" name="irum" class="form-control" placeholder="이름을 입력하세요" ng-required="true" ng-pattern="/^[가-힣]{2,4}$/">
-		<div class="invalid-tooltip">최소 두글자</div>
-	</div>
-	<small ng-show="regFrm.irum.$error.pattern" style="color:red;" class="invalid-tooltip">이름은 한글 최소 두글자 이상입니다</small>
+	<small ng-show="regFrm.irum.$error.pattern" style="color:red;">이름은 한글 최소 두글자 이상입니다</small>
+</div>
+	<label for="birthYear">생년월일</label>
+<div class="form-row">
+	<input type="text" ng-model="user.year" name="year" id="year" class="form-control" placeholder="년(4자)" style="width: 200px;" ng-maxlength="4" ng-minlength="4" maxlength="4" ng-required="true">
+	<select ng-model="user.month" name="month" id="month" ng-required="true">
+		<option selected disabled>월</option>
+		<option ng-repeat="x in month">{{x}}</option>
+	</select>
+	<input type="text" ng-model="user.day" name="day" id="day" class="form-control" placeholder="일" maxlength="2" style="width: 100px;" ng-required="true">
+</div>
+	<small ng-show="regFrm.year.$error.minlength" style="color:red;">태어난 년도 4자리를 정확하게 입력하세요.</small>
+	<small ng-show="regFrm.year.$error.maxlength" style="color:red;">태어난 년도 4자리를 정확하게 입력하세요.</small>
 	<div class="form-row">
       <label for="email" style="margin: 0;">email</label>
-      <input type="email" ng-model="user.email" class="form-control" id="email" name="email" ng-required="true" ng-pattern="/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i">
+      <input type="email" ng-model="user.email" class="form-control" id="email" placeholder="이메일을 입력해주세요"  name="email" ng-required="true" ng-pattern="/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i">
     <small ng-show="regFrm.email.$error.pattern" style="color:red;">이메일형식이 옳지 않습니다</small>
     </div>
+    <label for="postBno">우편번호</label>
+    <div class="form-row">
+    <input type="text" id="sample6_postcode" name="postBno" class="form-control" placeholder="우편번호" style="width: 400px;" required="true">
+    <input type="button" onclick="sample6_execDaumPostcode()" class="btn btn-outline-dark" value="우편번호 찾기">
+    </div>
+<br>
+<div class="form-row">
+<input type="text" id="sample6_address" name="address" class="form-control" placeholder="주소" style="width: 250px; padding-right: 20px;" required="true">
+<input type="text" id="sample6_address2" class="form-control" name="detailAddress" ng-model="user.detailAddress" placeholder="상세주소" style="width: 250px;" ng-required="true">
+</div>
     <button type="submit" class="btn btn-outline-dark" style="margin-left: 300px;margin-top: 80px;">가입하기</button>
 </form>
 

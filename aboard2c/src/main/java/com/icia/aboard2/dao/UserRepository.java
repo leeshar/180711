@@ -28,4 +28,6 @@ public interface UserRepository {
 	Map<String, Object> getEmail(String id);
 	// 비밀번호 초기화
 	int pwdReset(User user);
+	// 회원권한확인
+	String authoritySearch(String id);
 }

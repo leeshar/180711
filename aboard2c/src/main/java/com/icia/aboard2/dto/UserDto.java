@@ -12,6 +12,8 @@ public class UserDto {
 		private String pwd;
 		private String irum;
 		private String email;
+		private String birthDay;
+		private String address;
 	}
 	@Data
 	public static class LoginUser{

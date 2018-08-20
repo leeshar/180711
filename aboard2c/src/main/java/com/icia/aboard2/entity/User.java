@@ -15,4 +15,6 @@ public class User {
 	private String pwd;
 	private String irum;
 	private String email;
+	private String birthDay;
+	private String address;
 }
