@@ -31,8 +31,8 @@
 			</ul>
 		</div>
 		<div id="btnArea">
-		<img src="http://localhost:8081/upload/unlike.png" ng-show="recommendState!='true'&&bno!=cookiebno" ng-click="recommend()">
-		<img src="http://localhost:8081/upload/like.png" ng-hide="recommendState!='true'&&bno!=cookiebno" ng-click="unrecommed()">
+		<img src="http://localhost:8081/upload/unlike.png"ng-hide="recommendState&&like" ng-click="recommend()">
+		<img src="http://localhost:8081/upload/like.png"  ng-show="recommendState&&like" ng-click="unrecommed()">
 		좋아요
 		추천수 : {{recommendCnt}}
     		<button type="button" id="btnReport">신고</button>

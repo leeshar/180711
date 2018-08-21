@@ -101,7 +101,22 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 	var rText = $scope.rText;
 	var id = $cookieStore.get('userId');
 	$scope.recommendState = $cookieStore.get("recommendState");
-	$scope.cookiebno = $cookieStore.get("bno");
+	if($scope.recommendState==null)
+		$scope.recommendState = false;
+	console.log($scope.recommendState);
+	var list = $cookieStore.get("bno");
+	console.log(list);
+	//쿠키리스트 확인
+	$scope.like=false;
+	if(list!=null){
+	for(var i = 0; i< list.length; i++){
+		if(list[i]==bno)
+			$scope.like=true;
+	};
+	}
+	console.log($scope.like);
+	console.log($cookieStore.get("bno"));
+	
 	// 게시판 글 상세정보
 	boardStorage.boardsRead(bno, categoriName).then(function(data) {
 		replyList(bno);
@@ -137,12 +152,19 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 		boardStorage.boardsRecommend(bno,id).then(function(data){
 			console.log(data);
 			if(data=="OK"){
-				$cookieStore.put("bno", bno);
+				var reserve = $cookieStore.get("bno");
+				if($cookieStore.get("bno")==null)
+					var reserve = [];
+				reserve.push(bno);
+				$cookieStore.put("bno", reserve);
+				console.log($cookieStore.get("bno"));
 				$cookieStore.put("recommendState", true);
 				boardStorage.boardsRead(bno, categoriName).then(function(data) {
 					$scope.recommendCnt = data.board.RECOMMENDCNT;
 				});
-				return $scope.recommendState = $cookieStore.get("recommendState");
+				$scope.like = true;
+				return $scope.recommendState = true;
+				
 			}
 			
 			alert("자신의 글은 좋아요를 누를 수 없습니다");
@@ -156,13 +178,18 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 		boardStorage.boardsUnRecommend(bno,id).then(function(data){
 			console.log(data);
 			$cookieStore.remove("recommendState");
-			$cookieStore.remove("bno");
+			for(var i = 0; i<list.length; i++){
+				if(list[i]==bno)
+				list.splice(i,i);
+			}
+			$cookieStore.put("bno",list);
 			$cookieStore.put("recommedState",false);
 			$scope.cookiebno = $cookieStore.get("bno");
 			boardStorage.boardsRead(bno, categoriName).then(function(data) {
 				$scope.recommendCnt = data.board.RECOMMENDCNT;
 			});
-			return $scope.recommendState = $cookieStore.get("recommendState");
+			$scope.like = false;
+			return $scope.recommendState = false;
 		});
 	}
 	
