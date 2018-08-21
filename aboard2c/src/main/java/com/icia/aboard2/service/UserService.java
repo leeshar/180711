@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.gson.Gson;
 import com.icia.aboard2.dao.UserRepository;
 import com.icia.aboard2.dto.UserDto.CreateUser;
 import com.icia.aboard2.dto.UserDto.FindId;
@@ -32,8 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 	@Autowired
 	private UserRepository dao;
-	@Autowired
-	private Gson gson;
 	@Autowired
 	private ModelMapper mapper;
 	@Autowired

@@ -93,29 +93,26 @@ app.controller('boardsUpdateCtrl',function($scope,$http, $routeParams, $cookieSt
 // boardsRead
 app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieStore,
 		$location,$window,$rootScope,boardStorage) {
-
 	// routeParams로 Query의 값을 받을 수 있다.
 	var bno = $routeParams.bno;
-	var categoriName = $routeParams.categoriName;
 	$scope.bno = bno;
+	var categoriName = $routeParams.categoriName;
 	var rText = $scope.rText;
 	var id = $cookieStore.get('userId');
 	$scope.recommendState = $cookieStore.get("recommendState");
+	// 쿠키에 담긴 값이 없을 때 false
 	if($scope.recommendState==null)
 		$scope.recommendState = false;
-	console.log($scope.recommendState);
 	var list = $cookieStore.get("bno");
-	console.log(list);
 	//쿠키리스트 확인
 	$scope.like=false;
+	// 쿠키가 null일 때 false, if값 만족못하면 false
 	if(list!=null){
 	for(var i = 0; i< list.length; i++){
 		if(list[i]==bno)
 			$scope.like=true;
 	};
 	}
-	console.log($scope.like);
-	console.log($cookieStore.get("bno"));
 	
 	// 게시판 글 상세정보
 	boardStorage.boardsRead(bno, categoriName).then(function(data) {
@@ -153,11 +150,11 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 			console.log(data);
 			if(data=="OK"){
 				var reserve = $cookieStore.get("bno");
+				// null 값일 때 배열값 추가
 				if($cookieStore.get("bno")==null)
 					var reserve = [];
 				reserve.push(bno);
 				$cookieStore.put("bno", reserve);
-				console.log($cookieStore.get("bno"));
 				$cookieStore.put("recommendState", true);
 				boardStorage.boardsRead(bno, categoriName).then(function(data) {
 					$scope.recommendCnt = data.board.RECOMMENDCNT;
@@ -176,8 +173,8 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 		if(id==null)
 			return alert('회원만 좋아요를 누를 수 있습니다');
 		boardStorage.boardsUnRecommend(bno,id).then(function(data){
-			console.log(data);
 			$cookieStore.remove("recommendState");
+			//중복 쿠키 제거
 			for(var i = 0; i<list.length; i++){
 				if(list[i]==bno)
 				list.splice(i,i);

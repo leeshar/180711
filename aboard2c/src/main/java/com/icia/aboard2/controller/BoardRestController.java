@@ -1,9 +1,7 @@
 package com.icia.aboard2.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -15,17 +13,12 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,17 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.icia.aboard2.dto.ReplyDto.InsertReply;
-import com.icia.aboard2.entity.Attachment;
 import com.icia.aboard2.service.BoardService;
 import com.icia.aboard2.service.ReplyServiceImpl;
-import com.icia.aboard2.util.ABoard2Contstants;
-import com.icia.aboard2.util.MediaUtils;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@Slf4j
 public class BoardRestController {
 	@Autowired
 	private BoardService service;
@@ -54,9 +41,7 @@ public class BoardRestController {
 	// 댓글 작성
 	@RequestMapping(value="/boards/reply/insert")
 	public ResponseEntity<Void> insert(String reply)throws Exception{
-		// JSONParser로 Object로 변환시켜준다.
-		JSONParser jsonparser = new JSONParser();
-		JSONObject obj = (JSONObject) jsonparser.parse(reply);
+		JSONObject obj = jsonParser(reply);
 		InsertReply insert = new InsertReply();
 		// 변환 된 객체를 문자열, 정수형 데이터 타입으로 변환한다.
 		insert.setBno(Integer.parseInt(obj.get("bno").toString()));
@@ -70,14 +55,10 @@ public class BoardRestController {
 	public String replyList(@RequestParam int bno)throws Exception{
 		Map<String, Object> map = new HashMap<>();
 		map.put("list", rService.list(bno));
-		String str = mapper.writeValueAsString(map);
-		log.info("{}", str);
-		return str;
-		
+		return mapper.writeValueAsString(map);
 	}
 	@RequestMapping("/boards/upload")
 	public void multiplePhoto(HttpServletRequest request, HttpServletResponse response) {
-		
 		try {
 			
 			String sFileInfo = "";
@@ -124,29 +105,32 @@ public class BoardRestController {
 		
 		
 	}
+	// 글 삭제
 	@RequestMapping("/boards/delete")
 	public ResponseEntity<String> delete(String board) throws ParseException, JsonProcessingException {
-		JSONParser jsonparser = new JSONParser();
-		JSONObject obj = (JSONObject) jsonparser.parse(board);
-		System.out.println(board);
+		JSONObject obj = jsonParser(board);
 		String result = service.delete(obj.get("bno").toString(),obj.get("id").toString(), obj.get("categoriName").toString());
 		return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
 	};
+	// 글 추천
 	@RequestMapping("/boards/recommend")
 	public ResponseEntity<String> recommend(String recommend) throws ParseException, JsonProcessingException{
-		JSONParser jsonparser = new JSONParser();
-		JSONObject obj = (JSONObject) jsonparser.parse(recommend);
-		System.out.println(recommend);
-		System.out.println(obj.get("id").toString());
+		JSONObject obj = jsonParser(recommend);
 		String result = service.recommend(obj.get("id").toString(), obj.get("bno").toString());
 		return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
 	}
+	// 글 추천 취소
 	@RequestMapping("/boards/unrecommend")
 	public ResponseEntity<String> unrecommend(String unrecommend) throws ParseException, JsonProcessingException{
-		JSONParser jsonparser = new JSONParser();
-		JSONObject obj = (JSONObject) jsonparser.parse(unrecommend);
+		JSONObject obj = jsonParser(unrecommend);
 		String result = service.unrecommend(obj.get("id").toString(), obj.get("bno").toString());
 		return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
 		
+	}
+	// 중복코드 메서드로
+	private JSONObject jsonParser(String unrecommend) throws ParseException {
+		JSONParser jsonparser = new JSONParser();
+		JSONObject obj = (JSONObject) jsonparser.parse(unrecommend);
+		return obj;
 	}
 }

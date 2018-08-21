@@ -46,7 +46,9 @@ public class BoardService {
 		Integer count = boardDao.count(categoriName);
 		Map<String, Object> map = new HashMap<>();
 		Pagination pagination = PagingUtil.getPagination(pageable, count);
+		// list 에는 페이징 리스트를 넣고
 		map.put("list", boardDao.list(pagination.getStartRow(), pagination.getEndRow(), categoriName));
+		// pagination 에는 페이지네이션을 넣어준다
 		map.put("pagination", pagination);
 		return map;
 	}

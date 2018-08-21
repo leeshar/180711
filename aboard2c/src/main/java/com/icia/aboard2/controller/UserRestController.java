@@ -24,11 +24,9 @@ import com.icia.aboard2.dto.UserDto.LoginUser;
 import com.icia.aboard2.dto.UserDto.UpdateUser;
 import com.icia.aboard2.service.UserService;
 
-import lombok.extern.slf4j.Slf4j;
 
 
 @RestController
-@Slf4j
 public class UserRestController {
 	@Autowired
 	private UserService service;
@@ -37,8 +35,7 @@ public class UserRestController {
 	//회원가입
 	@PostMapping("/users/join")
 	public ResponseEntity<Void> userJoin(String user) throws ParseException {
-		JSONParser jsonParser = new JSONParser();
-		JSONObject obj = (JSONObject) jsonParser.parse(user);
+		JSONObject obj = JsonPaser(user);
 		CreateUser create = new CreateUser();
 		create.setId(obj.get("id").toString());
 		create.setPwd(obj.get("pwd").toString());
@@ -65,8 +62,7 @@ public class UserRestController {
 	//로그인인증
 	@PostMapping(value="/users/login",produces = "application/json; charset=UTF-8")
 	public ResponseEntity<String> login(String login) throws ParseException, JsonProcessingException, InterruptedException{
-		JSONParser jsonParser = new JSONParser();
-		JSONObject obj = (JSONObject) jsonParser.parse(login);
+		JSONObject obj = JsonPaser(login);
 		LoginUser logi = new LoginUser();
 		logi.setId(obj.get("id").toString());
 		logi.setPwd(obj.get("pwd").toString());
@@ -91,14 +87,11 @@ public class UserRestController {
 		//인증번호발송
 		@RequestMapping("/users/findId/emailAuth")
 		public void emailAuth(String mail) throws FileNotFoundException, URISyntaxException, ParseException, InterruptedException {
-			JSONParser jsonparser = new JSONParser();
-			JSONObject obj = (JSONObject) jsonparser.parse(mail);
+			JSONObject obj = JsonPaser(mail);
 			String authToken = obj.get("authToken").toString();
 			String email = obj.get("email").toString();
 			Thread.sleep(1000);
 			service.sendMail(email,authToken);
-			
-			
 		}
 		//비밀번호리셋
 		@RequestMapping("/users/findPwd/emailAuth")
@@ -110,8 +103,7 @@ public class UserRestController {
 		//아이디 찾기
 		@RequestMapping("/users/findId")
 		public ResponseEntity<String> findId(String find) throws FileNotFoundException, URISyntaxException, ParseException, JsonProcessingException {
-			JSONParser jsonparser = new JSONParser();
-			JSONObject obj = (JSONObject) jsonparser.parse(find);
+			JSONObject obj = JsonPaser(find);
 			FindId findId = new FindId();
 			findId.setEmail(obj.get("email").toString());
 			findId.setIrum(obj.get("irum").toString());
@@ -140,15 +132,12 @@ public class UserRestController {
 		//회원정보
 		@RequestMapping(value="/users/userInfo/{id}",produces = "application/json; charset=UTF-8")
 		public String userInfo(@PathVariable String id) throws JsonProcessingException {
-			System.out.println(id);
-			String str = mapper.writeValueAsString(service.userInfo(id));
-			return str;
+			return mapper.writeValueAsString(service.userInfo(id));
 		}
 		//회원정보수정
 		@RequestMapping(value="/users/updateUser")
 		public ResponseEntity<Void> updateUser(String update) throws ParseException{
-			JSONParser jsonparser = new JSONParser();
-			JSONObject obj = (JSONObject) jsonparser.parse(update);
+			JSONObject obj = JsonPaser(update);
 			UpdateUser u = new UpdateUser();
 			u.setEmail(obj.get("email").toString());
 			u.setId(obj.get("id").toString());
@@ -159,7 +148,12 @@ public class UserRestController {
 			
 		}
 		
-		
+		// 중복 코드 제거
+		private JSONObject JsonPaser(String user) throws ParseException {
+			JSONParser jsonParser = new JSONParser();
+			JSONObject obj = (JSONObject) jsonParser.parse(user);
+			return obj;
+		}
 }
 
 

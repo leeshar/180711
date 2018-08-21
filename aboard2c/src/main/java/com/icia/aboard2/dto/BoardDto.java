@@ -2,11 +2,11 @@ package com.icia.aboard2.dto;
 
 import java.util.*;
 
-import com.icia.aboard2.entity.*;
 
 import lombok.*;
 
 public class BoardDto {
+	// 글 쓰기
 	@Data
 	public static class CreateBoard {
 		private Integer bno;
@@ -15,20 +15,7 @@ public class BoardDto {
 		private String writer;
 		private String categoriName;
 	}
-	
-	@Data
-	public static class Response {
-		private String writer;
-		private Integer bno;
-		private String title;
-		private String content;
-		private Date writeDate;
-		private Integer readCnt;
-		private Integer recommendCnt;
-		private Integer reportCnt;
-		private java.util.List<Attachment> attachments;
-	}
-	// 게시판에 글의 목록을 출력하기위한 DTO
+	// 게시판에 글 리스트
 	@Data
 	public static class ListBoard {
 		private Integer bno;
@@ -39,6 +26,7 @@ public class BoardDto {
 		private Integer replyCnt;
 		private Boolean isAttachExist;
 	}
+	// 글 수정
 	@Data
 	public static class UpdateBoard{
 		private String bno;

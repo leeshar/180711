@@ -29,10 +29,8 @@ import com.icia.aboard2.service.BoardService;
 import com.icia.aboard2.util.ABoard2Contstants;
 import com.icia.aboard2.util.ABoard2Util;
 
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@Slf4j
 public class BoardController {
 	@Autowired
 	private BoardService service;
@@ -44,16 +42,14 @@ public class BoardController {
 	@GetMapping(value="/boards/list/{page}/{categoriName}",produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public String lista(@PathVariable int page,@PathVariable String categoriName, Model model) throws JsonProcessingException {
-		String str = mapper.writeValueAsString(service.list(page, categoriName));
-		return str;
+		return mapper.writeValueAsString(service.list(page, categoriName));
 	}
 	@GetMapping(value="/boards/listAll",produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public String listAll() throws Exception{
 		Map<String, Object> map = new HashMap<>();
 		map.put("listAll", service.listAll());
-		String listAll = mapper.writeValueAsString(map);
-		return listAll;
+		return mapper.writeValueAsString(map);
 	}
 	// Rest 방식으로  GET 해줬다.
 	@GetMapping(value="/boards/read/{bno}/{categoriName}",produces = "application/json; charset=UTF-8")
@@ -61,16 +57,15 @@ public class BoardController {
 	public String read(@PathVariable Integer bno,@PathVariable String categoriName) throws JsonProcessingException {
 		Map<String, Object> maps = new HashMap<>();
 		Map<String, Object> map = service.read(bno, categoriName);
-			
 		try{
 				map.put("savedFileName", aDao.list(bno).getSavedFileName());
 		}catch(NullPointerException np) {
 				map.put("savedFileName", "none.jpg");
 		}
 		maps.put("board", map);
-		String str = mapper.writeValueAsString(maps);
-		return str;
+		return mapper.writeValueAsString(maps);
 	}
+	// 글 작성
 	@PostMapping("/boards/write")
 	public String write(@Valid CreateBoard board, BindingResult results, RedirectAttributes ra) throws BindException, IOException {
 		ABoard2Util.throwBindException(results);
@@ -81,6 +76,7 @@ public class BoardController {
 			ra.addFlashAttribute("msg", ABoard2Contstants.JOB_FAIL);
 		return "redirect:/#!/boards/list/1";
 	}
+	// 글 수정
 	@PostMapping("/boards/update")
 	public String update(@Valid UpdateBoard update,BindingResult results, RedirectAttributes ra) throws ParseException, JsonProcessingException, BindException, UnsupportedEncodingException {
 		ABoard2Util.throwBindException(results);
