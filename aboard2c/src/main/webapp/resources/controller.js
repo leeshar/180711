@@ -37,7 +37,7 @@ app.controller('boardsCtrl',function($scope, $http, $routeParams, boardStorage,$
 		
 });
 // boardsSearch
-app.controller('boardsSearchCtrl',function($scope,$http,boardStorage,$routeParams){
+app.controller('boardsSearchCtrl',function($scope,$http,boardStorage,$routeParams,$window,$location){
 	var search = $routeParams.search;
 	var page = $routeParams.page;
 	var categoriName = $routeParams.categoriName;
@@ -49,8 +49,11 @@ app.controller('boardsSearchCtrl',function($scope,$http,boardStorage,$routeParam
 	boardStorage.boardSearch(search,page,categoriName).then(function(data) {	
 		$scope.search = search;
 		// 검색 데이터
+		console.log(data.boardSearch);
+		if(data.boardSearch=='NO')
+			$window.location.href="/aboard2/#!/boards/searchNoPage";
+		
 		$scope.boardSearch = data.boardSearch;
-		console.log($scope.boardsList);
 		// 검색 페이징
 		$scope.pagination = data.pagination;
 		$scope.startPage = data.pagination.startPage;
@@ -62,7 +65,15 @@ app.controller('boardsSearchCtrl',function($scope,$http,boardStorage,$routeParam
 			render.push(startPage);
 		}
 		$scope.render = render;
-				});
+		console.log(endPage);
+		console.log($scope.render);
+	
+	});
+	// Sort
+	 $scope.sortBy = function(propertyName) {
+		    $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+		    $scope.propertyName = propertyName;
+		  };
 });
 // boardsWrite
 app.controller('boardsWriteCtrl', function($scope, $routeParams, $cookieStore) {

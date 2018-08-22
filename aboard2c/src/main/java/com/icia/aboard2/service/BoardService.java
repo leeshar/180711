@@ -123,8 +123,14 @@ public class BoardService {
 	public Map<String, Object> boardSearch(int page,String categoriName,String search){
 		Pageable pageable = new Pageable();
 		pageable.setPage(page);
-		Integer count = boardDao.count(categoriName);
+		Integer count = boardDao.searchCount(search, categoriName);
 		Map<String, Object> map = new HashMap<>();
+		if(count==0) {
+			Map<String, Object> maps = new HashMap<>();
+			maps.put("boardSearch", "NO");
+			return maps;
+		}
+		
 		Pagination pagination = PagingUtil.getPagination(pageable, count);
 		// list 에는 페이징 리스트를 넣고
 		map.put("boardSearch", boardDao.boardSearch(pagination.getStartRow(), pagination.getEndRow(), categoriName,search));

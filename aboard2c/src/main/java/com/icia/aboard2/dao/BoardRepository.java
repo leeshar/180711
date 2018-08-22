@@ -10,6 +10,8 @@ import com.icia.aboard2.entity.Board;
 public interface BoardRepository {
 	// 게시판 글 갯수
 	public int count(String categoriName);
+	// 게시판 검색 글 갯수
+	public int searchCount(@Param("search") String search,@Param("categoriName") String categoriName);
 	// 게시판 전체 글
 	public List<Board> listAll();
 	// 게시판 페이징 리스트

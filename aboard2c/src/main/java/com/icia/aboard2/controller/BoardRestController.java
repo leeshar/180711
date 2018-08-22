@@ -132,10 +132,7 @@ public class BoardRestController {
 	// 글 검색
 	@RequestMapping(value="/boards/search/{search}/{page}/{categoriName}", produces = "application/json; charset=UTF-8" )
 	public String boardSearch(@PathVariable String search,@PathVariable int page, @PathVariable String categoriName)throws Exception{
-		System.out.println(search);
-		System.out.println(categoriName);
-		System.out.println(page);
-		
+		System.out.println(service.boardSearch(page, categoriName, search));
 		return mapper.writeValueAsString(service.boardSearch(page, categoriName, search));
 	}
 	// 중복코드 메서드로

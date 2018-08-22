@@ -7,27 +7,29 @@
 <body>
 
   "{{search}}"에 대한 관련 검색입니다.
+<button ng-click="sortBy('readCnt')">조회순</button><button ng-click="sortBy('date')">최신순</button>
 <table class="table table-dark">	
 			<tr><th scope="col">글번호</th>
 			<th scope="col">제목</th>
 			<th scope="col">글쓴이</th>
 			<th scope="col">날짜</th>
 			<th scope="col">조회수</th></tr>
-			<tr ng-repeat="x in boardSearch">
+			<tr ng-repeat="x in boardSearch | orderBy:propertyName:reverse" >
 			<td>{{ $index + 1 }}</td>
 			<td><a href="#!/boards/read/{{x.bno}}/{{categoriName}}" style="color: white; padding-right: 20px;">{{x.title}}({{x.replyCnt}})</a><span class="badge badge-pill badge-danger" >NEW</span></td>
 			<td>{{x.writer}}</td>
 			<td>{{x.writeDate | date : "yyyy년 MM월 dd일"}}</td>
 			<td>{{x.readCnt}}</td>
 		</table>
+		
 		<nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
     <li class="page-item" ng-disabled="startPage === 1">
-      <a class="page-link" href="#!/boards/search/{search}/{{pagination.prev}}/{{categoriName}}">이전페이지</a>
+      <a class="page-link" href="#!/boards/search/{{search}}/{{pagination.prev}}/{{categoriName}}">이전페이지</a>
     </li>
-    <li class="page-item" ng-repeat="x in render" ng-if="x!=null"><a class="page-link" href="#!/boards/search/{search}/{{x}}/{{categoriName}}">{{x}}</a></li>
+    <li class="page-item" ng-repeat="x in render" ng-if="x!=null"><a class="page-link" href="#!/boards/search/{{search}}/{{x}}/{{categoriName}}">{{x}}</a></li>
     <li class="page-item">
-      <a class="page-link" href="#!/boards/search/{search}/{{pagination.next}}/{{categoriName}}">다음페이지</a>
+      <a class="page-link" href="#!/boards/search/{{search}}/{{pagination.next}}/{{categoriName}}">다음페이지</a>
     </li>
   </ul>
 </nav>

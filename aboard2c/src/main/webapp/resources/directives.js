@@ -27,8 +27,12 @@ app.directive("headerTpl",function(){
 		controller:'boardsCtrl'
 	})
 	.when("/boards/search/:search/:page/:categoriName",{
+		// 게시판 검색 결과
 		templateUrl:"./boards/searchPage.html",
 		controller:'boardsSearchCtrl'
+	})
+	.when("/boards/searchNoPage",{
+		templateUrl:"./boards/searchNoPage.html"
 	})
 	.when("/boards/read/:bno/:categoriName",{
 		// 게시판 상세내용 
