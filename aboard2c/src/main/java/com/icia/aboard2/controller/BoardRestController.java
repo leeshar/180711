@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.icia.aboard2.dto.ReplyDto.DeleteReply;
 import com.icia.aboard2.dto.ReplyDto.InsertReply;
 import com.icia.aboard2.service.BoardService;
 import com.icia.aboard2.service.ReplyServiceImpl;
@@ -52,6 +53,16 @@ public class BoardRestController {
 		rService.insert(insert);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	// 댓글 삭제
+	@RequestMapping(value="/boards/reply/delete", produces = "application/json; charset=UTF-8")
+	public ResponseEntity<String> replyDelete(String reply)throws Exception{
+		JSONObject obj = jsonParser(reply);
+		String result = rService.delete(obj.get("cno").toString(),obj.get("id").toString());
+		return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
+		
+		
+		
+	}
 	// 댓글 리스트
 	@RequestMapping(value="/boards/reply/list", produces = "application/json; charset=UTF-8" )
 	public String replyList(@RequestParam int bno)throws Exception{
@@ -59,6 +70,7 @@ public class BoardRestController {
 		map.put("list", rService.list(bno));
 		return mapper.writeValueAsString(map);
 	}
+	// 게시판 사진 업로드
 	@RequestMapping("/boards/upload")
 	public void multiplePhoto(HttpServletRequest request, HttpServletResponse response) {
 		try {

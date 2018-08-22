@@ -83,21 +83,36 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 				var data = {"replytext":rText,"bno":bno,"id":id};
 			}
 			//비로그인 댓글 작성시
-			if($cookieStore.get("globals")==null){
+			if($cookieStore.get("globals")==null)
 				var data = {"replytext":rText, "bno":bno, "id":"익명"};
-			}
 				return $http({
 				url : '/aboard2/boards/reply/insert',
 				method : 'post',
 				data: "reply="+JSON.stringify(data),
 				contentType:"application/json;charset=UTF-8",
-				headers : {'Content-Type': 'application/x-www-form-urlencoded'},
+				headers : {'Content-Type': 'application/x-www-form-urlencoded'}
 					})
 				.then(function(response){
 					return 'zz';
 					
 					});
 			},
+		// 댓글 삭제
+			replyDelete: function(cno,id){
+				if(id==null)
+					return "NO";
+				var data = {"cno":cno,"id":id};
+				
+				return $http({
+					url:"/aboard2/boards/reply/delete",
+					method: 'post',
+					data: "reply="+ JSON.stringify(data),
+					contentType:"application/json;charset=UTF-8",
+					headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+				}).then(function(response){
+					return response.data;
+				});
+			}
 		
 			
 	};

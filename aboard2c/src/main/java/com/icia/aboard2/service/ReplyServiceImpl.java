@@ -19,17 +19,21 @@ public class ReplyServiceImpl{
 	@Autowired
 	private BoardRepository bDao;
 	@Autowired
-	private ModelMapper mmapper;
+	private ModelMapper mapper;
 	// 댓글쓰기
 	@Transactional
 	public void insert(InsertReply insert) throws Exception {
-		Reply reply = mmapper.map(insert, Reply.class);
+		Reply reply = mapper.map(insert, Reply.class);
 		bDao.upReplyCnt(insert.getBno());
 		dao.insert(reply);
 	}
 	// 댓글삭제
-	public void delete(int cno) throws Exception {
+	@Transactional
+	public String delete(String cno, String id) throws Exception {
+		if(dao.isDelete(cno, id)==null)
+			return "본인댓글만 삭제가능합니다";
 		dao.delete(cno);
+		return "댓글이 삭제됬습니다";
 		
 	}
 

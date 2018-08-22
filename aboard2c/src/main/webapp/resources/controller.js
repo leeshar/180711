@@ -237,7 +237,8 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 	// 함수로 만들어준 이유는 작성후에 리로드 하기 위해서 이다.
 	function replyList(bno) {
 		boardStorage.replyList(bno).then(function(data) {
-			$scope.list = data;
+			$scope.replyList = data;
+			$scope.cno = data.cno;
 		});
 	}
 	// 댓글 작성
@@ -249,6 +250,14 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 			alert(data);
 		});
 	};
+	// 댓글 삭제
+	$scope.replyDelete = function(cno){
+		boardStorage.replyDelete(cno,id).then(function(data){
+			replyList(bno);
+			alert(data);
+		});
+	};
+	
 });
 // usersRegister
 app.controller('registerCtrl',function($scope, $http, $filter, $window, $location,userStorage) {

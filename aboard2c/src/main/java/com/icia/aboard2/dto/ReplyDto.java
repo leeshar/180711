@@ -15,6 +15,12 @@ public class ReplyDto {
 		private String replytext;
 		private Date write_date;
 	}
+	// 댓글 삭제
+	@Data
+	public static class DeleteReply{
+		private String cno;
+		private String id;
+	}
 	// 댓글 리스트
 	@Data
 	public static class Response {

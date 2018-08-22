@@ -67,8 +67,9 @@
         </div>
          
     </form>
-<div class="commentList" ng-repeat="data in list" style="border-bottom: 2px solid black;">
-  <p>댓글번호:{{data.cno}}</p>
+<div class="commentList" ng-repeat="data in replyList" style="border-bottom: 2px solid black;">
+  <button ng-click="replyDelete(data.cno)">댓글삭제</button>
+  <p>댓글번호:{{cno=data.cno}}</p>
   <p>댓글:{{data.replytext}}</p>
   <p>작성자:{{data.id}}</p>
   <p>작성날짜:{{data.write_date | date:'yyyy-MM-dd HH:mm' }}</p>
