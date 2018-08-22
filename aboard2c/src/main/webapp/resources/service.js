@@ -5,16 +5,21 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 		// 게시판 리스트를 불러오는 메소드
 			get: function(page,categoriName){
 				return $http.get("/aboard2/boards/list/"+page+"/"+categoriName).then(function(response){
-					
+					console.log(response.data);
 					return response.data;
 					});
 				
 			},
 		// 게시판 검색결과를 불러오는 메소드
-			listAll: function(){
-				 return $http.get("/aboard2/boards/listAll").then(function(response){
-						return JSON.parse(response.data.listAll); 
-					 });
+			boardSearch: function(search,page,categoriName){
+				console.log(search);
+				 return $http({
+					url:"/aboard2/boards/search/"+search+"/"+page+"/"+categoriName,
+					method:"get"
+				}).then(function(response){
+					console.log(response.data);
+					 return response.data;
+				 });
 			},
 		// 게시글 상세내용 불러오는 메소드
 			boardsRead: function(bno,categoriName){

@@ -19,8 +19,10 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -126,6 +128,15 @@ public class BoardRestController {
 		String result = service.unrecommend(obj.get("id").toString(), obj.get("bno").toString());
 		return new ResponseEntity<String>(mapper.writeValueAsString(result),HttpStatus.OK);
 		
+	}
+	// 글 검색
+	@RequestMapping(value="/boards/search/{search}/{page}/{categoriName}", produces = "application/json; charset=UTF-8" )
+	public String boardSearch(@PathVariable String search,@PathVariable int page, @PathVariable String categoriName)throws Exception{
+		System.out.println(search);
+		System.out.println(categoriName);
+		System.out.println(page);
+		
+		return mapper.writeValueAsString(service.boardSearch(page, categoriName, search));
 	}
 	// 중복코드 메서드로
 	private JSONObject jsonParser(String unrecommend) throws ParseException {

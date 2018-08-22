@@ -1,5 +1,5 @@
 //boardsList
-app.controller('boardsCtrl',function($scope, $http, $routeParams, boardStorage)
+app.controller('boardsCtrl',function($scope, $http, $routeParams, boardStorage,$window,$location)
 {
 // boards 리스트 REST방식으로 page값을 넘긴후 데이터를 가져와서 boardsList에 담는다.
 	var page = $routeParams.page;
@@ -25,13 +25,45 @@ app.controller('boardsCtrl',function($scope, $http, $routeParams, boardStorage)
 	}
 	$scope.render = render;
 				
-});	
+	});	
 // 게시판 검색 메소드
 	$scope.searchFuc = function(search) {
-		boardStorage.listAll().then(function(data) {
-					$scope.listAll = data;});
+		var page = 1;
+		var search = $scope.search;
+		console.log(search);
+		$window.location.href="/aboard2/#!/boards/search/"+search+"/"+page+"/"+categoriName;
 		};
+
+		
+});
+// boardsSearch
+app.controller('boardsSearchCtrl',function($scope,$http,boardStorage,$routeParams){
+	var search = $routeParams.search;
+	var page = $routeParams.page;
+	var categoriName = $routeParams.categoriName;
+	$scope.categoriName = categoriName;
+	if (categoriName == "공지사항")
+		$scope.write = 1;
+	if (categoriName == "이벤트")
+		$scope.write = 2;
+	boardStorage.boardSearch(search,page,categoriName).then(function(data) {	
+		$scope.search = search;
+		// 검색 데이터
+		$scope.boardSearch = data.boardSearch;
+		console.log($scope.boardsList);
+		// 검색 페이징
+		$scope.pagination = data.pagination;
+		$scope.startPage = data.pagination.startPage;
+		var startPage = data.pagination.startPage;
+		var endPage = data.pagination.endPage;
+		var render = [];
+		for (var startPage = startPage; startPage < endPage + 1; startPage++) {
+			// push로 해결. ui-bootstrap 안쓰고 페이징
+			render.push(startPage);
+		}
+		$scope.render = render;
 				});
+});
 // boardsWrite
 app.controller('boardsWriteCtrl', function($scope, $routeParams, $cookieStore) {
 	$scope.categoriName = $routeParams.categoriName;

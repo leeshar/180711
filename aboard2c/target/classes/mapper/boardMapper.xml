@@ -80,6 +80,20 @@
 		update board set reply_cnt = reply_cnt+1 where bno = #{bno} and rownum=1
 	
 	</update>
+	<!-- 글 검색 -->
+	<select id="boardSearch" resultType="com.icia.aboard2.dto.BoardDto$ListBoard">
+	<![CDATA[
+
+    	select * from
+        	(select rownum rnum, b.* from 
+            	(select /*+ index_desc(board board_pk_bno) */ bno, writer, title, write_date writeDate, 
+            	read_cnt readCnt, recommend_cnt recommendCnt, reply_cnt replyCnt from board where title like '%'||#{search}||'%' and categori_name=#{categoriName} order by bno desc
+            	) b
+        	where rownum<=#{endRow}) 
+    	where rnum>=#{startRow}
+    	order by bno desc
+	]]> 
+	</select>
 </mapper>
 
 

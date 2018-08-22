@@ -2,6 +2,7 @@ package com.icia.aboard2.service;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
@@ -32,12 +33,10 @@ public class BoardService {
 	private AttachRepository attachDao;
 	@Autowired
 	private ModelMapper modelMapper;
-	@Autowired
-	private Gson gson;
 	
 	//전체리스트
-	public String listAll(){
-		return gson.toJson(boardDao.listAll());
+	public List<Board> listAll(){
+		return boardDao.listAll();
 	}
 	// 리스트
 	public Map<String, Object> list(int page,String categoriName) {
@@ -119,6 +118,19 @@ public class BoardService {
 		if(attachment==null)
 			throw new FileNotFoundException("원본 파일을 찾을 수 없습니다 ");
 		return attachment;
+	}
+	// 검색
+	public Map<String, Object> boardSearch(int page,String categoriName,String search){
+		Pageable pageable = new Pageable();
+		pageable.setPage(page);
+		Integer count = boardDao.count(categoriName);
+		Map<String, Object> map = new HashMap<>();
+		Pagination pagination = PagingUtil.getPagination(pageable, count);
+		// list 에는 페이징 리스트를 넣고
+		map.put("boardSearch", boardDao.boardSearch(pagination.getStartRow(), pagination.getEndRow(), categoriName,search));
+		// pagination 에는 페이지네이션을 넣어준다
+		map.put("pagination", pagination);
+		return map;
 	}
 }
 

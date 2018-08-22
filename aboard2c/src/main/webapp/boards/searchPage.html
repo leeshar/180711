@@ -4,26 +4,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body> 
-  <form class="form-inline my-2 my-lg-0" style="float: right;">
- 
-  <div>
-      <input ng-model="search" name="search" ng-model-option="{updateOn:'blur'}" class="input-box" class="form-control mr-sm-2" type="text" placeholder="검색"  kr-input>
-      
-      </div>
+<body>
 
-      <button class="btn btn-outline-success my-2 my-sm-0" type="button" ng-click="searchFuc(search)">검색</button>
-
-    </form>
-
-<!-- 검색버튼을 눌렀을 때 숨긴다. -->
+  "{{search}}"에 대한 관련 검색입니다.
 <table class="table table-dark">	
 			<tr><th scope="col">글번호</th>
 			<th scope="col">제목</th>
 			<th scope="col">글쓴이</th>
 			<th scope="col">날짜</th>
 			<th scope="col">조회수</th></tr>
-			<tr ng-repeat="x in boardsList">
+			<tr ng-repeat="x in boardSearch">
 			<td>{{ $index + 1 }}</td>
 			<td><a href="#!/boards/read/{{x.bno}}/{{categoriName}}" style="color: white; padding-right: 20px;">{{x.title}}({{x.replyCnt}})</a><span class="badge badge-pill badge-danger" >NEW</span></td>
 			<td>{{x.writer}}</td>
@@ -33,11 +23,11 @@
 		<nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
     <li class="page-item" ng-disabled="startPage === 1">
-      <a class="page-link" href="#!/boards/list/{{pagination.prev}}/{{categoriName}}">이전페이지</a>
+      <a class="page-link" href="#!/boards/search/{search}/{{pagination.prev}}/{{categoriName}}">이전페이지</a>
     </li>
-    <li class="page-item" ng-repeat="x in render" ng-if="x!=null"><a class="page-link" href="#!/boards/list/{{x}}/{{categoriName}}">{{x}}</a></li>
+    <li class="page-item" ng-repeat="x in render" ng-if="x!=null"><a class="page-link" href="#!/boards/search/{search}/{{x}}/{{categoriName}}">{{x}}</a></li>
     <li class="page-item">
-      <a class="page-link" href="#!/boards/list/{{pagination.next}}/{{categoriName}}">다음페이지</a>
+      <a class="page-link" href="#!/boards/search/{search}/{{pagination.next}}/{{categoriName}}">다음페이지</a>
     </li>
   </ul>
 </nav>
@@ -48,5 +38,4 @@
 <a href="#!/boards/writePage/이벤트" ng-show="globals!=null"><button type="button" id="write" class="btn btn-dark">글쓰기</button></a>
 </div>
 </body>
-
 </html>
