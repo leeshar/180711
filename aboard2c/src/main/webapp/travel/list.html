@@ -6,5 +6,38 @@
 </head>
 <body>
 	<p>여긴 Travel ZONE</p>
+	<div class="rounded border border-light"data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="width:200px; height:200px; text-align: center;" ng-click="openModal()">
+	<img src="http://localhost:8081/upload/add.png" style="margin-left: 5px; margin-top: 26px; overflow: hidden;">
+	<p>여행만들기</p></div>
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">여행 만들기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="travelFrm" ng-submit="makeTravel(travel)">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">여행제목</label>
+            <input type="text" class="form-control" id="recipient-name" name="title" ng-model="travel.title">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">여행내용</label>
+            <textarea class="form-control" id="message-text" name="content" ng-model="travel.content"></textarea>
+          </div>
+          <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">만들기</button>
+        
+      </div>
+          </form>
+      </div>
+     
+      </div>
+    </div>
+  </div>
 </body>
 </html>

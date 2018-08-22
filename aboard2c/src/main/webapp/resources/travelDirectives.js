@@ -5,7 +5,7 @@ app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, r
 	$routeProvider
 	.when("/mytravel/list",{
 		templateUrl:"./travel/list.html",
-		controller:"travleCtrl"
+		controller:"travelCtrl"
 	});
 
 	
