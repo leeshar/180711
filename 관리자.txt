@@ -1,0 +1,6 @@
+관리자 페이지
+	* 공지사항 글은 ROLE_ADMIN만 가능 (ROLE_USER 는 읽기)
+	* 모든 글 삭제는 ROLE_ADMIN만 가능
+	* 유저 BAN => BAN을 당한 사용자는 다시 이용할 수 없다.회원가입도 불가능..
+	* 이벤트 글은 ROLE_ADMIN만 가능 ( ROLE_USER 는 읽기 + 댓글 ) 
+	* 유저 정보보기 ROLE_ADMIN만 가능
