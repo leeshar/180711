@@ -1,6 +1,7 @@
 package com.icia.aboard2.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,8 @@ public class TravelService {
 	}
 	public void deleteTravel(String travelBno) {
 		travelDao.deleteTravel(travelBno);
+	}
+	public Map<String, Object> detailTravel(String travelBno){
+		return travelDao.detailTravel(travelBno);
 	}
 }

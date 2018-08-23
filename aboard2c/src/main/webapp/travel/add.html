@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
 
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+    appearance: none;
+}
+</style>
 <script>
 $('#firstDatePick').datepicker({
 	autoclose : true,

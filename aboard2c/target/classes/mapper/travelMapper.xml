@@ -8,12 +8,16 @@
 	</insert>
 	<!-- U-->
 	<update id="updateTravel" parameterType="com.icia.aboard2.dto.TravelDto$UpdateTravel">
-		update travel set title=#{title}, content=#{content}, travel_start_date=#{travelStartDate},
-		travel_end_date=#{travelEndDate} where id=#{id}
+		update travel set title=#{title}, content=#{content},travel_start_date=#{travelStartDate},
+		travel_end_date=#{travelEndDate} where travel_bno=#{travelBno}
 	</update>
 	<!-- R -->
 	<select id="listTravel" resultType="com.icia.aboard2.dto.TravelDto$ListTravel">
-		select title,content,travel_start_date travelStartDate,travel_end_date travelEndDate from travel where id=#{id}
+		select travel_bno travelBno,title,content,travel_start_date travelStartDate,travel_end_date travelEndDate from travel where id=#{id}
+	</select>
+	<!-- Detail -->
+	<select id="detailTravel" resultType="hashmap" parameterType="string">
+		select content, travel_start_date travelStartDate, travel_end_date travelEndDate from travel where travel_bno = #{travelBno} and rownum=1
 	</select>
 	<!-- D -->
 	<delete id="deleteTravel">

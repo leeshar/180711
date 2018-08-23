@@ -13,14 +13,15 @@ public class TravelDto {
 	}
 	@Data
 	public static class UpdateTravel{
+		private String travelBno;
 		private String title;
 		private String content;
-		private String id;
-		private Date travelStratDate;
+		private Date travelStartDate;
 		private Date travelEndDate;
 	}
 	@Data
 	public static class ListTravel{
+		private String travelBno;
 		private String title;
 		private String content;
 		private Date travelStartDate;

@@ -1,6 +1,7 @@
 package com.icia.aboard2.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.icia.aboard2.dto.TravelDto.CreateTravel;
 import com.icia.aboard2.dto.TravelDto.UpdateTravel;
@@ -15,4 +16,6 @@ public interface TravelRepository {
 	public void updateTravel(UpdateTravel travel);
 	//D
 	public void deleteTravel(String travelBno);
+	//detail
+	public Map<String, Object> detailTravel(String travelBno);
 }
