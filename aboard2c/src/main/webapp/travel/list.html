@@ -3,23 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.list td{
+		background-image: url(http://localhost:8081/upload/example1.jpg);
+		background-color: rgba(0, 0, 0, 1.5); 
+		border: 2px solid aqua;
+		width: 200px;
+		height: 200px;
+		text-align: center;
+		overflow: hidden;
+		float: left;
+	}
+	.list th{
+		text-align: center;
+		border: 2px solid black;
+		width: 100%;
+		height: 50px;
+	}
+</style>
 </head>
 <body>
 	<p>여긴 Travel ZONE</p>
-	<div class="rounded border border-light"data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" style="width:200px; height:200px; text-align: center;" ng-click="openModal()">
+	<div data-toggle="modal" data-target="#oneModal" data-whatever="@mdo" style="width:200px; height:200px; text-align: center; margin: 0 auto;" ng-click="openOneModal()">
 	<img src="http://localhost:8081/upload/add.png" style="margin-left: 5px; margin-top: 26px; overflow: hidden;">
 	<p>여행만들기</p></div>
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	
+	<div class="modal fade" id="oneModal" tabindex="-1" role="dialog" aria-labelledby="oneModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">여행 만들기</h5>
+        <h5 class="modal-title" id="oneModalLabel">여행 만들기</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form name="travelFrm" ng-submit="makeTravel(travel)">
+        <form name="travelFrm">
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">여행제목</label>
             <input type="text" class="form-control" id="recipient-name" name="title" ng-model="travel.title">
@@ -30,8 +49,7 @@
           </div>
           <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">만들기</button>
-        
+        <button type="button" class="btn btn-primary" ng-click="makeTravel(travel)">만들기</button>
       </div>
           </form>
       </div>
@@ -39,5 +57,23 @@
       </div>
     </div>
   </div>
+  <table class="center list">
+  	<thead>
+  		<th>내여행</th>
+  	</thead>
+  	<tbody>
+
+  	<tr>
+  	 
+   		<td ng-repeat="x in travelList"><a href="">제목:{{x.title}}
+  			
+  		<span ng-show="x.travelStartDate!=null">{{x.travelStartDate | date:"yyyy-MM-dd"}}~{{x.travelEndDate | date:"yyyy-MM-dd"}}</span>
+  		</a>
+  		</td>
+  	
+  	</tr>
+
+  	</tbody>
+  </table>
 </body>
 </html>
