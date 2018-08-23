@@ -6,6 +6,10 @@ app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, r
 	.when("/mytravel/list",{
 		templateUrl:"./travel/list.html",
 		controller:"travelCtrl"
+	})
+	.when("/travel/add",{
+		templateUrl:"./travel/add.html",
+		controller:"travelAddCtrl"
 	});
 
 	

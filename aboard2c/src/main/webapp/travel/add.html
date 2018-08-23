@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script>
+$('#firstDatePick').datepicker({
+	autoclose : true,
+	language : "kr",
+	startDate : new Date(),
+  format : 'yyyy-mm-dd'
+}).on({
+	show : function(){
+  	$(".dropdown-menu").css({"margin-left" : "50px"});
+  },
+  hide : function(){
+  	$(".dropdown-menu").css({"margin-left" : "0px"});
+  }
+});
+$('#secondDatePick').datepicker({
+	autoclose : true,
+	language : "kr",
+	startDate : new Date(),
+  	format : 'yyyy-mm-dd'
+});
+</script>
+</head>
+<body>
+	<p>여긴 ADD</p>
+	<div class="input-group">
+<input type="text" name="datepick" id="firstDatePick" ng-model="startDate">
+<input type="text" name="datepick" id="secondDatePick" ng-model="endDate">
+	<div>
+		{{startDate}}{{endDate}}
+	</div>
+	</div>
+	<button type="button" ng-click="dateAdd()">추가하기</button>
+</body>
+</html>

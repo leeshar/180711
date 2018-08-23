@@ -18,3 +18,12 @@ app.controller('travelCtrl',function($http,$scope,$cookieStore,travelStorage,$wi
 	};
 	
 });
+// travelAddCtrl
+app.controller('travelAddCtrl',function($http,$scope,travelStorage){
+	
+	$scope.dateAdd = function(){
+		console.log($scope.startDate);
+		console.log($scope.endDate);
+		
+	}
+});
