@@ -39,5 +39,35 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 			
 		});
 		
+	};
+	$scope.locationSave = function(){
+		console.log(lat.value);
+		console.log(lng.value);
+		
+		
+		
+	};
+	$scope.locationInfo = function(){
+		travelStorage.location(lat,lng).then(function(data){
+			parser = new DOMParser();
+			xmlDoc = parser.parseFromString(data,"text/xml");
+			var x = xmlDoc.getElementsByTagName("item");
+			var data = [];
+			for(var i = 0;i<x.length;i++){
+				var obj = {};
+				if(x[i].getElementsByTagName("firstimage2")[0])
+					obj.img = x[i].getElementsByTagName("firstimage2")[0].childNodes[0].nodeValue;	 
+				
+				if(!x[i].getElementsByTagName("firstimage2")[0])
+					obj.img = "NO.jpg";
+				obj.tel = x[i].getElementsByTagName("tel")[0].childNodes[0].nodeValue;
+				obj.txt = x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+				console.log(`"${i}"`);
+				data.push(obj);
+			};
+			$scope.data = data;
+			console.log(data);
+		});
 	}
+
 });

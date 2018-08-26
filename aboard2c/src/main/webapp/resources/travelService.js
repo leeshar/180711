@@ -50,6 +50,17 @@ angular.module('myApp').factory('travelStorage',function($http,$cookieStore){
 				return response.data;
 			});
 			
+		},
+		//위치정보
+		location: function(lat,lng){
+			console.log(lng.value);
+			return $http.get("/aboard2/travel/performance/"+lat.value+"/"+lng.value+"/")
+			.then(function(response){
+				console.log(response.data);
+				return response.data;
+			});
+		
 		}
+		
 	};
 });

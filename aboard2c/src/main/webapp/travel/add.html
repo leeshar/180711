@@ -34,6 +34,7 @@ $('#secondDatePick').datepicker({
 </script>
 </head>
 <body>
+<div style="overflow-y: scroll; width: 1250px; height: 800px;">
 	<p>여긴 ADD</p>
 	<div class="input-group">
 <input type="text" name="datepick" id="firstDatePick" ng-model="startDate">
@@ -43,5 +44,148 @@ $('#secondDatePick').datepicker({
 	</div>
 	</div>
 	<button type="button" ng-click="dateAdd()">추가하기</button>
+<div id="map" style="width:100%;height:400px;"></div>
+<div class="search" style="">
+            <input id="address" type="text" placeholder="검색할 주소" value="인천" />
+            <input id="submit" type="button" value="주소 검색" />
+        </div>
+<input type="hidden" id="lat" name="lat" ng-model="lat">
+<input type="hidden" id="lng" name="lng" ng-model="lng">
+<button type="button" ng-click="locationSave(lat,lng)">위치추가</button>
+<button type="button" ng-click="locationInfo(lat,lng)">위치정보</button>
+<table>
+<thead>
+<tr><th>사진</th><th>행사제목</th><th>전화번호</th></tr>
+</thead>
+<tbody>
+<tr ng-repeat="x in data track by $index">
+<td>
+<img src="" ng-src={{x.img}} id="{{$index}}" style="width:200px; height: 200px;">
+</td>
+<td>{{x.txt}}</td>
+<td>{{x.tel}}</td>
+</tr>
+</tbody>
+</table>
+</div>
+<script>
+var map = new naver.maps.Map("map", {
+    center: new naver.maps.LatLng(lat, lng),
+    zoom: 10,
+    mapTypeControl: true
+});
+
+var infoWindow = new naver.maps.InfoWindow({
+    anchorSkew: true
+});
+
+map.setCursor('pointer');
+
+// search by tm128 coordinate
+function searchCoordinateToAddress(latlng) {
+    var tm128 = naver.maps.TransCoord.fromLatLngToTM128(latlng);
+
+    infoWindow.close();
+
+    naver.maps.Service.reverseGeocode({
+        location: tm128,
+        coordType: naver.maps.Service.CoordType.TM128
+    }, function(status, response) {
+        if (status === naver.maps.Service.Status.ERROR) {
+            return alert('Something Wrong!');
+        }
+
+        var items = response.result.items,
+            htmlAddresses = [];
+
+        for (var i=0, ii=items.length, item, addrType; i<ii; i++) {
+            item = items[i];
+            addrType = item.isRoadAddress ? '[도로명 주소]' : '[지번 주소]';
+
+            htmlAddresses.push((i+1) +'. '+ addrType +' '+ item.address);
+        }
+
+        infoWindow.setContent([
+                '<div style="padding:10px;min-width:200px;line-height:150%;">',
+                '<h4 style="margin-top:5px;">검색 좌표</h4><br />',
+                htmlAddresses.join('<br />'),
+                '</div>'
+            ].join('\n'));
+
+        infoWindow.open(map, latlng);
+    });
+}
+
+// result by latlng coordinate
+function searchAddressToCoordinate(address) {
+    naver.maps.Service.geocode({
+        address: address
+    }, function(status, response) {
+        if (status === naver.maps.Service.Status.ERROR) {
+            return alert('Something Wrong!');
+        }
+
+        var item = response.result.items[0],
+            addrType = item.isRoadAddress ? '[도로명 주소]' : '[지번 주소]',
+            point = new naver.maps.Point(item.point.x, item.point.y);
+
+        infoWindow.setContent([
+                '<div style="padding:10px;min-width:200px;line-height:150%;">',
+                '<h4 style="margin-top:5px;">검색 주소 : '+ response.result.userquery +'</h4><br />',
+                addrType +' '+ item.address +'<br />',
+                '</div>'
+            ].join('\n'));
+
+
+        map.setCenter(point);
+        infoWindow.open(map, point);
+    });
+}
+
+function initGeocoder() {
+    map.addListener('click', function(e) {
+        searchCoordinateToAddress(e.coord);
+    });
+
+    $('#address').on('keydown', function(e) {
+        var keyCode = e.which;
+
+        if (keyCode === 13) { // Enter Key
+            searchAddressToCoordinate($('#address').val());
+        }
+    });
+
+    $('#submit').on('click', function(e) {
+        e.preventDefault();
+
+        searchAddressToCoordinate($('#address').val());
+    });
+
+    searchAddressToCoordinate('정자동 178-1');
+}
+
+naver.maps.onJSContentLoaded = initGeocoder;
+
+var position = new naver.maps.LatLng(lat, lng);
+
+var map = new naver.maps.Map('map', {
+    center: position,
+    zoom: 10
+});
+
+var marker = new naver.maps.Marker({
+    position: position,
+    map: map
+});
+
+naver.maps.Event.addListener(map, 'click', function(e) {
+	
+	var lat = e.coord._lat;
+	var lng = e.coord._lng;
+	document.getElementById('lat').value = lat;
+	document.getElementById('lng').value = lng;
+    marker.setPosition(e.coord);
+});
+</script>
 </body>
 </html>

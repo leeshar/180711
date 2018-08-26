@@ -13,6 +13,7 @@ app.controller('boardsCtrl',function($scope, $http, $routeParams, boardStorage,$
 	boardStorage.get(page, categoriName).then(function(data) {
 // 게시판 리스트 데이터
 	$scope.boardsList = data.list;
+	console.log($scope.boardsList);
 // 게시판 페이징 데이터
 	$scope.pagination = data.pagination;
 	$scope.startPage = data.pagination.startPage;
