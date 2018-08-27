@@ -79,14 +79,26 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 	$scope.areaSearch = function(city){
 		if(city.area==""){
 			var areaCode=city.do;
+			var areaLength = Object.keys($scope.do).length;
+			console.log(areaLength);
+			for(var i = 1; i<areaLength+1; i++){
+				if($scope.do[i]===areaCode)
+					areaCode=i;
+			}
+			console.log(areaCode);
 			var sigunguCode=city.gu;
 			
 		}
 		if(city.area!=""){
 			var areaCode=city.area;
+			var areaLength = Object.keys($scope.area).length;
+			for(var i = 1; i<areaLength+1; i++){
+				if($scope.area[i]===areaCode)
+					areaCode=i;
+			}
+			console.log(areaCode);
 			var sigunguCode=city.gu;
 		}
-		console.log(document.getElementById('1'));
 		travelStorage.areaSearch(areaCode,sigunguCode).then(function(data){
 			console.log(data);
 			parser = new DOMParser();

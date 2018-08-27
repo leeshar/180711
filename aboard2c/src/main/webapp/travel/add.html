@@ -58,7 +58,7 @@ $('#secondDatePick').datepicker({
 
 	<select ng-model="city.area" ng-hide="city.do">
 		<option value="">선택안함</option>
-		<option ng-repeat="x in area" value={{$index+1}}>{{x}}</option>
+		<option ng-repeat="x in area" value="{{x}}">{{x}}</option>
 	</select>
 	<select ng-model="city.do" ng-hide="city.area">
 		<option value="">선택안함</option>
