@@ -80,19 +80,21 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 		if(city.area==""){
 			var areaCode=city.do;
 			var sigunguCode=city.gu;
+			
 		}
 		if(city.area!=""){
 			var areaCode=city.area;
 			var sigunguCode=city.gu;
 		}
-			
-		console.log(areaCode);
+		console.log(document.getElementById('1'));
 		travelStorage.areaSearch(areaCode,sigunguCode).then(function(data){
 			console.log(data);
 			parser = new DOMParser();
 			xmlDoc = parser.parseFromString(data,"text/xml");
+			var tot = xmlDoc.getElementsByTagName("totalCount")[0].childNodes[0].nodeValue;
 			var x = xmlDoc.getElementsByTagName("item");
 			var data = [];
+			console.log(tot);
 			for(var i = 0;i<x.length;i++){
 				var obj = {};
 				if(x[i].getElementsByTagName("firstimage2")[0])
@@ -102,11 +104,14 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 					obj.img = "http://localhost:8081/upload/none.jpg";
 			obj.tel = x[i].getElementsByTagName("tel")[0].childNodes[0].nodeValue;
 			obj.txt = x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+			obj.lat = x[i].getElementsByTagName("mapx")[0].childNodes[0].nodeValue;
+			obj.lng = x[i].getElementsByTagName("mapy")[0].childNodes[0].nodeValue;
 			
 			if(obj.txt.indexOf("[")!=-1){
 				obj.txt = obj.txt.substring(0,obj.txt.indexOf("[",0));
 			}
 			console.log(`"${i}"`);
+			
 			data.push(obj);
 			};
 			$scope.data = data;
