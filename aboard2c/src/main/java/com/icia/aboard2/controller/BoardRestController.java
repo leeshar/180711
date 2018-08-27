@@ -80,7 +80,7 @@ public class BoardRestController {
 			String filename_ext = filename.substring(filename.lastIndexOf(".")+1);
 			filename_ext = filename_ext.toLowerCase();
 			String dftFilePath = request.getSession().getServletContext().getRealPath("/");
-			String filePath = "/Applications/member/";
+			String filePath = "d:/service/upload";
 			File file = new File(filePath);
 			if(!file.exists()) {
 				file.mkdirs();

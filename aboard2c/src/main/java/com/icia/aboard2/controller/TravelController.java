@@ -65,12 +65,12 @@ public class TravelController {
 	public void deleteTravel(String travelBno) {
 		service.deleteTravel(travelBno);
 	}
-	@RequestMapping(value="/travel/performance/{lat}/{lng}/", produces = "application/json; charset=UTF-8" )
-	public String performanceData(@PathVariable String lat,@PathVariable String lng) throws ParseException, JsonProcessingException {
+	@RequestMapping(value="/travel/areaSearch/{areaCode}/{sigunguCode}", produces = "application/json; charset=UTF-8" )
+	public String performanceData(@PathVariable String areaCode,@PathVariable String sigunguCode) throws ParseException, JsonProcessingException {
 		String result ="";
 		BufferedReader br = null;
 		try {
-			String urlstr ="http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=gnU6hW6oBRyWh4Gc%2FbebNXyArGz5gwRBjXu8wq7O%2BWPpKZslklvmAXNfJhsVmtq%2B40XXQIgeXzpX9NGWErXj3Q%3D%3D&contentTypeId=15&mapX="+lng+"&mapY="+lat+"&radius=2000&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1";
+			String urlstr ="http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchStay?ServiceKey=gnU6hW6oBRyWh4Gc%2FbebNXyArGz5gwRBjXu8wq7O%2BWPpKZslklvmAXNfJhsVmtq%2B40XXQIgeXzpX9NGWErXj3Q%3D%3D&contentTypeId=12&areaCode="+areaCode+"&sigunguCode="+sigunguCode+"&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1";
 			URL url = new URL(urlstr);
 			System.out.println(urlstr);
 			HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();

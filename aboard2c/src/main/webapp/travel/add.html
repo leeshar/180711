@@ -10,6 +10,16 @@ input[type="date"]::-webkit-inner-spin-button {
     display: none;
     appearance: none;
 }
+
+.galaryList{
+	float: left;
+	list-style: none;
+	text-align: center;
+}
+.listWrap{
+	width: 100%;
+	margin-top: 100px;
+}
 </style>
 <script>
 $('#firstDatePick').datepicker({
@@ -34,7 +44,7 @@ $('#secondDatePick').datepicker({
 </script>
 </head>
 <body>
-<div style="overflow-y: scroll; width: 1250px; height: 800px;">
+<div style="overflow-y: scroll; width: 1000px; height: 800px;">
 	<p>여긴 ADD</p>
 	<div class="input-group">
 <input type="text" name="datepick" id="firstDatePick" ng-model="startDate">
@@ -44,148 +54,80 @@ $('#secondDatePick').datepicker({
 	</div>
 	</div>
 	<button type="button" ng-click="dateAdd()">추가하기</button>
-<div id="map" style="width:100%;height:400px;"></div>
-<div class="search" style="">
-            <input id="address" type="text" placeholder="검색할 주소" value="인천" />
-            <input id="submit" type="button" value="주소 검색" />
-        </div>
-<input type="hidden" id="lat" name="lat" ng-model="lat">
-<input type="hidden" id="lng" name="lng" ng-model="lng">
-<button type="button" ng-click="locationSave(lat,lng)">위치추가</button>
-<button type="button" ng-click="locationInfo(lat,lng)">위치정보</button>
-<table>
-<thead>
-<tr><th>사진</th><th>행사제목</th><th>전화번호</th></tr>
-</thead>
-<tbody>
-<tr ng-repeat="x in data track by $index">
-<td>
-<img src="" ng-src={{x.img}} id="{{$index}}" style="width:200px; height: 200px;">
-</td>
-<td>{{x.txt}}</td>
-<td>{{x.tel}}</td>
-</tr>
-</tbody>
-</table>
+	<select ng-model="city.area" ng-hide="city.do">
+		<option value="">선택안함</option>
+		<option ng-repeat="x in area" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-model="city.do" ng-hide="city.area">
+		<option value="">선택안함</option>
+		<option ng-repeat="x in do" value="{{$index+31}}">{{x}}</option>
+	</select>
+	<select ng-show="city.area==1" ng-model="city.gu">
+		<option ng-repeat="x in seoulgu" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.area==2" ng-model="city.gu">
+		<option ng-repeat="x in incheongu" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.area==3" ng-model="city.gu">
+		<option ng-repeat="x in daejeongu" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.area==4" ng-model="city.gu">
+		<option ng-repeat="x in daegugu" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.area==5" ng-model="city.gu">
+		<option ng-repeat="x in gwangjugu" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.area==6" ng-model="city.gu">
+		<option ng-repeat="x in busangu" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.area==7" ng-model="city.gu">
+		<option ng-repeat="x in ulsangu" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.area==8" ng-model="city.gu">
+		<option ng-repeat="x in sejonggu" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.do==31" ng-model="city.gu">
+		<option ng-repeat="x in gyeonggi" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.do==32" ng-model="city.gu">
+		<option ng-repeat="x in gangwon" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.do==33" ng-model="city.gu">
+		<option ng-repeat="x in chungbuk" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.do==34" ng-model="city.gu">
+		<option ng-repeat="x in chungnam" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.do==35" ng-model="city.gu">
+		<option ng-repeat="x in gyeongbuk" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.do==36" ng-model="city.gu">
+		<option ng-repeat="x in gyeongnam" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.do==37" ng-model="city.gu">
+		<option ng-repeat="x in jeonbuk" value={{$index+1}}>{{x}}</option>
+	</select>
+	<select ng-show="city.do==38" ng-model="city.gu">
+		<option ng-repeat="x in jeonnam" value={{$index+1}}>{{x}}</option>
+	</select>
+		<select ng-show="city.do==39" ng-model="city.gu">
+		<option ng-repeat="x in zezudo" value={{$index+1}}>{{x}}</option>
+	</select>
+	{{city.area}}
+	{{city.do}}
+	{{city.gu}}
+	<button type="button" ng-click="areaSearch(city)">검색</button>
+<div class="listWrap">
+<ul ng-repeat="x in data track by $index" class="galaryList">
+<li><img src="" ng-src={{x.img}} id="{{$index}}" style="width:200px; height: 200px; border-radius: 30px;">
+</li>
+<small style="width: 200px;">{{x.txt}}</small>
+
+</ul>
 </div>
-<script>
-var map = new naver.maps.Map("map", {
-    center: new naver.maps.LatLng(lat, lng),
-    zoom: 10,
-    mapTypeControl: true
-});
-
-var infoWindow = new naver.maps.InfoWindow({
-    anchorSkew: true
-});
-
-map.setCursor('pointer');
-
-// search by tm128 coordinate
-function searchCoordinateToAddress(latlng) {
-    var tm128 = naver.maps.TransCoord.fromLatLngToTM128(latlng);
-
-    infoWindow.close();
-
-    naver.maps.Service.reverseGeocode({
-        location: tm128,
-        coordType: naver.maps.Service.CoordType.TM128
-    }, function(status, response) {
-        if (status === naver.maps.Service.Status.ERROR) {
-            return alert('Something Wrong!');
-        }
-
-        var items = response.result.items,
-            htmlAddresses = [];
-
-        for (var i=0, ii=items.length, item, addrType; i<ii; i++) {
-            item = items[i];
-            addrType = item.isRoadAddress ? '[도로명 주소]' : '[지번 주소]';
-
-            htmlAddresses.push((i+1) +'. '+ addrType +' '+ item.address);
-        }
-
-        infoWindow.setContent([
-                '<div style="padding:10px;min-width:200px;line-height:150%;">',
-                '<h4 style="margin-top:5px;">검색 좌표</h4><br />',
-                htmlAddresses.join('<br />'),
-                '</div>'
-            ].join('\n'));
-
-        infoWindow.open(map, latlng);
-    });
-}
-
-// result by latlng coordinate
-function searchAddressToCoordinate(address) {
-    naver.maps.Service.geocode({
-        address: address
-    }, function(status, response) {
-        if (status === naver.maps.Service.Status.ERROR) {
-            return alert('Something Wrong!');
-        }
-
-        var item = response.result.items[0],
-            addrType = item.isRoadAddress ? '[도로명 주소]' : '[지번 주소]',
-            point = new naver.maps.Point(item.point.x, item.point.y);
-
-        infoWindow.setContent([
-                '<div style="padding:10px;min-width:200px;line-height:150%;">',
-                '<h4 style="margin-top:5px;">검색 주소 : '+ response.result.userquery +'</h4><br />',
-                addrType +' '+ item.address +'<br />',
-                '</div>'
-            ].join('\n'));
 
 
-        map.setCenter(point);
-        infoWindow.open(map, point);
-    });
-}
 
-function initGeocoder() {
-    map.addListener('click', function(e) {
-        searchCoordinateToAddress(e.coord);
-    });
-
-    $('#address').on('keydown', function(e) {
-        var keyCode = e.which;
-
-        if (keyCode === 13) { // Enter Key
-            searchAddressToCoordinate($('#address').val());
-        }
-    });
-
-    $('#submit').on('click', function(e) {
-        e.preventDefault();
-
-        searchAddressToCoordinate($('#address').val());
-    });
-
-    searchAddressToCoordinate('정자동 178-1');
-}
-
-naver.maps.onJSContentLoaded = initGeocoder;
-
-var position = new naver.maps.LatLng(lat, lng);
-
-var map = new naver.maps.Map('map', {
-    center: position,
-    zoom: 10
-});
-
-var marker = new naver.maps.Marker({
-    position: position,
-    map: map
-});
-
-naver.maps.Event.addListener(map, 'click', function(e) {
-	
-	var lat = e.coord._lat;
-	var lng = e.coord._lng;
-	document.getElementById('lat').value = lat;
-	document.getElementById('lng').value = lng;
-    marker.setPosition(e.coord);
-});
-</script>
+</div>
 </body>
 </html>
