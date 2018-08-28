@@ -221,6 +221,9 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 				if(obj.txt.indexOf("[")!=-1){
 					obj.txt = obj.txt.substring(0,obj.txt.indexOf("[",0));
 					}
+				if(obj.txt.indexOf("(")!=-1){
+					obj.txt = obj.txt.substring(0,obj.txt.indexOf("(",0));
+					}
 				
 				if(x[i].getElementsByTagName("mapx")[0])
 					obj.lng = x[i].getElementsByTagName("mapx")[0].childNodes[0].nodeValue;
