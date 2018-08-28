@@ -1,0 +1,8 @@
+18 - 08 - 28
+수정사항
+ * 아이디 찾기 $rootScope.authToken <= JSON.stringify를 못해줘서 var 변수에 집어넣어서 보내줌
+
+버그사항
+ * travel/add 페이지를 들어와서 바로 map Search 시 바로 marker가 찍히지 않음
+ * 그래도 리스트는 나옴.
+ 

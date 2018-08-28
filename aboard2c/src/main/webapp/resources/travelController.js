@@ -247,6 +247,9 @@ app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routePara
 		xmlDoc = parser.parseFromString(data,"text/xml");
 		$scope.image = xmlDoc.getElementsByTagName("firstimage")[0].childNodes[0].nodeValue;
 		$scope.txt = xmlDoc.getElementsByTagName("overview")[0].childNodes[0].nodeValue;
+		if($scope.txt.indexOf("<")!=-1){
+			$scope.txt = $scope.txt.substring(0,$scope.txt.indexOf("<",0));
+			}
 	});
 	
 });
