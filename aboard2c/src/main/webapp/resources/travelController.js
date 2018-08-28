@@ -87,9 +87,10 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 	// 숙소 검색
 	$scope.areaSearch = function(city){
 		// "도" 부분 처리 완료
-		if(city.area==null){
+		console.log(city);
+		if(city.do!=null){
 			// map search창 value
-			$scope.searchCode = city.area+" "+city.gu;
+			$scope.searchCode = city.do+" "+city.gu;
 			var areaCode=city.do;
 			var areaLength = Object.keys($scope.do).length;
 			var value = Object.keys($scope.do)[0];
@@ -132,13 +133,17 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 				break;
 			}
 			var ojLength = Object.keys(oj).length;
+			console.log(ojLength);
 			for(var i = 1; i<ojLength+1; i++){
 				if(oj[i]===sigunguCode)
 					sigunguCode=i;
 			}
 		}
+		console.log(city);
+		console.log(city.area!=null);
+		console.log(city.area!="");
 		// 여긴 "시" 부분
-		if(city.area!=null){
+		if(city.area!=null&&city.area!=""){
 
 			// map search창 value
 			$scope.searchCode = city.area +" "+ city.gu;
@@ -185,8 +190,9 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 				if(oj[i]===sigunguCode)
 					sigunguCode=i;
 			}
-		
+			
 		}
+		console.log(areaCode);
 		// 숙소 목록
 		travelStorage.areaSearch(areaCode,sigunguCode).then(function(data){
 			parser = new DOMParser();
