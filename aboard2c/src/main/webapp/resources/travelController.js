@@ -189,36 +189,47 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 		}
 		// 숙소 목록
 		travelStorage.areaSearch(areaCode,sigunguCode).then(function(data){
-			console.log(data);
 			parser = new DOMParser();
 			xmlDoc = parser.parseFromString(data,"text/xml");
 			var tot = xmlDoc.getElementsByTagName("totalCount")[0].childNodes[0].nodeValue;
 			var x = xmlDoc.getElementsByTagName("item");
 			var data = [];
-			console.log(tot);
 			for(var i = 0;i<x.length;i++){
 				var obj = {};
+				//image
 				if(x[i].getElementsByTagName("firstimage2")[0])
 					obj.img = x[i].getElementsByTagName("firstimage2")[0].childNodes[0].nodeValue;	 
-						
 				if(!x[i].getElementsByTagName("firstimage2")[0])
 					obj.img = "http://localhost:8081/upload/none.jpg";
-			obj.tel = x[i].getElementsByTagName("tel")[0].childNodes[0].nodeValue;
-			obj.txt = x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
-			obj.lat = x[i].getElementsByTagName("mapx")[0].childNodes[0].nodeValue;
-			obj.lng = x[i].getElementsByTagName("mapy")[0].childNodes[0].nodeValue;
-			
-			if(obj.txt.indexOf("[")!=-1){
-				obj.txt = obj.txt.substring(0,obj.txt.indexOf("[",0));
-			}
-			console.log(`"${i}"`);
+				//tel
+				if(x[i].getElementsByTagName("tel")[0])
+					obj.tel = x[i].getElementsByTagName("tel")[0].childNodes[0].nodeValue;
+				if(!x[i].getElementsByTagName("tel")[0])
+					obj.tel = "번호없음";
+				//title
+				if(x[i].getElementsByTagName("title")[0])
+					obj.txt = x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+				if(!x[i].getElementsByTagName("title")[0])
+					obj.txt = "제목없음";
+				if(obj.txt.indexOf("[")!=-1){
+					obj.txt = obj.txt.substring(0,obj.txt.indexOf("[",0));
+					}
+				
+				if(x[i].getElementsByTagName("mapx")[0])
+					obj.lng = x[i].getElementsByTagName("mapx")[0].childNodes[0].nodeValue;
+				if(!x[i].getElementsByTagName("mapx")[0])
+					obj.lng = location.push("위치없음");
+				
+				if(x[i].getElementsByTagName("mapy")[0])
+					obj.lat = x[i].getElementsByTagName("mapy")[0].childNodes[0].nodeValue;
+				if(!x[i].getElementsByTagName("mapy")[0])
+					obj.lat = "위치없음";
+			//""안에 변수 사용법 `` 백퀕+${변수명} console.log(`"${i}"`);
 			
 			data.push(obj);
 			};
 			$scope.data = data;
-			console.log(data);
 				
 		});
 	}
-		
 });

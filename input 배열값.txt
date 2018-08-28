@@ -1,0 +1,24 @@
+
+<input type="hidden" value="{{location}}" id="location">
+
+
+			$scope.location = location; <= $scope.location [배열]
+
+var lcvalue = document.getElementById('location').value;  <= lcvalue 값이 String
+
+
+겨우 해결 ng-repeat으로 input 생성 시킨 후 name은 똑같이 주고 value = {{배열값}}
+준다.
+그리고 $("input[name='lcName']").length <= input 배열의 길이를 주고
+var list = [];
+var length = $("input[name='lcName']").length;
+for(var i = 0 ; i < length; i++){
+	if(i%2==0||i==0) <= I가 0이거나 짝수일 경우
+		짝수번째 값을 넣어줄 수 있다
+		VAR obj = {};
+		obj.짝수 = $("input[name='lcName']")[i].value; < = 로 값을 넣어 줄 수 있다.
+	if(i%2==1)
+		obj.홀수 = $("input[name='lcName']")[i].value; <= 로 넣어준다 그러면 번갈아가면서 값을 넣어주게된다.
+		list.push(obj); <<=== 리스트에 객체를 넣어줌으로서 생성 할 수 있다.
+
+

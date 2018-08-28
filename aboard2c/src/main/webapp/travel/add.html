@@ -121,11 +121,15 @@ $('#secondDatePick').datepicker({
             <input id="address" type="hidden" placeholder="검색할 주소" value={{searchCode}} />
             <input id="mapsearch" type="hidden" value="주소 검색" />
 </div>
+<p>"{{searchCode}}" 지역의 숙소 결과 입니다.
 <div class="listWrap">
 <ul ng-repeat="x in data track by $index" class="galaryList">
 <li><img src="" ng-src={{x.img}} id="{{$index}}" style="width:200px; height: 200px; border-radius: 30px;">
 </li>
 <small style="width: 200px;">{{x.txt}}</small>
+<input type="hidden" name="lcTitle" value="{{x.txt}}">
+<input type="hidden" name="lcName" value="{{x.lat}}">
+<input type="hidden" name="lcName" value="{{x.lng}}">
 </ul>
 </div>
 <script>
@@ -183,22 +187,7 @@ function searchAddressToCoordinate(address) {
     }, function(status, response) {
         if (status === naver.maps.Service.Status.ERROR) {
             return alert('Something Wrong!');
-        }
-
-        var item = response.result.items[0],
-            addrType = item.isRoadAddress ? '[도로명 주소]' : '[지번 주소]',
-            point = new naver.maps.Point(item.point.x, item.point.y);
-
-        infoWindow.setContent([
-                '<div style="padding:10px;min-width:200px;line-height:150%;">',
-                '<h4 style="margin-top:5px;">검색 주소 : '+ response.result.userquery +'</h4><br />',
-                addrType +' '+ item.address +'<br />',
-                '</div>'
-            ].join('\n'));
-
-
-        map.setCenter(point);
-        infoWindow.open(map, point);
+        } 
     });
 }
 
@@ -216,16 +205,61 @@ function initGeocoder() {
     });
 
     $('#submit').on('click', function(e) {
-        e.preventDefault();
-
+    	e.preventDefault();
         searchAddressToCoordinate($('#address').val());
+        
+        setTimeout(function(){
+         var lcLength = $("input[name='lcName']").length;
+         var ttLength = $("input[name='lcTitle']").length;
+         var ttList = [];
+         console.log(ttLength);
+         for(var i = 0; i<ttLength; i++){
+        	 var obj = {};
+        	 obj.title = $("input[name='lcTitle']")[i].value;
+        	 ttList.push(obj);
+         }
+         var lcList = [];
+         for(var i = 0; i<lcLength; i++){
+        	 if(i%2==0||i==0){
+        		 var obj = {};
+        		 obj.lat = $("input[name='lcName']")[i].value;
+        	 }
+        	 if(i%2==1){
+        		 obj.lng = $("input[name='lcName']")[i].value;
+        		lcList.push(obj);
+        	 }
+         }
+         console.log(lcList[0].lat);
+         console.log(lcList[0].lng);
+         for(var i = 0; i<lcList.length; i++){
+         var point = new naver.maps.LatLng(lcList[i]);
+
+         var marker = new naver.maps.Marker({
+             position: point,
+             map: map
+         });
+      
+        	infoWindow.setPosition(point);
+        	marker.setPosition(point);
+        	
+         }
+         infoWindow.setContent([
+             '<div style="padding:10px;min-width:200px;line-height:150%;">',
+             '<h4 style="margin-top:5px;">검색 주소 : '+ttList[0].title +'</h4><br />',
+             '</div>'
+         ].join('\n'));  
+         map.setCenter(lcList[0]);
+         infoWindow.open(map, lcList[0]);
+       	console.log(ttList);
+        
+        
+        }, 700);
     });
 
     searchAddressToCoordinate('정자동 178-1');
 }
 
 naver.maps.onJSContentLoaded = initGeocoder;
-
 var position = new naver.maps.LatLng(lat, lng);
 
 var map = new naver.maps.Map('map', {
@@ -239,6 +273,7 @@ var marker = new naver.maps.Marker({
 });
 
 naver.maps.Event.addListener(map, 'click', function(e) {
+	
 	var lat = e.coord._lat;
 	var lng = e.coord._lng;
     marker.setPosition(e.coord);
