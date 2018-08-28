@@ -38,23 +38,32 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 	$scope.gyeonggi={1:'가평군',2:'고양시',3:'과천시',4:'광명시',5:'광주시',6:'구리시',7:'군포시',8:'김포시',9:'남양주시',10:'동두천시',11:'부천시',
 			12:'성남시',13:'수원시',14:'시흥시',15:'안산시',16:'안성시',17:'안양시',18:'양주시',19:'양평군',20:'여주시',21:'연천군',
 			22:'오산시',23:'용인시',24:'의왕시',25:'의정부시',26:'이천시',27:'파주시',28:'평택시',29:'포천시',30:'하남시',31:'화성시'};
+	var gyggiLength = Object.keys($scope.gyeonggi).length;
 	$scope.gangwon={1:'강릉시',2:'고성군',3:'동해시',4:'삼척시',5:'속초시',6:'양구군',7:'양양군',8:'영월군',9:'원주시',10:'인제군'
 ,11:'정선군',12:'철원군',13:'춘천시',14:'태백시',15:'평창군',16:'홍천군',17:'화천군',18:'횡성군'};
+	var gangwonLength= Object.keys($scope.gangwon).length;
 	$scope.chungbuk={1:'괴산군',2:'단양군',3:'보은군',4:'영동군',5:'옥천군',6:'음성군',7:'제천시',8:'진천군',
 9:'청원군',10:'청주시',11:'충주시',12:'증평군'};
-	$scope.chungnam={1:'공주시',2:'금산군',3:'논산시',4:'당진시',5:'보령시',6:'부여군',7:'서산시',8:'서천군',
+	var chungbukLength= Object.keys($scope.chungbuk).length;
+	$scope.chungnam={1:'공주시',2:'금산군',3:'논산시',4:'당진시',5:'보령시',6:'부여군',7:'서산시',8:'서천군',		
 9:'아산시',10:'예산군',11:'천안시',12:'청양군',13:'태안군',14:'홍성군',15:'계룡시'};
+	var chungnamLength= Object.keys($scope.chungnam).length;
 	$scope.gyeongbuk={1:'경산시',2:'경주시',3:'고령군',4:'구미시',5:'군위군',6:'김천시',7:'문경시',8:'봉화군',
 9:'상주시',10:'성주군',11:'안동시',12:'영덕군',13:'영양군',14:'영주시',15:'영천시',16:'예천군',17:'울릉군'
 ,18:'울진군',19:'의성군',20:'청도군',21:'청송군',22:'칠곡군',23:'포항시'};
+	var gyeongbukLength= Object.keys($scope.gyeongbuk).length;
 	$scope.gyeongnam={1:'거제시',2:'거창군',3:'고성군',4:'김해시',5:'남해군',6:'마산시',7:'밀양시',8:'사천시',9:'산청군',
 10:'양산시',11:'의령군',12:'진주시',13:'진해시',14:'창녕군',15:'창원시',16:'통영시',17:'하동군',18:'함안군',19:'함양군',20:'합천군'};
+	var gyeongnamLength= Object.keys($scope.gyeongbuk).length;
 	$scope.jeonbuk={1:'고창군',2:'군산시',3:'김제시',4:'남원시',5:'무주군',6:'부안군',7:'순창군',8:'완주군',
 9:'익산시',10:'임실군',11:'장수군',12:'전주시',13:'정읍시',14:'진안군'};
+	var jeonbukLength= Object.keys($scope.jeonbuk).length;
 	$scope.jeonnam={1:'강진군',2:'고흥군',3:'곡성군',4:'광양시',5:'구례군',6:'나주시',7:'담양군',8:'목포시',
 9:'무안군',10:'보성군',11:'순천시',12:'신안군',13:'여수시',14:'',15:'',16:'영광군',17:'영암군',18:'완도군',19:'장성군',
 20:'장흥군',21:'진도군',22:'함평군',23:'해남군',24:'화순군'};
+	var jeonnamLength= Object.keys($scope.jeonnam).length;
 	$scope.zezudo={1:'남제주군', 2:'북제주군', 3:'서귀포시', 4:'제주시'};
+	var zezudoLength = Object.keys($scope.zezudo).length;
 	// 여행 자세히 보기
 	travelStorage.detailTravel(travelBno).then(function(data){
 		
@@ -75,30 +84,110 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 		});
 		
 	};
-	// 여행 검색
+	// 숙소 검색
 	$scope.areaSearch = function(city){
-		if(city.area==""){
+		// "도" 부분 처리 완료
+		if(city.area==null){
+			// map search창 value
+			$scope.searchCode = city.area+" "+city.gu;
 			var areaCode=city.do;
 			var areaLength = Object.keys($scope.do).length;
-			console.log(areaLength);
-			for(var i = 1; i<areaLength+1; i++){
+			var value = Object.keys($scope.do)[0];
+			for(var i = value; i<40; i++){
 				if($scope.do[i]===areaCode)
 					areaCode=i;
 			}
-			console.log(areaCode);
 			var sigunguCode=city.gu;
+			var oj;
+			switch(areaCode){
+			// 도 - 구
 			
+			case 31:
+				oj = $scope.gyeonggi;
+				break;
+			case 32:
+				oj = $scope.gangwon;
+				break;
+			case 33:
+				oj = $scope.chungbuk;
+				break;
+			case 34:
+				oj = $scope.chungnam;
+				break;
+			case 35:
+				oj = $scope.gyeongbuk;
+				break;
+			case 36:
+				oj = $scope.gyeongnam;
+				break;
+				
+			case 37:
+				oj = $scope.jeonbuk;
+				break;
+			case 38:
+				oj = $scope.jeonnam;
+				break;
+			case 39:
+				oj = $scope.zezudo;
+				break;
+			}
+			var ojLength = Object.keys(oj).length;
+			for(var i = 1; i<ojLength+1; i++){
+				if(oj[i]===sigunguCode)
+					sigunguCode=i;
+			}
 		}
-		if(city.area!=""){
+		// 여긴 "시" 부분
+		if(city.area!=null){
+
+			// map search창 value
+			$scope.searchCode = city.area +" "+ city.gu;
 			var areaCode=city.area;
 			var areaLength = Object.keys($scope.area).length;
 			for(var i = 1; i<areaLength+1; i++){
 				if($scope.area[i]===areaCode)
 					areaCode=i;
 			}
-			console.log(areaCode);
-			var sigunguCode=city.gu;
+			var sigunguCode = city.gu;
+			var oj;
+			switch(areaCode){
+			// 도 - 구
+			
+			case 1:
+				oj = $scope.seoulgu;
+				break;
+			case 2:
+				oj = $scope.incheongu;
+				break;
+			case 3:
+				oj = $scope.daejeongu;
+				break;
+			case 4:
+				oj = $scope.daegugu;
+				break;
+			case 5:
+				oj = $scope.gwangjugu;
+				break;
+			case 6:
+				oj = $scope.busangu;
+				break;
+				
+			case 7:
+				oj = $scope.ulsangu;
+				break;
+			case 8:
+				oj = $scope.sejonggu;
+				break;
+			
+			}
+			var ojLength=Object.keys(oj).length;
+			for(var i = 1; i<ojLength+1; i++){
+				if(oj[i]===sigunguCode)
+					sigunguCode=i;
+			}
+		
 		}
+		// 숙소 목록
 		travelStorage.areaSearch(areaCode,sigunguCode).then(function(data){
 			console.log(data);
 			parser = new DOMParser();

@@ -44,7 +44,7 @@ $('#secondDatePick').datepicker({
 </script>
 </head>
 <body>
-<div style="overflow-y: scroll; width: 1000px; height: 800px;">
+<div style="overflow-y: scroll; width: 1150px; height: 800px;">
 	<p>여긴 ADD</p>
 	<div class="input-group">
 <input type="text" name="datepick" id="firstDatePick" ng-model="startDate">
@@ -62,72 +62,71 @@ $('#secondDatePick').datepicker({
 	</select>
 	<select ng-model="city.do" ng-hide="city.area">
 		<option value="">선택안함</option>
-		<option ng-repeat="x in do" value="{{$index+31}}">{{x}}</option>
+		<option ng-repeat="x in do" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.area==1" ng-model="city.gu">
-		<option ng-repeat="x in seoulgu" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.area==='서울'" ng-model="city.gu">
+		<option ng-repeat="x in seoulgu" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.area==2" ng-model="city.gu">
-		<option ng-repeat="x in incheongu" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.area==='인천'" ng-model="city.gu">
+		<option ng-repeat="x in incheongu" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.area==3" ng-model="city.gu">
-		<option ng-repeat="x in daejeongu" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.area==='대전'" ng-model="city.gu">
+		<option ng-repeat="x in daejeongu" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.area==4" ng-model="city.gu">
-		<option ng-repeat="x in daegugu" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.area==='대구'" ng-model="city.gu">
+		<option ng-repeat="x in daegugu" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.area==5" ng-model="city.gu">
-		<option ng-repeat="x in gwangjugu" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.area==='광주'" ng-model="city.gu">
+		<option ng-repeat="x in gwangjugu" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.area==6" ng-model="city.gu">
-		<option ng-repeat="x in busangu" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.area==='부산'" ng-model="city.gu">
+		<option ng-repeat="x in busangu" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.area==7" ng-model="city.gu">
-		<option ng-repeat="x in ulsangu" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.area==='울산'" ng-model="city.gu">
+		<option ng-repeat="x in ulsangu" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.area==8" ng-model="city.gu">
-		<option ng-repeat="x in sejonggu" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.area=='세종특별자치'" ng-model="city.gu">
+		<option ng-repeat="x in sejonggu" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.do==31" ng-model="city.gu">
-		<option ng-repeat="x in gyeonggi" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.do==='경기도'" ng-model="city.gu">
+		<option ng-repeat="x in gyeonggi" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.do==32" ng-model="city.gu">
-		<option ng-repeat="x in gangwon" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.do==='강원도'" ng-model="city.gu">
+		<option ng-repeat="x in gangwon" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.do==33" ng-model="city.gu">
-		<option ng-repeat="x in chungbuk" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.do==='충청북도'" ng-model="city.gu">
+		<option ng-repeat="x in chungbuk" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.do==34" ng-model="city.gu">
-		<option ng-repeat="x in chungnam" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.do==='충청남도'" ng-model="city.gu">
+		<option ng-repeat="x in chungnam" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.do==35" ng-model="city.gu">
-		<option ng-repeat="x in gyeongbuk" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.do==='경상북도'" ng-model="city.gu">
+		<option ng-repeat="x in gyeongbuk" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.do==36" ng-model="city.gu">
-		<option ng-repeat="x in gyeongnam" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.do==='경상남도'" ng-model="city.gu">
+		<option ng-repeat="x in gyeongnam" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.do==37" ng-model="city.gu">
-		<option ng-repeat="x in jeonbuk" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.do==='전라북도'" ng-model="city.gu">
+		<option ng-repeat="x in jeonbuk" value="{{x}}">{{x}}</option>
 	</select>
-	<select ng-show="city.do==38" ng-model="city.gu">
-		<option ng-repeat="x in jeonnam" value={{$index+1}}>{{x}}</option>
+	<select ng-show="city.do==='전라남도'" ng-model="city.gu">
+		<option ng-repeat="x in jeonnam" value="{{x}}">{{x}}</option>
 	</select>
-		<select ng-show="city.do==39" ng-model="city.gu">
-		<option ng-repeat="x in zezudo" value={{$index+1}}>{{x}}</option>
+		<select ng-show="city.do==='제주도'" ng-model="city.gu">
+		<option ng-repeat="x in zezudo" value="{{x}}">{{x}}</option>
 	</select>
-	<button type="button" ng-click="areaSearch(city)">검색</button>
+	<button type="button" ng-click="areaSearch(city)" id="submit">검색</button>
+	<div id="map" style="width:780px;height:400px; margin-bottom: 100px; margin-top: 100px;"></div>
+<div class="search" style="">
+            <input id="address" type="hidden" placeholder="검색할 주소" value={{searchCode}} />
+            <input id="mapsearch" type="hidden" value="주소 검색" />
+</div>
 <div class="listWrap">
 <ul ng-repeat="x in data track by $index" class="galaryList">
 <li><img src="" ng-src={{x.img}} id="{{$index}}" style="width:200px; height: 200px; border-radius: 30px;">
 </li>
 <small style="width: 200px;">{{x.txt}}</small>
-
 </ul>
-</div>
-<div id="map" style="width:100%;height:400px; margin-bottom: 100px; margin-top: 100px;"></div>
-<div class="search" style="">
-            <input id="address" type="text" placeholder="검색할 주소" value={{searchCode}} />
-            <input id="submit" type="button" value="주소 검색" />
 </div>
 <script>
 var map = new naver.maps.Map("map", {
@@ -240,7 +239,6 @@ var marker = new naver.maps.Marker({
 });
 
 naver.maps.Event.addListener(map, 'click', function(e) {
-	
 	var lat = e.coord._lat;
 	var lng = e.coord._lng;
     marker.setPosition(e.coord);
