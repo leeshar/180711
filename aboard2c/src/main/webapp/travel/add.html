@@ -116,7 +116,7 @@ $('#secondDatePick').datepicker({
 		<option ng-repeat="x in zezudo" value="{{x}}">{{x}}</option>
 	</select>
 	<button type="button" ng-click="areaSearch(city)" id="submit">검색</button>
-	<div id="map" style="width:780px;height:400px; margin-bottom: 100px; margin-top: 100px;"></div>
+	<div id="map" style="width:680px;height:400px; margin-bottom: 100px; margin-top: 100px;"></div>
 <div class="search" style="">
             <input id="address" type="hidden" placeholder="검색할 주소" value={{searchCode}} />
             <input id="mapsearch" type="hidden" value="주소 검색" />
@@ -124,9 +124,11 @@ $('#secondDatePick').datepicker({
 <p>"{{searchCode}}" 지역의 숙소 결과 입니다.
 <div class="listWrap">
 <ul ng-repeat="x in data track by $index" class="galaryList">
+<a href="#!/travel/detail/{{x.contentId}}">
 <li><img src="" ng-src={{x.img}} id="{{$index}}" style="width:200px; height: 200px; border-radius: 30px;">
 </li>
 <small style="width: 200px;">{{x.txt}}</small>
+</a>
 <input type="hidden" name="lcTitle" value="{{x.txt}}">
 <input type="hidden" name="lcName" value="{{x.lat}}">
 <input type="hidden" name="lcName" value="{{x.lng}}">
@@ -134,7 +136,7 @@ $('#secondDatePick').datepicker({
 </div>
 <script>
 var map = new naver.maps.Map("map", {
-    center: new naver.maps.LatLng(37, 126),
+    center: new naver.maps.LatLng(37.4562557,126.70520620000002),
     zoom: 10,
     mapTypeControl: true
 });
@@ -144,41 +146,6 @@ var infoWindow = new naver.maps.InfoWindow({
 });
 
 map.setCursor('pointer');
-
-// search by tm128 coordinate
-function searchCoordinateToAddress(latlng) {
-    var tm128 = naver.maps.TransCoord.fromLatLngToTM128(latlng);
-
-    infoWindow.close();
-
-    naver.maps.Service.reverseGeocode({
-        location: tm128,
-        coordType: naver.maps.Service.CoordType.TM128
-    }, function(status, response) {
-        if (status === naver.maps.Service.Status.ERROR) {
-            return alert('Something Wrong!');
-        }
-
-        var items = response.result.items,
-            htmlAddresses = [];
-
-        for (var i=0, ii=items.length, item, addrType; i<ii; i++) {
-            item = items[i];
-            addrType = item.isRoadAddress ? '[도로명 주소]' : '[지번 주소]';
-
-            htmlAddresses.push((i+1) +'. '+ addrType +' '+ item.address);
-        }
-
-        infoWindow.setContent([
-                '<div style="padding:10px;min-width:200px;line-height:150%;">',
-                '<h4 style="margin-top:5px;">검색 좌표</h4><br />',
-                htmlAddresses.join('<br />'),
-                '</div>'
-            ].join('\n'));
-
-        infoWindow.open(map, latlng);
-    });
-}
 
 // result by latlng coordinate
 function searchAddressToCoordinate(address) {
@@ -256,21 +223,9 @@ function initGeocoder() {
         }, 700);
     });
 
-    searchAddressToCoordinate('정자동 178-1');
 }
 
 naver.maps.onJSContentLoaded = initGeocoder;
-var position = new naver.maps.LatLng(lat, lng);
-
-var map = new naver.maps.Map('map', {
-    center: position,
-    zoom: 10
-});
-
-var marker = new naver.maps.Marker({
-    position: position,
-    map: map
-});
 
 naver.maps.Event.addListener(map, 'click', function(e) {
 	

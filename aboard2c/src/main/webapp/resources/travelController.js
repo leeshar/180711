@@ -197,6 +197,7 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 			for(var i = 0;i<x.length;i++){
 				var obj = {};
 				//image
+				obj.contentId = x[i].getElementsByTagName("contentid")[0].childNodes[0].nodeValue;	 
 				if(x[i].getElementsByTagName("firstimage2")[0])
 					obj.img = x[i].getElementsByTagName("firstimage2")[0].childNodes[0].nodeValue;	 
 				if(!x[i].getElementsByTagName("firstimage2")[0])
@@ -229,7 +230,18 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 			data.push(obj);
 			};
 			$scope.data = data;
+			console.log(data);
+			
 				
 		});
 	}
+});
+
+// detailCtrl
+app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routeParams){
+	var contentId = $routeParams.contentId;
+	console.log(contentId);
+	travelStorage.stayDetail(contentId).then(function(data){
+		console.log(data);
+	});
 });
