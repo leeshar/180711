@@ -152,22 +152,22 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 			});
 		},
 		// 이메일인증
-		emailToken: function(email){
+		emailToken: function(email,authToken){
 			return $http({
 				url:"/aboard2/users/findId/emailAuth",
 				method:'POST',
-				data:'mail='+JSON.stringify({'email':email,'authToken': $rootScope.authToken}),
+				data:'mail='+ JSON.stringify({'email':email,'authToken': authToken}),
 				contentType:"application/json;charset=UTF-8",
 				headers : {'Content-Type': 'application/x-www-form-urlencoded'}
 			}).then(function(response){
-				console.log($rootScope.authToken);//TEST
+				console.log(authToken);//TEST
 				return "인증번호발송했습니다.";
 			})
 		},
 		//아이디 찾기
-		findId: function(find,emailToken){
+		findId: function(find,emailToken,authToken){
 			console.log(find);
-			if(emailToken==$rootScope.authToken){
+			if(emailToken==authToken){
 			return $http({
 				url:"/aboard2/users/findId",
 				method:'POST',

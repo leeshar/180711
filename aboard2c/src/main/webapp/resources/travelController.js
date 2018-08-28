@@ -243,5 +243,10 @@ app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routePara
 	console.log(contentId);
 	travelStorage.stayDetail(contentId).then(function(data){
 		console.log(data);
+		parser = new DOMParser();
+		xmlDoc = parser.parseFromString(data,"text/xml");
+		$scope.image = xmlDoc.getElementsByTagName("firstimage")[0].childNodes[0].nodeValue;
+		$scope.txt = xmlDoc.getElementsByTagName("overview")[0].childNodes[0].nodeValue;
 	});
+	
 });

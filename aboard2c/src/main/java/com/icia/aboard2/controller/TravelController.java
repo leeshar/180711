@@ -103,7 +103,7 @@ public class TravelController {
 		BufferedReader br = null;
 		String contentTypeId = "32";
 		try {
-			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey=gnU6hW6oBRyWh4Gc%2FbebNXyArGz5gwRBjXu8wq7O%2BWPpKZslklvmAXNfJhsVmtq%2B40XXQIgeXzpX9NGWErXj3Q%3D%3D&contentId="+contentId+"&contentTypeId="+contentTypeId+"&defaultYN=Y&MobileOS=ETC&MobileApp=AppTest";
+			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey=gnU6hW6oBRyWh4Gc%2FbebNXyArGz5gwRBjXu8wq7O%2BWPpKZslklvmAXNfJhsVmtq%2B40XXQIgeXzpX9NGWErXj3Q%3D%3D&contentId="+contentId+"&contentTypeId="+contentTypeId+"&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&MobileOS=ETC&MobileApp=AppTest";
 			URL url = new URL(urlstr);
 			System.out.println(urlstr);
 			HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();

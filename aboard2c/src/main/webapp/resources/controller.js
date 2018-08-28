@@ -301,14 +301,16 @@ app.controller('agreeCtrl', function($scope) {
 });
 // 아이디 찾기
 app.controller('findIdCtrl',function($rootScope, $scope, $http, $window, $location,userStorage) {
-	$rootScope.authToken = Math.floor((Math.random() * 99999) + 1);
+	var authToken = Math.floor((Math.random() * 99999) + 1);
+	console.log(authToken);
+	var email = document.getElementById('email').value;
 // 1. 인증번호	
 	$scope.emailAuth = function(isValid) {
 			if (!isValid)
 				alert("제대로 입력해주세요");
 			if (isValid) {
 				$scope.dataLoading = true;
-				userStorage.emailToken(email).then(function(data) {
+				userStorage.emailToken(email,authToken).then(function(data) {
 				alert(data);
 				$scope.emailInput = 1;
 				$scope.dataLoading = false;
@@ -316,10 +318,11 @@ app.controller('findIdCtrl',function($rootScope, $scope, $http, $window, $locati
 						}
 					};
 // 2. 아이디 찾기
-	$scope.findId = function(find, emailToken) {
+	$scope.findId = function(find,emailToken) {
 			console.log(find.irum);
 			console.log(emailToken);
-			userStorage.findId(find, emailToken).then(function(data) {
+			console.log(authToken);
+			userStorage.findId(find,emailToken,authToken).then(function(data) {
 				if (data == 'NO')
 					$rootScope.success = 2;
 				if (data != 'NO')
