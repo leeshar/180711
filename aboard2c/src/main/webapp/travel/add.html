@@ -22,6 +22,81 @@ input[type="date"]::-webkit-inner-spin-button {
 }
 </style>
 <script>
+var map = new naver.maps.Map("map", {
+    center: new naver.maps.LatLng(37.4562557,126.70520620000002),
+    zoom: 10,
+    mapTypeControl: true
+});
+
+var infoWindow = new naver.maps.InfoWindow({
+    anchorSkew: true
+});
+
+
+// result by latlng coordinate
+function searchAddressToCoordinate(address) {
+    naver.maps.Service.geocode({
+        address: address
+    }, function(status, response) {
+        if (status === naver.maps.Service.Status.ERROR) {
+            return alert('Something Wrong!');
+        } 
+    });
+}
+$('#submit').on('click', function(e) {
+    setTimeout(function(){
+    	e.preventDefault();
+    	console.log($('#address').val());
+    	console.log(document.getElementById('address'));
+        searchAddressToCoordinate($('#address').val());
+     var lcLength = $("input[name='lcName']").length;
+     var ttLength = $("input[name='lcTitle']").length;
+     var ttList = [];
+     console.log(ttLength);
+     for(var i = 0; i<ttLength; i++){
+    	 var obj = {};
+    	 obj.title = $("input[name='lcTitle']")[i].value;
+    	 ttList.push(obj);
+     }
+     var lcList = [];
+     for(var i = 0; i<lcLength; i++){
+    	 if(i%2==0||i==0){
+    		 var obj = {};
+    		 obj.lat = $("input[name='lcName']")[i].value;
+    	 }
+    	 if(i%2==1){
+    		 obj.lng = $("input[name='lcName']")[i].value;
+    		lcList.push(obj);
+    	 }
+     }
+     console.log(lcList[0]);
+     console.log(lcList[0]);
+     for(var i = 0; i<lcList.length; i++){
+     var point = new naver.maps.LatLng(lcList[i]);
+
+     var marker = new naver.maps.Marker({
+         position: point,
+         map: map
+     });
+  
+    	infoWindow.setPosition(point);
+    	marker.setPosition(point);
+    	
+     }
+     infoWindow.setContent([
+         '<div style="padding:10px;min-width:200px;line-height:150%;">',
+         '<h4 style="margin-top:5px;">검색 주소 : '+ttList[0].title +'</h4><br />',
+         '</div>'
+     ].join('\n'));  
+     map.setCenter(lcList[0]);
+     infoWindow.open(map, lcList[0]);
+   	console.log(ttList);
+    
+    
+    }, 500);
+});
+
+
 $('#firstDatePick').datepicker({
 	autoclose : true,
 	language : "kr",
@@ -134,106 +209,6 @@ $('#secondDatePick').datepicker({
 <input type="hidden" name="lcName" value="{{x.lng}}">
 </ul>
 </div>
-<script>
-var map = new naver.maps.Map("map", {
-    center: new naver.maps.LatLng(37.4562557,126.70520620000002),
-    zoom: 10,
-    mapTypeControl: true
-});
-
-var infoWindow = new naver.maps.InfoWindow({
-    anchorSkew: true
-});
-
-map.setCursor('pointer');
-
-// result by latlng coordinate
-function searchAddressToCoordinate(address) {
-    naver.maps.Service.geocode({
-        address: address
-    }, function(status, response) {
-        if (status === naver.maps.Service.Status.ERROR) {
-            return alert('Something Wrong!');
-        } 
-    });
-}
-
-function initGeocoder() {
-    map.addListener('click', function(e) {
-        searchCoordinateToAddress(e.coord);
-    });
-
-    $('#address').on('keydown', function(e) {
-        var keyCode = e.which;
-
-        if (keyCode === 13) { // Enter Key
-            searchAddressToCoordinate($('#address').val());
-        }
-    });
-
-    $('#submit').on('click', function(e) {
-    	e.preventDefault();
-        searchAddressToCoordinate($('#address').val());
-        
-        setTimeout(function(){
-         var lcLength = $("input[name='lcName']").length;
-         var ttLength = $("input[name='lcTitle']").length;
-         var ttList = [];
-         console.log(ttLength);
-         for(var i = 0; i<ttLength; i++){
-        	 var obj = {};
-        	 obj.title = $("input[name='lcTitle']")[i].value;
-        	 ttList.push(obj);
-         }
-         var lcList = [];
-         for(var i = 0; i<lcLength; i++){
-        	 if(i%2==0||i==0){
-        		 var obj = {};
-        		 obj.lat = $("input[name='lcName']")[i].value;
-        	 }
-        	 if(i%2==1){
-        		 obj.lng = $("input[name='lcName']")[i].value;
-        		lcList.push(obj);
-        	 }
-         }
-         console.log(lcList[0].lat);
-         console.log(lcList[0].lng);
-         for(var i = 0; i<lcList.length; i++){
-         var point = new naver.maps.LatLng(lcList[i]);
-
-         var marker = new naver.maps.Marker({
-             position: point,
-             map: map
-         });
-      
-        	infoWindow.setPosition(point);
-        	marker.setPosition(point);
-        	
-         }
-         infoWindow.setContent([
-             '<div style="padding:10px;min-width:200px;line-height:150%;">',
-             '<h4 style="margin-top:5px;">검색 주소 : '+ttList[0].title +'</h4><br />',
-             '</div>'
-         ].join('\n'));  
-         map.setCenter(lcList[0]);
-         infoWindow.open(map, lcList[0]);
-       	console.log(ttList);
-        
-        
-        }, 700);
-    });
-
-}
-
-naver.maps.onJSContentLoaded = initGeocoder;
-
-naver.maps.Event.addListener(map, 'click', function(e) {
-	
-	var lat = e.coord._lat;
-	var lng = e.coord._lng;
-    marker.setPosition(e.coord);
-});
-</script>
 </div>
 </body>
 </html>
