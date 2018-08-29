@@ -251,7 +251,7 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 // detailCtrl
 app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routeParams){
 	var contentId = $routeParams.contentId;
-	console.log(contentId);
+	$scope.contentId = contentId;
 	travelStorage.stayDetail(contentId).then(function(data){
 		console.log(data);
 		parser = new DOMParser();
@@ -261,6 +261,19 @@ app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routePara
 		if($scope.txt.indexOf("<")!=-1){
 			$scope.txt = $scope.txt.substring(0,$scope.txt.indexOf("<",0));
 			}
+
+		console.log($scope.image);
+	});
+	travelStorage.introInfo(contentId).then(function(data){
+		console.log(data);
+		parser = new DOMParser();
+		xmlDoc = parser.parseFromString(data,"text/xml");
+		$scope.mooni = xmlDoc.getElementsByTagName("infocenterlodging")[0].childNodes[0].nodeValue;
+		$scope.gaksilCount = xmlDoc.getElementsByTagName("roomcount")[0].childNodes[0].nodeValue;
+		$scope.checkintime = xmlDoc.getElementsByTagName("checkintime")[0].childNodes[0].nodeValue;
+		$scope.checkouttime = xmlDoc.getElementsByTagName("checkouttime")[0].childNodes[0].nodeValue;
+		$scope.reservation = xmlDoc.getElementsByTagName("reservationlodging")[0].childNodes[0].nodeValue;			
+		document.getElementById('reservation').innerHTML = "예약 홈페이지"+xmlDoc.getElementsByTagName("reservationurl")[0].childNodes[0].nodeValue;
 	});
 	
 });
