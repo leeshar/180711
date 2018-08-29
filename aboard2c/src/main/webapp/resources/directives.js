@@ -88,7 +88,8 @@ app.directive("headerTpl",function(){
 		// 회원정보수정
 		templateUrl:"./user/updateUser.html",
 		controller:"updateUserCtrl"
-	});
+	})
+	;
 	
 })
 .config(['$qProvider', function ($qProvider) {

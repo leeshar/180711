@@ -1,5 +1,4 @@
 //Input에서 ng-model을 사용했을때 한글 dataBinding을 해주는 directive
-
 app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, restrict : 'A', compile : function(element) { element.on('compositionstart', function(e) { e.stopImmediatePropagation(); }); }, }; } ])
 .config(function($routeProvider){
 	$routeProvider
@@ -14,6 +13,12 @@ app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, r
 	.when("/travel/detail/:contentId",{
 		templateUrl:"./travel/detailPage.html",
 		controller:"travelDetailCtrl"
+	})
+	.when("/travel/detail/commonInfo",{
+		templateUrl:"./travel/detail/commonInfo.html"
+	})
+	.when("/travel/detail/introInfo",{
+		templateUrl:"./travel/detail/introInfo.html"
 	});
 
 	

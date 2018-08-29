@@ -21,6 +21,8 @@ app.controller('travelCtrl',function($http,$scope,$cookieStore,travelStorage,$wi
 // travelAddCtrl
 app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,$rootScope){
 	var travelBno = $routeParams.travelBno;
+	$scope.travelName = $routeParams.title;
+	console.log($routeParams.title);
 	var title = $routeParams.title;
 	$scope.area = { 1:'서울', 2:'인천', 3:'대전', 4:'대구',5:'광주', 6:'부산', 7:'울산', 8:'세종특별자치'};
 	$scope.do = { 31: '경기도', 32:'강원도', 33:'충청북도', 34:'충청남도', 35:'경상북도', 36:'경상남도', 37:'전라북도', 38:'전라남도', 39:'제주도'};

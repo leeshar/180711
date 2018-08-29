@@ -10,15 +10,40 @@ input[type="date"]::-webkit-inner-spin-button {
     display: none;
     appearance: none;
 }
-
 .galaryList{
 	float: left;
 	list-style: none;
 	text-align: center;
 }
 .listWrap{
-	width: 100%;
+	width: 780px;
+	border: 2px solid aqua;
 	margin-top: 100px;
+}
+#map{
+	border: 2px solid red;
+	float: left;
+	overflow: hidden;
+	width:780px;
+	height:400px;
+	margin-bottom: 100px;
+}
+#sideWindow{
+	border: 2px solid black;
+	width: 300px;
+	height: 100%;
+	float: right;
+	
+	
+}
+#mapWrap{
+	border: 2px solid yellow;
+	width: 1100px;
+	height: 100%;
+
+}
+.search{
+	border: 2px solid brown;
 }
 </style>
 <script>
@@ -131,17 +156,7 @@ $('#secondDatePick').datepicker({
 </head>
 <body>
 <div style="overflow-y: scroll; width: 1150px; height: 800px;">
-	<p>여긴 ADD</p>
-	<div class="input-group">
-<input type="text" name="datepick" id="firstDatePick" ng-model="startDate">
-<input type="text" name="datepick" id="secondDatePick" ng-model="endDate">
-	<div>
-		{{startDate}}{{endDate}}
-	</div>
-	</div>
-	<button type="button" ng-click="dateAdd()">추가하기</button>
-
-
+	<h2 style="margin-bottom: 50px;">{{travelName}}</h2>
 	<select ng-model="city.area" ng-hide="city.do">
 		<option value="">선택안함</option>
 		<option ng-repeat="x in area" value="{{x}}">{{x}}</option>
@@ -202,12 +217,19 @@ $('#secondDatePick').datepicker({
 		<option ng-repeat="x in zezudo" value="{{x}}">{{x}}</option>
 	</select>
 	<button type="button" ng-click="areaSearch(city)" id="submit">검색</button>
-	<div id="map" style="width:680px;height:400px; margin-bottom: 100px; margin-top: 100px;"></div>
-<div class="search" style="">
-            <input id="address" type="hidden" placeholder="검색할 주소" value={{searchCode}} />
-            <input id="mapsearch" type="hidden" value="주소 검색" />
+	<div id="mapWrap">
+	<div id="map"></div>
+	<div id="sideWindow">
+<p>시작일 : <input type="text" name="datepick" id="firstDatePick" ng-model="startDate" style="width: 100px;"></p>
+<p>마지막일 : <input type="text" name="datepick" id="secondDatePick" ng-model="endDate" style="width: 100px;"></p>
+	<button type="button" ng-click="dateAdd()">추가하기</button>
+	
 </div>
-<p>"{{searchCode}}" 지역의 숙소 결과 입니다.
+    <input id="address" type="hidden" placeholder="검색할 주소" value={{searchCode}} />
+    <input id="mapsearch" type="hidden" value="주소 검색" />
+<div ng-show="searchCode">
+<p>"{{searchCode}}" 지역의 숙소 결과 입니다.</p>
+</div>
 <div class="listWrap">
 <ul ng-repeat="x in data track by $index" class="galaryList">
 <a href="#!/travel/detail/{{x.contentId}}">
@@ -220,6 +242,8 @@ $('#secondDatePick').datepicker({
 <input type="hidden" name="lcName" value="{{x.lng}}">
 </ul>
 </div>
+</div>
+
 </div>
 </body>
 </html>
