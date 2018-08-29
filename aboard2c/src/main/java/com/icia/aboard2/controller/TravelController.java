@@ -98,40 +98,12 @@ public class TravelController {
 }	
 	// 숙박 내용 상세 보기
 	@RequestMapping(value="/travel/stayDetail/{contentId}", produces = "application/json; charset=UTF-8")
-	public String detailIntro(@PathVariable String contentId) throws JsonProcessingException {
+	public String stayDetail(@PathVariable String contentId) throws JsonProcessingException {
 		String result ="";
 		BufferedReader br = null;
 		String contentTypeId = "32";
 		try {
 			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey=gnU6hW6oBRyWh4Gc%2FbebNXyArGz5gwRBjXu8wq7O%2BWPpKZslklvmAXNfJhsVmtq%2B40XXQIgeXzpX9NGWErXj3Q%3D%3D&contentId="+contentId+"&contentTypeId="+contentTypeId+"&defaultYN=Y&firstImageYN=Y&addrinfoYN=Y&overviewYN=Y&MobileOS=ETC&MobileApp=AppTest";
-			URL url = new URL(urlstr);
-			System.out.println(urlstr);
-			HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
-			urlconnection.setRequestMethod("GET");
-			br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(),"UTF-8"));
-			String line;
-			while((line = br.readLine()) != null) {
-				result = result + line + "\n";
-			}
-			System.out.println(result);
-			return mapper.writeValueAsString(result);
-		}
-			catch(Exception e) {
-				
-				System.out.println(e.getMessage());
-			}
-		System.out.println(result);
-		return mapper.writeValueAsString(result);
-		
-		
-	}
-	// 숙박 내용 상세 보기 detailIntro
-	@RequestMapping(value="/travel/introInfo/{contentId}", produces = "application/json; charset=UTF-8")
-	public String stayDetail(@PathVariable String contentId) throws JsonProcessingException {
-		String result ="";
-		BufferedReader br = null;
-		try {
-			String urlstr = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?ServiceKey=gnU6hW6oBRyWh4Gc%2FbebNXyArGz5gwRBjXu8wq7O%2BWPpKZslklvmAXNfJhsVmtq%2B40XXQIgeXzpX9NGWErXj3Q%3D%3D&contentTypeId=32&contentId="+contentId+"&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&introYN=Y";
 			URL url = new URL(urlstr);
 			System.out.println(urlstr);
 			HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
