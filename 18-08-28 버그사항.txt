@@ -8,3 +8,4 @@
  * 그래도 리스트는 나옴.
  * 경기도, (도) 를 검색했을때 ERROR 작동. ($scope.SearchCode = city.area + city.gu; <= 이렇게 해놔서 ERROR)
  * 시를 선택했을때 select Value 값. 도를 선택했을때 select Value 값
+ * 왜 서버를 키고 들어가면 로그인이 되어있을까?

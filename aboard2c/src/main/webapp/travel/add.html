@@ -28,10 +28,6 @@ var map = new naver.maps.Map("map", {
     mapTypeControl: true
 });
 
-var infoWindow = new naver.maps.InfoWindow({
-    anchorSkew: true
-});
-
 
 // result by latlng coordinate
 function searchAddressToCoordinate(address) {
@@ -43,6 +39,11 @@ function searchAddressToCoordinate(address) {
         } 
     });
 }
+$(function(){
+	var contentList=[],
+		markerList=[],
+		ttList = [],
+		lcList = [];	
 $('#submit').on('click', function(e) {
     setTimeout(function(){
     	e.preventDefault();
@@ -51,14 +52,12 @@ $('#submit').on('click', function(e) {
         searchAddressToCoordinate($('#address').val());
      var lcLength = $("input[name='lcName']").length;
      var ttLength = $("input[name='lcTitle']").length;
-     var ttList = [];
      console.log(ttLength);
      for(var i = 0; i<ttLength; i++){
     	 var obj = {};
     	 obj.title = $("input[name='lcTitle']")[i].value;
     	 ttList.push(obj);
      }
-     var lcList = [];
      for(var i = 0; i<lcLength; i++){
     	 if(i%2==0||i==0){
     		 var obj = {};
@@ -69,34 +68,46 @@ $('#submit').on('click', function(e) {
     		lcList.push(obj);
     	 }
      }
-     console.log(lcList[0]);
-     console.log(lcList[0]);
+     
      for(var i = 0; i<lcList.length; i++){
-     var point = new naver.maps.LatLng(lcList[i]);
-
+	 // 마커
      var marker = new naver.maps.Marker({
-         position: point,
+         position: lcList[i],
          map: map
      });
-  
-    	infoWindow.setPosition(point);
-    	marker.setPosition(point);
-    	
-     }
-     infoWindow.setContent([
-         '<div style="padding:10px;min-width:200px;line-height:150%;">',
-         '<h4 style="margin-top:5px;">검색 주소 : '+ttList[0].title +'</h4><br />',
-         '</div>'
-     ].join('\n'));  
-     map.setCenter(lcList[0]);
-     infoWindow.open(map, lcList[0]);
-   	console.log(ttList);
-    
-    
-    }, 500);
+     // 인포 윈도우
+     var infoWindow = new naver.maps.InfoWindow({
+    	   content :  '<div style="padding:10px;min-width:200px;line-height:150%;"><h4 style="margin-top:5px;">검색 주소 : '+ttList[i].title +'</h4><br /></div>'
+    	});
+ 	 markerList.push(marker);
+     contentList.push(infoWindow);
+
+  	map.setCenter(lcList[i]);
+    }
+     function getClickHandler(seq) {
+     	    return function(e) {
+     	    	console.log(seq);
+     	        var marker = markerList[seq],
+     	            infoWindow = contentList[seq];
+
+     	        if (infoWindow.getMap()) {
+     	            infoWindow.close();
+     	        } else {
+     	            infoWindow.open(map, marker);
+     	        }
+     	    }
+     	}
+
+     	for (var i=0, ii=markerList.length; i<ii; i++) {
+     	    naver.maps.Event.addListener(markerList[i], 'click', getClickHandler(i));
+     	}
+     	
+   }, 500);
+ 
 });
 
 
+});
 $('#firstDatePick').datepicker({
 	autoclose : true,
 	language : "kr",
