@@ -67,6 +67,14 @@ angular.module('myApp').factory('travelStorage',function($http,$cookieStore){
 				console.log(response);
 				return response.data;
 			});
+		},
+		// 숙소 상세정보 intro
+		introInfo : function(contentId){
+			return $http.get("/aboard2/travel/introInfo/"+contentId)
+			.then(function(response){
+				console.log(response);
+				return response.data;
+			});
 		}
 	};
 });

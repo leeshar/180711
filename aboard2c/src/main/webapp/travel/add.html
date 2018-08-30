@@ -113,12 +113,14 @@ $('#submit').on('click', function(e) {
      	    return function(e) {
      	    	console.log(seq);
      	        var marker = markerList[seq],
-     	            infoWindow = contentList[seq];
-
+     	            infoWindow = contentList[seq],
+					title = ttList[seq].title;
      	        if (infoWindow.getMap()) {
      	            infoWindow.close();
      	        } else {
      	            infoWindow.open(map, marker);
+     	            console.log(title);
+     	            document.getElementById('lcMarker').value=title;
      	        }
      	    }
      	}
@@ -156,7 +158,12 @@ $('#secondDatePick').datepicker({
 </head>
 <body>
 <div style="overflow-y: scroll; width: 1150px; height: 800px;">
-	<h2 style="margin-bottom: 50px;">{{travelName}}</h2>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active"><a href="" style="color:black;">1. 숙소선택</a></li>
+    <li class="breadcrumb-item active"><a href="" >2. 관광지선택</li>
+  </ol>
+</nav>
 	<select ng-model="city.area" ng-hide="city.do">
 		<option value="">선택안함</option>
 		<option ng-repeat="x in area" value="{{x}}">{{x}}</option>
@@ -220,17 +227,26 @@ $('#secondDatePick').datepicker({
 	<div id="mapWrap">
 	<div id="map"></div>
 	<div id="sideWindow">
-<p>시작일 : <input type="text" name="datepick" id="firstDatePick" ng-model="startDate" style="width: 100px;"></p>
-<p>마지막일 : <input type="text" name="datepick" id="secondDatePick" ng-model="endDate" style="width: 100px;"></p>
-	<button type="button" ng-click="dateAdd()">추가하기</button>
-	
-</div>
+	<input type="hidden" name="lcMarker" id="lcMarker" value="">
+	<button type="button" ng-click="stayAdd()">숙소 추가하기</button>
+	<div ng-show="stayList!=null">
+	<div ng-repeat="x in stayList">
+	{{x.stay}}
+	<img src="" ng-src="{{x.img}}" style="width: 290px;height: 100px;">
+	<button type="button" ng-click="stayDelete(x)">삭제하기</button>
+	</div>
+	</div>
+	<button type="button" ng-click="next()">다음단계로</button>
+</div>>
     <input id="address" type="hidden" placeholder="검색할 주소" value={{searchCode}} />
     <input id="mapsearch" type="hidden" value="주소 검색" />
 <div ng-show="searchCode">
 <p>"{{searchCode}}" 지역의 숙소 결과 입니다.</p>
 </div>
 <div class="listWrap">
+<div ng-show="data==''">
+	결과 내용이 없습니다.
+</div>
 <ul ng-repeat="x in data track by $index" class="galaryList">
 <a href="#!/travel/detail/{{x.contentId}}">
 <li><img src="" ng-src={{x.img}} id="{{$index}}" style="width:200px; height: 200px; border-radius: 30px;">

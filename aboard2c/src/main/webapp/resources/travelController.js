@@ -72,6 +72,8 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 		$rootScope.content = data.CONTENT;
 		console.log($rootScope.content);
 	});
+	
+	
 	// 여행생성
 	$scope.dateAdd = function(){
 		var content = $rootScope.content;
@@ -86,6 +88,8 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 		});
 		
 	};
+	
+	
 	// 숙소 검색
 	$scope.areaSearch = function(city){
 		// "도" 부분 처리 완료
@@ -246,11 +250,51 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 				
 		});
 	}
+	// 숙소 추가
+	$scope.stayList = [];
+	$scope.stayAdd = function(){
+		let stayName = document.getElementById('lcMarker').value;
+		
+		//중복방지
+		if($scope.stayList!=0){
+			for(var i = 0; i < $scope.stayList.length; i++){
+				if(stayName===$scope.stayList[i].stay)
+					return alert("중복추가불가");
+			}
+		}
+		
+		for(var i = 0; i<$scope.data.length; i++){
+			if($scope.data[i].txt===stayName){
+				var image = $scope.data[i].img;
+			}
+		}
+		var list = {stay:stayName, img:image};	
+		$scope.stayList.push(list);
+		
+			
+	}
+	// 숙소 삭제
+	$scope.stayDelete = function(x){
+		
+		console.log(x);
+		for(var i=0; i<$scope.stayList.length; i++){
+			if($scope.stayList[i].stay===x.stay){
+				$scope.stayList.splice(i,1);
+			}
+			
+		}
+		
+		
+		
+	}
+	
+	
 });
 
 // detailCtrl
 app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routeParams){
 	var contentId = $routeParams.contentId;
+	$scope.contentId = contentId;
 	console.log(contentId);
 	travelStorage.stayDetail(contentId).then(function(data){
 		console.log(data);
@@ -261,6 +305,15 @@ app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routePara
 		if($scope.txt.indexOf("<")!=-1){
 			$scope.txt = $scope.txt.substring(0,$scope.txt.indexOf("<",0));
 			}
+	});
+	travelStorage.introInfo(contentId).then(function(data){
+		parser = new DOMParser();
+		xmlDoc = parser.parseFromString(data,"text/xml");
+		$scope.mooni = xmlDoc.getElementsByTagName("infocenterlodging")[0].childNodes[0].nodeValue;
+		$scope.roomcount = xmlDoc.getElementsByTagName("roomcount")[0].childNodes[0].nodeValue;
+		$scope.checkintime = xmlDoc.getElementsByTagName("checkintime")[0].childNodes[0].nodeValue;
+		$scope.checkouttime = xmlDoc.getElementsByTagName("checkouttime")[0].childNodes[0].nodeValue;
+		
 	});
 	
 });

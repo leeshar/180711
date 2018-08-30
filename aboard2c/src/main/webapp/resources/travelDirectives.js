@@ -14,11 +14,9 @@ app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, r
 		templateUrl:"./travel/detailPage.html",
 		controller:"travelDetailCtrl"
 	})
-	.when("/travel/detail/commonInfo",{
-		templateUrl:"./travel/detail/commonInfo.html"
-	})
-	.when("/travel/detail/introInfo",{
-		templateUrl:"./travel/detail/introInfo.html"
+	.when("/travel/introInfo/:contentId",{
+		templateUrl:"./travel/introInfo.html",
+		controller:"travelDetailCtrl"
 	});
 
 	
