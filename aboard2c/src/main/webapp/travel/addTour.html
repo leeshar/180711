@@ -18,7 +18,14 @@ function searchAddressToCoordinate(address) {
     }, function(status, response) {
         if (status === naver.maps.Service.Status.ERROR) {
             return alert('Something Wrong!');
-        } 
+        }
+        var result = response.result;
+        // 검색 결과 갯수: result.total
+        // 첫번째 결과 결과 주소: result.items[0].address
+        // 첫번째 검색 결과 좌표: result.items[0].point.y, result.items[0].point.x
+        var myaddr = new naver.maps.Point(result.items[0].point.x, result.items[0].point.y);
+        map.setCenter(myaddr);
+        
     });
 }
 $(function(){

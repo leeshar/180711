@@ -53,6 +53,15 @@ angular.module('myApp').factory('travelStorage',function($http,$cookieStore){
 		},
 		//위치정보
 		areaSearch: function(areaCode,sigunguCode){
+			// 시군구 코드가 없을 때
+			if(sigunguCode===""){
+				return $http.get("/aboard2/travel/areaSearch/"+areaCode)
+				.then(function(response){
+					
+					return response.data;
+				}); 
+			}
+				
 			return $http.get("/aboard2/travel/areaSearch/"+areaCode+"/"+sigunguCode)
 			.then(function(response){
 				
