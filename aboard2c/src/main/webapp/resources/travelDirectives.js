@@ -1,3 +1,6 @@
+app.directive("selectTpl",function(){
+	return{templateUrl:"./template/select.tpl.html",
+		   controller:"travelCommonCtrl"};});
 //Input에서 ng-model을 사용했을때 한글 dataBinding을 해주는 directive
 app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, restrict : 'A', compile : function(element) { element.on('compositionstart', function(e) { e.stopImmediatePropagation(); }); }, }; } ])
 .config(function($routeProvider){
@@ -12,11 +15,20 @@ app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, r
 	})
 	.when("/travel/detail/:contentId",{
 		templateUrl:"./travel/detailPage.html",
-		controller:"travelDetailCtrl"
+		controller:"travelDetailCtrl",
+		controller:"travelCommonCtrl"
 	})
 	.when("/travel/introInfo/:contentId",{
 		templateUrl:"./travel/introInfo.html",
 		controller:"travelDetailCtrl"
+	})
+	.when("/travel/addTour",{
+		templateUrl:"./travel/addTour.html",
+		controller:"travelTourAddCtrl"
+	})
+	.when("/travel/addLast",{
+		templateUrl:"./travel/addLast.html",
+		controller:"travelLastAddCtrl"
 	});
 
 	

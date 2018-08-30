@@ -75,6 +75,16 @@ angular.module('myApp').factory('travelStorage',function($http,$cookieStore){
 				console.log(response);
 				return response.data;
 			});
+		},
+		//관광지정보
+		tour: function(areaCode,sigunguCode){
+			console.log(areaCode);
+			return $http.get("/aboard2/travel/tourSearch/"+areaCode+"/"+sigunguCode)
+			.then(function(response){
+				
+				return response.data;
+			});
+			
 		}
 	};
 });

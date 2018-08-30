@@ -1,0 +1,48 @@
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+    appearance: none;
+}
+.galaryList{
+	float: left;
+	list-style: none;
+	text-align: center;
+}
+.listWrap{
+	width: 780px;
+	border: 2px solid aqua;
+	margin-top: 100px;
+}
+#map{
+	border: 2px solid red;
+	float: left;
+	overflow: hidden;
+	width:780px;
+	height:400px;
+	margin-bottom: 100px;
+}
+#sideWindow{
+	border: 2px solid black;
+	width: 300px;
+	height: 100%;
+	float: right;
+	
+	
+}
+#mapWrap{
+	border: 2px solid yellow;
+	width: 1100px;
+	height: 100%;
+
+}
+.search{
+	border: 2px solid brown;
+}
+#travelContent{
+	width: 780px;
+	height: 100%;
+	border: 2px solid aqua;
+	display: inline-block;
+	
+}

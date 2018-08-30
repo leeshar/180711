@@ -25,7 +25,7 @@ $(function(){
 	var contentList=[],
 		markerList=[],
 		ttList = [],
-		lcList = [];	
+		lcList = [];
 $('#submit').on('click', function(e) {
     setTimeout(function(){
     	e.preventDefault();
@@ -68,7 +68,6 @@ $('#submit').on('click', function(e) {
     }
      function getClickHandler(seq) {
      	    return function(e) {
-     	    	console.log(seq);
      	        var marker = markerList[seq],
      	            infoWindow = contentList[seq],
 					title = ttList[seq].title;
@@ -90,7 +89,6 @@ $('#submit').on('click', function(e) {
  
 });
 
-
 });
 </script>
 </head>
@@ -99,23 +97,32 @@ $('#submit').on('click', function(e) {
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active"><a href="" style="color:black;">1. 숙소선택</a></li>
+    <li class="breadcrumb-item active"><a href="" style="color:black;">2. 관광지선택</li>
   </ol>
 </nav>
-	<select-tpl></select-tpl>
-	<button type="button" ng-click="areaSearch(city)" id="submit">검색</button>
-	<div id="mapWrap">
-	<div id="map"></div>
+<select-tpl></select-tpl>
+<button type="button" ng-click="tourSearch(city)" id="submit">검색</button>
+<div id="mapWrap">
+<div id="map"></div>
 	<div id="sideWindow">
 	<input type="hidden" name="lcMarker" id="lcMarker" value="">
-	<button type="button" ng-click="stayAdd()">숙소 추가하기</button>
 	<div ng-show="stayList!=null">
+	<p>숙소</p>
 	<div ng-repeat="x in stayList">
 	{{x.stay}}
 	<img src="" ng-src="{{x.img}}" style="width: 290px;height: 100px;">
-	<button type="button" ng-click="stayDelete(x)">삭제하기</button>
 	</div>
 	</div>
-	<button type="button" ng-click="next()">다음단계로</button>
+	<button type="button" ng-click="tourAdd()">관광지 추가하기</button>
+	<div ng-show="tourList!=null">
+	<p>관광지</p>
+	<div ng-repeat="x in tourList">
+	{{x.tour}}
+	<img src="" ng-src="{{x.img}}" style="width: 290px;height: 100px;">
+	<button type="button" ng-click="tourDelete(x)">삭제하기</button>
+	</div>	
+</div>
+<button type="button" ng-click="next()">다음단계로</button>
 </div>
     <input id="address" type="hidden" placeholder="검색할 주소" value={{searchCode}} />
     <input id="mapsearch" type="hidden" value="주소 검색" />
@@ -138,7 +145,6 @@ $('#submit').on('click', function(e) {
 </ul>
 </div>
 </div>
-
 </div>
 </body>
 </html>

@@ -18,12 +18,8 @@ app.controller('travelCtrl',function($http,$scope,$cookieStore,travelStorage,$wi
 	};
 	
 });
-// travelAddCtrl
-app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,$rootScope){
-	var travelBno = $routeParams.travelBno;
-	$scope.travelName = $routeParams.title;
-	console.log($routeParams.title);
-	var title = $routeParams.title;
+// commonCtrl
+app.controller('travelCommonCtrl',function($http,$scope,travelStorage,$routeParams){
 	$scope.area = { 1:'서울', 2:'인천', 3:'대전', 4:'대구',5:'광주', 6:'부산', 7:'울산', 8:'세종특별자치'};
 	$scope.do = { 31: '경기도', 32:'강원도', 33:'충청북도', 34:'충청남도', 35:'경상북도', 36:'경상남도', 37:'전라북도', 38:'전라남도', 39:'제주도'};
 	$scope.seoulgu = { 1: '강남구', 2:'강동구', 3:'강북구', 4:'강서구', 5:'관악구', 6:'광진구', 7:'구로구', 8:'금천구',
@@ -66,6 +62,13 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 	var jeonnamLength= Object.keys($scope.jeonnam).length;
 	$scope.zezudo={1:'남제주군', 2:'북제주군', 3:'서귀포시', 4:'제주시'};
 	var zezudoLength = Object.keys($scope.zezudo).length;
+});
+// travelAddCtrl
+app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,$rootScope,$window,$location){
+	var travelBno = $routeParams.travelBno;
+	$scope.travelName = $routeParams.title;
+	console.log($routeParams.title);
+	var title = $routeParams.title;
 	// 여행 자세히 보기
 	travelStorage.detailTravel(travelBno).then(function(data){
 		
@@ -251,13 +254,13 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 		});
 	}
 	// 숙소 추가
-	$scope.stayList = [];
+	$rootScope.stayList = [];
 	$scope.stayAdd = function(){
 		let stayName = document.getElementById('lcMarker').value;
 		
 		//중복방지
-		if($scope.stayList!=0){
-			for(var i = 0; i < $scope.stayList.length; i++){
+		if($rootScope.stayList!=0){
+			for(var i = 0; i < $rootScope.stayList.length; i++){
 				if(stayName===$scope.stayList[i].stay)
 					return alert("중복추가불가");
 			}
@@ -269,7 +272,7 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 			}
 		}
 		var list = {stay:stayName, img:image};	
-		$scope.stayList.push(list);
+		$rootScope.stayList.push(list);
 		
 			
 	}
@@ -277,19 +280,233 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 	$scope.stayDelete = function(x){
 		
 		console.log(x);
-		for(var i=0; i<$scope.stayList.length; i++){
-			if($scope.stayList[i].stay===x.stay){
-				$scope.stayList.splice(i,1);
+		for(var i=0; i<$rootScope.stayList.length; i++){
+			if($rootScope.stayList[i].stay===x.stay){
+				$rootScope.stayList.splice(i,1);
 			}
 			
 		}
-		
-		
-		
+	}
+	// 다음 단계
+	$scope.next = function(){
+		if(2<=$rootScope.stayList.length)
+			alert("숙소는 한곳만 추가하세요");
+		if($rootScope.stayList.length===0||$rootScope.stayList.length===1)
+			$window.location.href="/aboard2/#!/travel/addTour";	
 	}
 	
 	
 });
+// AddTourCtrl
+app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routeParams,$rootScope,$window,$location){
+	// 관광지 검색
+	$scope.tourSearch = function(city){
+		console.log(city);
+		if(city.do!=null){
+			// map search창 value
+			$scope.searchCode = city.do+" "+city.gu;
+			var areaCode=city.do;
+			var areaLength = Object.keys($scope.do).length;
+			var value = Object.keys($scope.do)[0];
+			for(var i = value; i<40; i++){
+				if($scope.do[i]===areaCode)
+					areaCode=i;
+			}
+			var sigunguCode=city.gu;
+			var oj;
+			switch(areaCode){
+			// 도 - 구
+			
+			case 31:
+				oj = $scope.gyeonggi;
+				break;
+			case 32:
+				oj = $scope.gangwon;
+				break;
+			case 33:
+				oj = $scope.chungbuk;
+				break;
+			case 34:
+				oj = $scope.chungnam;
+				break;
+			case 35:
+				oj = $scope.gyeongbuk;
+				break;
+			case 36:
+				oj = $scope.gyeongnam;
+				break;
+				
+			case 37:
+				oj = $scope.jeonbuk;
+				break;
+			case 38:
+				oj = $scope.jeonnam;
+				break;
+			case 39:
+				oj = $scope.zezudo;
+				break;
+			}
+			var ojLength = Object.keys(oj).length;
+			console.log(ojLength);
+			for(var i = 1; i<ojLength+1; i++){
+				if(oj[i]===sigunguCode)
+					sigunguCode=i;
+			}
+		}
+		console.log(city);
+		console.log(city.area!=null);
+		console.log(city.area!="");
+		// 여긴 "시" 부분
+		if(city.area!=null&&city.area!=""){
+
+			// map search창 value
+			$scope.searchCode = city.area +" "+ city.gu;
+			var areaCode=city.area;
+			var areaLength = Object.keys($scope.area).length;
+			for(var i = 1; i<areaLength+1; i++){
+				if($scope.area[i]===areaCode)
+					areaCode=i;
+			}
+			var sigunguCode = city.gu;
+			var oj;
+			switch(areaCode){
+			// 도 - 구
+			
+			case 1:
+				oj = $scope.seoulgu;
+				break;
+			case 2:
+				oj = $scope.incheongu;
+				break;
+			case 3:
+				oj = $scope.daejeongu;
+				break;
+			case 4:
+				oj = $scope.daegugu;
+				break;
+			case 5:
+				oj = $scope.gwangjugu;
+				break;
+			case 6:
+				oj = $scope.busangu;
+				break;
+				
+			case 7:
+				oj = $scope.ulsangu;
+				break;
+			case 8:
+				oj = $scope.sejonggu;
+				break;
+			
+			}
+			var ojLength=Object.keys(oj).length;
+			for(var i = 1; i<ojLength+1; i++){
+				if(oj[i]===sigunguCode)
+					sigunguCode=i;
+			}
+			
+		}
+		// 관광지 정보
+		travelStorage.tour(areaCode,sigunguCode).then(function(data){
+			console.log(data);
+			parser = new DOMParser();
+			xmlDoc = parser.parseFromString(data,"text/xml");
+			var x = xmlDoc.getElementsByTagName("item");
+			var data = [];
+			for(var i = 0;i<x.length;i++){
+				var obj = {};
+				//image
+				obj.contentId = x[i].getElementsByTagName("contentid")[0].childNodes[0].nodeValue;	 
+				if(x[i].getElementsByTagName("firstimage2")[0])
+					obj.img = x[i].getElementsByTagName("firstimage2")[0].childNodes[0].nodeValue;	 
+				if(!x[i].getElementsByTagName("firstimage2")[0])
+					obj.img = "http://localhost:8081/upload/none.jpg";
+				//tel
+				if(x[i].getElementsByTagName("tel")[0])
+					obj.tel = x[i].getElementsByTagName("tel")[0].childNodes[0].nodeValue;
+				if(!x[i].getElementsByTagName("tel")[0])
+					obj.tel = "번호없음";
+				//title
+				if(x[i].getElementsByTagName("title")[0])
+					obj.txt = x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+				if(!x[i].getElementsByTagName("title")[0])
+					obj.txt = "제목없음";
+				if(obj.txt.indexOf("[")!=-1){
+					obj.txt = obj.txt.substring(0,obj.txt.indexOf("[",0));
+					}
+				if(obj.txt.indexOf("(")!=-1){
+					obj.txt = obj.txt.substring(0,obj.txt.indexOf("(",0));
+					}
+				
+				if(x[i].getElementsByTagName("mapx")[0])
+					obj.lng = x[i].getElementsByTagName("mapx")[0].childNodes[0].nodeValue;
+				if(!x[i].getElementsByTagName("mapx")[0])
+					obj.lng = location.push("위치없음");
+				
+				if(x[i].getElementsByTagName("mapy")[0])
+					obj.lat = x[i].getElementsByTagName("mapy")[0].childNodes[0].nodeValue;
+				if(!x[i].getElementsByTagName("mapy")[0])
+					obj.lat = "위치없음";
+			//""안에 변수 사용법 `` 백퀕+${변수명} console.log(`"${i}"`);
+			
+			data.push(obj);
+			};
+			console.log(data);
+			$scope.data = data;
+			
+		});
+		
+	}
+	$rootScope.tourList = [];
+	// 관광지 추가
+	$scope.tourAdd = function(){
+		let tourName = document.getElementById('lcMarker').value;
+		
+		//중복방지
+		if($rootScope.tourList!=0){
+			for(var i = 0; i < $rootScope.tourList.length; i++){
+				if(tourName===$rootScope.tourList[i].tour)
+					return alert("중복추가불가");
+			}
+		}
+		
+		for(var i = 0; i<$scope.data.length; i++){
+			if($scope.data[i].txt===tourName){
+				var image = $scope.data[i].img;
+			}
+		}
+		var list = {tour:tourName, img:image};	
+		$rootScope.tourList.push(list);
+		
+			
+	}
+	// 숙소 삭제
+	$scope.tourDelete = function(x){
+		
+		console.log(x);
+		for(var i=0; i<$rootScope.tourList.length; i++){
+			if($rootScope.tourList[i].tour===x.tour){
+				$rootScope.tourList.splice(i,1);
+			}
+			
+		}
+	}
+	// 다음 단계
+	$scope.next = function(){
+		if($rootScope.stayList.length===0||$rootScope.stayList.length===1)
+			$window.location.href="/aboard2/#!/travel/addLast";	
+	}
+	
+	
+});
+// LastAddCtrl
+app.controller('travelLastAddCtrl',function($scope,$http,travelStorage,$routeParams){
+
+	
+	
+	
+});
+
 
 // detailCtrl
 app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routeParams){
