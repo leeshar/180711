@@ -9,11 +9,7 @@ app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, r
 		templateUrl:"./travel/list.html",
 		controller:"travelCtrl"
 	})
-	.when("/mytravel/detail/:travelBno/:title",{
-		templateUrl:"./travel/mytravel.html",
-		controller:"mytravelCtrl"
-	})
-	.when("/travel/add",{
+	.when("/travel/add/:travelBno/:title",{
 		templateUrl:"./travel/add.html",
 		controller:"travelAddCtrl"
 	})

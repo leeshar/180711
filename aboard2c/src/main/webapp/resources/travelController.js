@@ -1,7 +1,10 @@
 // travelCtrl
 app.controller('travelCtrl',function($http,$scope,$cookieStore,travelStorage,$window,$location,$rootScope){
 	var id = $cookieStore.get("userId");
-	
+	console.log(id);
+	$scope.openOneModal = function(){
+		document.querySelector('#oneModal').modal({show:true});
+	};
 	travelStorage.listTravel(id).then(function(data){
 		console.log(data);
 		$scope.travelList=data;
@@ -14,20 +17,6 @@ app.controller('travelCtrl',function($http,$scope,$cookieStore,travelStorage,$wi
 		
 	};
 	
-});
-//mytravelCtrl
-app.controller('mytravelCtrl',function($http,$scope,travelStorage,$routeParams,$rootScope){
-	var travelBno = $routeParams.travelBno;
-	$scope.travelName = $routeParams.title;
-	$scope.stayList = $rootScope.stayList;
-	$scope.tourList = $rootScope.tourList;
-	console.log($routeParams.title);
-	var title = $routeParams.title;
-	// 여행 자세히 보기
-	travelStorage.detailTravel(travelBno).then(function(data){
-		
-		$scope.content = data.CONTENT;
-	});
 });
 // commonCtrl
 app.controller('travelCommonCtrl',function($http,$scope,travelStorage,$routeParams){
@@ -75,7 +64,19 @@ app.controller('travelCommonCtrl',function($http,$scope,travelStorage,$routePara
 	var zezudoLength = Object.keys($scope.zezudo).length;
 });
 // travelAddCtrl
-app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,$rootScope,$window,$location){	
+app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,$rootScope,$window,$location){
+	var travelBno = $routeParams.travelBno;
+	$scope.travelName = $routeParams.title;
+	console.log($routeParams.title);
+	var title = $routeParams.title;
+	// 여행 자세히 보기
+	travelStorage.detailTravel(travelBno).then(function(data){
+		
+		$rootScope.content = data.CONTENT;
+		console.log($rootScope.content);
+	});
+	
+	
 	// 여행생성
 	$scope.dateAdd = function(){
 		var content = $rootScope.content;
@@ -259,8 +260,6 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 			};
 			$scope.data = data;
 			console.log(data);
-			console.log("구분4");
-			console.log($scope.data);
 			
 				
 		});
@@ -311,18 +310,12 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 });
 // AddTourCtrl
 app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routeParams,$rootScope,$window,$location){
-	console.log($rootScope.stayList);
-	//관광지 검색
+	// 관광지 검색
 	$scope.tourSearch = function(city){
 		console.log(city);
-		if(city.gu==null)
-			city.gu="";
 		if(city.do!=null){
 			// map search창 value
-			if(city.gu==null)
-				$scope.searchCode = city.do;
-			if(city.gu!=null)
-				$scope.searchCode = city.do+" "+city.gu;
+			$scope.searchCode = city.do+" "+city.gu;
 			var areaCode=city.do;
 			var areaLength = Object.keys($scope.do).length;
 			var value = Object.keys($scope.do)[0];
@@ -376,11 +369,9 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 		console.log(city.area!="");
 		// 여긴 "시" 부분
 		if(city.area!=null&&city.area!=""){
-			if(city.gu==null)
-				$scope.searchCode = city.area;
+
 			// map search창 value
-			if(city.gu!=null)
-				$scope.searchCode = city.area +" "+ city.gu;
+			$scope.searchCode = city.area +" "+ city.gu;
 			var areaCode=city.area;
 			var areaLength = Object.keys($scope.area).length;
 			for(var i = 1; i<areaLength+1; i++){
@@ -423,7 +414,8 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 			for(var i = 1; i<ojLength+1; i++){
 				if(oj[i]===sigunguCode)
 					sigunguCode=i;
-			}	
+			}
+			
 		}
 		// 관광지 정보
 		travelStorage.tour(areaCode,sigunguCode).then(function(data){

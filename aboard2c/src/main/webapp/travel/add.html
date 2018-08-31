@@ -6,7 +6,7 @@
 <script>
 var map = new naver.maps.Map("map", {
     center: new naver.maps.LatLng(37.4562557,126.70520620000002),
-    zoom: 6,
+    zoom: 10,
     mapTypeControl: true
 });
 
@@ -31,8 +31,10 @@ function searchAddressToCoordinate(address) {
     });
 }
 $(function(){
-	   var lcList =[],
-   		   ttList =[];
+	var contentList=[],
+		markerList=[],
+		ttList = [],
+		lcList = [];	
 $('#submit').on('click', function(e) {
     setTimeout(function(){
     	e.preventDefault();
@@ -57,13 +59,9 @@ $('#submit').on('click', function(e) {
     		lcList.push(obj);
     	 }
      }
-     console.log("구분5");
-     console.log(lcList);
-     console.log(ttList);
-     var contentList =[],
-  	 markerList = [];
+     
      for(var i = 0; i<lcList.length; i++){
-    	 // 마커
+	 // 마커
      var marker = new naver.maps.Marker({
          position: lcList[i],
          map: map
@@ -73,22 +71,16 @@ $('#submit').on('click', function(e) {
     	   content :  '<div style="padding:10px;min-width:200px;line-height:150%;"><h4 style="margin-top:5px;">검색 주소 : '+ttList[i].title +'</h4><br /></div>'
     	});
  	 markerList.push(marker);
- 	 console.log("여기1");
- 	 console.log(markerList);
      contentList.push(infoWindow);
 
   	map.setCenter(lcList[i]);
     }
      function getClickHandler(seq) {
      	    return function(e) {
-     	    	console.log("구분3");
-     	    	console.log(ttList);
-     	    	console.log(contentList);
-     	    	console.log(markerList);
+     	    	console.log(seq);
      	        var marker = markerList[seq],
      	            infoWindow = contentList[seq],
 					title = ttList[seq].title;
-     	        console.log(title);
      	        if (infoWindow.getMap()) {
      	            infoWindow.close();
      	        } else {
@@ -123,15 +115,8 @@ $('#submit').on('click', function(e) {
 	<div id="mapWrap">
 	<div id="map"></div>
 	<div id="sideWindow">
-	<div ng-show="stayList.length==0" ng-hide="stayList.length!=0">
-		<p>숙소 추가방법</p>
-		<p>1.원하는 지역을 검색한다</p>
-		<p>2.리스트의 숙소를 확인한다</p>
-		<p>3.마음에 드는 숙소를 클릭한다</p>
-		<p>4.숙소 추가하기 버튼을 누른다</p>
-	</div>
 	<input type="hidden" name="lcMarker" id="lcMarker" value="">
-	<button type="button" ng-click="stayAdd()" ng-hide="stayList.length!=0">숙소 추가하기</button>
+	<button type="button" ng-click="stayAdd()">숙소 추가하기</button>
 	<div ng-show="stayList!=null">
 	<div ng-repeat="x in stayList">
 	{{x.stay}}

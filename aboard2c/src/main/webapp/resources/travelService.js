@@ -88,13 +88,6 @@ angular.module('myApp').factory('travelStorage',function($http,$cookieStore){
 		//관광지정보
 		tour: function(areaCode,sigunguCode){
 			console.log(areaCode);
-			if(sigunguCode===""){
-				return $http.get("/aboard2/travel/tourSearch/"+areaCode)
-				.then(function(response){
-					
-					return response.data;
-				}); 
-			}
 			return $http.get("/aboard2/travel/tourSearch/"+areaCode+"/"+sigunguCode)
 			.then(function(response){
 				

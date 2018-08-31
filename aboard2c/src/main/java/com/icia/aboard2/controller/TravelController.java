@@ -152,33 +152,6 @@ public class TravelController {
 		return mapper.writeValueAsString(result);
 		
 }	
-	// 시군구 코드가 없는 경우
-	@RequestMapping(value="/travel/tourSearch/{areaCode}", produces = "application/json; charset=UTF-8" )
-	public String tourSearch(@PathVariable String areaCode) throws ParseException, JsonProcessingException {
-		String result ="";
-		BufferedReader br = null;
-		try {
-			String urlstr ="http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=gnU6hW6oBRyWh4Gc%2FbebNXyArGz5gwRBjXu8wq7O%2BWPpKZslklvmAXNfJhsVmtq%2B40XXQIgeXzpX9NGWErXj3Q%3D%3D&contentTypeId=12&areaCode="+areaCode+"&sigunguCode=&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1";
-			URL url = new URL(urlstr);
-			System.out.println(urlstr);
-			HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
-			urlconnection.setRequestMethod("GET");
-			br = new BufferedReader(new InputStreamReader(urlconnection.getInputStream(),"UTF-8"));
-			String line;
-			while((line = br.readLine()) != null) {
-				result = result + line + "\n";
-			}
-			System.out.println(result);
-			return mapper.writeValueAsString(result);
-		}
-			catch(Exception e) {
-				
-				System.out.println(e.getMessage());
-			}
-		System.out.println(result);
-		return mapper.writeValueAsString(result);
-		
-}	
 	// 숙박 내용 상세 보기
 	@RequestMapping(value="/travel/stayDetail/{contentId}", produces = "application/json; charset=UTF-8")
 	public String stayDetail(@PathVariable String contentId) throws JsonProcessingException {

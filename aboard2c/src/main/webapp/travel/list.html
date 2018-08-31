@@ -21,25 +21,42 @@
 		height: 50px;
 	}
 </style>
-<script>
-$(function(){
-	
-
-	$('#modal').on('click',function(){
-		$('#oneModal').modal('show');
-	});
-
-});
-</script>
 </head>
 <body>
 	<p>여긴 Travel ZONE</p>
-	<div data-toggle="modal" data-target="#oneModal" data-whatever="@mdo" style="width:200px; height:200px; text-align: center; margin: 0 auto;" id="modal">
-	<a href="#!/travel/add">
+	<div data-toggle="modal" data-target="#oneModal" data-whatever="@mdo" style="width:200px; height:200px; text-align: center; margin: 0 auto;" ng-click="openOneModal()">
 	<img src="http://localhost:8081/upload/add.png" style="margin-left: 5px; margin-top: 26px; overflow: hidden;">
-	<p>여행만들기</p>
-	</a>
-	</div>
+	<p>여행만들기</p></div>
+	
+	<div class="modal fade" id="oneModal" tabindex="-1" role="dialog" aria-labelledby="oneModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="oneModalLabel">여행 만들기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form name="travelFrm">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">여행제목</label>
+            <input type="text" class="form-control" id="recipient-name" name="title" ng-model="travel.title">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">여행내용</label>
+            <textarea class="form-control" id="message-text" name="content" ng-model="travel.content"></textarea>
+          </div>
+          <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="makeTravel(travel)">만들기</button>
+      </div>
+          </form>
+      </div>
+     
+      </div>
+    </div>
+  </div>
   <table class="center list">
   	<thead>
   		<th>내여행</th>
@@ -48,7 +65,7 @@ $(function(){
 
   	<tr>
   	 
-   		<td ng-repeat="x in travelList"><a href="#!/mytravel/detail/{{x.travelBno}}/{{x.title}}">제목:{{x.title}}
+   		<td ng-repeat="x in travelList"><a href="#!/travel/add/{{x.travelBno}}/{{x.title}}">제목:{{x.title}}
   			
   		<span ng-show="x.travelStartDate!=null">{{x.travelStartDate | date:"yyyy-MM-dd"}}~{{x.travelEndDate | date:"yyyy-MM-dd"}}</span>
   		</a>
