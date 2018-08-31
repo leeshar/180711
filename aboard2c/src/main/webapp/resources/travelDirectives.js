@@ -9,17 +9,16 @@ app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, r
 		templateUrl:"./travel/list.html",
 		controller:"travelCtrl"
 	})
-	.when("/travel/add/:travelBno/:title",{
+	.when("/mytravel/detail/:travelBno/:title",{
+		templateUrl:"./travel/mytravelDetail.html",
+		controller:"mytravelDetailCtrl"
+	})
+	.when("/travel/add",{
 		templateUrl:"./travel/add.html",
 		controller:"travelAddCtrl"
 	})
 	.when("/travel/detail/:contentId",{
 		templateUrl:"./travel/detailPage.html",
-		controller:"travelDetailCtrl",
-		controller:"travelCommonCtrl"
-	})
-	.when("/travel/introInfo/:contentId",{
-		templateUrl:"./travel/introInfo.html",
 		controller:"travelDetailCtrl"
 	})
 	.when("/travel/addTour",{

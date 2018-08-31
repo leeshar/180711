@@ -8,20 +8,27 @@
 <div id="detailContent">
 <div class="tabWrap  col4"> 
 			     <ul class="tabul">
-			     <li class="on" id="tab01"><a href="#!/travel/detail/{{contentId}}"><span>공통정보</span></a></li>        
-			     <li id="tab02"><a href="#!/travel/introInfo/{{contentId}}"><span>소개정보</span></a></li>  
-			     <li id="tab03"><a href=""><span>추가이미지</span></a></li> 
-			     <li id="tab04"><a href=""><span>룸이미지</span></a></li>
+			     <li id="tab01" ng-click="li01()"><a href="" ><span>공통정보</span></a></li>        
+			     <li id="tab02" ng-click="li02()"><a href=""><span>소개정보</span></a></li>  
+			     <li id="tab03" ng-click="li03()"><a href=""><span>추가이미지</span></a></li> 
+			     <li id="tab04" ng-click="li04()"><a href=""><span>룸이미지</span></a></li>
 			  </ul>
 			  </div>
      </div>
-<div id="common">
+<div ng-show="show==1" ng-hide="show!=1">
     <div>
     	<img src="" ng-src="{{image}}" style="width: 500px; height: 300px;">
     </div>
     <div>
     	{{txt}}
     </div>
+</div>
+<div ng-show="show==2" ng-hide="show!=2">
+<p>숙박</p>
+<li>예약및문의 : {{mooni}}</li>
+<li>객실 수 : {{roomCount}}</li>
+<li>체크인 : {{checkintime}}</li>
+<li>체크아웃 : {{checkouttime}}</li>
 </div>
 </body>
 </html>

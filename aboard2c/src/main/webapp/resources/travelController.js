@@ -2,20 +2,22 @@
 app.controller('travelCtrl',function($http,$scope,$cookieStore,travelStorage,$window,$location,$rootScope){
 	var id = $cookieStore.get("userId");
 	console.log(id);
-	$scope.openOneModal = function(){
-		document.querySelector('#oneModal').modal({show:true});
-	};
 	travelStorage.listTravel(id).then(function(data){
 		console.log(data);
 		$scope.travelList=data;
-	});
-	$scope.makeTravel = function(travel){
-		travelStorage.createTravel(travel,id).then(function(data){
-			$window.location.reload();
-			console.log(data);
-		});
+	});	
+});
+// mytravelDetailCtrl
+app.controller('mytravelDetailCtrl',function($http,$scope,travelStorage,$window,$location,$routeParams){
+	var travelBno = $routeParams.travelBno;
+	// 여행 자세히 보기
+	travelStorage.detailTravel(travelBno).then(function(data){
 		
-	};
+		$scope.content = data.CONTENT;
+		console.log($scope.content);
+	});
+	
+	
 	
 });
 // commonCtrl
@@ -65,18 +67,6 @@ app.controller('travelCommonCtrl',function($http,$scope,travelStorage,$routePara
 });
 // travelAddCtrl
 app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,$rootScope,$window,$location){
-	var travelBno = $routeParams.travelBno;
-	$scope.travelName = $routeParams.title;
-	console.log($routeParams.title);
-	var title = $routeParams.title;
-	// 여행 자세히 보기
-	travelStorage.detailTravel(travelBno).then(function(data){
-		
-		$rootScope.content = data.CONTENT;
-		console.log($rootScope.content);
-	});
-	
-	
 	// 여행생성
 	$scope.dateAdd = function(){
 		var content = $rootScope.content;
@@ -527,10 +517,43 @@ app.controller('travelLastAddCtrl',function($scope,$http,travelStorage,$routePar
 
 
 // detailCtrl
-app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routeParams){
+app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routeParams,$window,$location){
 	var contentId = $routeParams.contentId;
-	$scope.contentId = contentId;
-	console.log(contentId);
+	var element = document.getElementById('tab01');
+	element.classList.add("on");
+	$scope.show = 1;
+	var element2 = document.getElementById('tab02');
+	var element3 = document.getElementById('tab03');
+	var element4 = document.getElementById('tab04');
+	$scope.li01 = function(){
+		$scope.show = 1;
+		element.classList.add("on");
+		element2.classList.remove("on");
+		element3.classList.remove("on");
+		element4.classList.remove("on");
+	}
+	$scope.li02 = function(){
+		$scope.show = 2;
+		element2.classList.add("on");
+		element.classList.remove("on");
+		element3.classList.remove("on");
+		element4.classList.remove("on");	
+	}
+	$scope.li03 = function(){
+		$scope.show = 3;
+		element3.classList.add("on");
+		element2.classList.remove("on");
+		element.classList.remove("on");
+		element4.classList.remove("on");	
+	}
+	$scope.li04 = function(){
+
+		$scope.show = 4;
+		element4.classList.add("on");
+		element2.classList.remove("on");
+		element3.classList.remove("on");
+		elements.classList.remove("on");
+	}
 	travelStorage.stayDetail(contentId).then(function(data){
 		console.log(data);
 		parser = new DOMParser();
