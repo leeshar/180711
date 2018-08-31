@@ -140,6 +140,7 @@ $('#submit').on('click', function(e) {
 <div ng-show="data==''">
 	결과 내용이 없습니다.
 </div>
+<div ng-show="data">
 <ul ng-repeat="x in data track by $index" class="galaryList">
 <a href="#!/travel/detail/{{x.contentId}}">
 <li><img src="" ng-src={{x.img}} id="{{$index}}" style="width:200px; height: 200px; border-radius: 30px;">
@@ -150,6 +151,11 @@ $('#submit').on('click', function(e) {
 <input type="hidden" name="lcName" value="{{x.lat}}">
 <input type="hidden" name="lcName" value="{{x.lng}}">
 </ul>
+<div class="paginationA" ng-show="data">
+  <a href="" ng-click="paging(page)">&laquo;</a>
+  <a href="" ng-repeat="x in pageCount" ng-click="paging(x)">{{x}}</a>
+  <a href="">&raquo;</a>
+</div>
 </div>
 </div>
 </div>

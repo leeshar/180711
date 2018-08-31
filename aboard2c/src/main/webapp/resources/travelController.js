@@ -200,14 +200,88 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 			}
 			
 		}
-		console.log(areaCode);
-		console.log("구분1");
-		console.log(sigunguCode);
+		var size = 12,
+			block = 5;
+		$scope.paging = function(page){
+			
+			travelStorage.areaSearch(areaCode,sigunguCode,page).then(function(data){
+				
+				parser = new DOMParser();
+				xmlDoc = parser.parseFromString(data,"text/xml");
+				$rootScope.tot = xmlDoc.getElementsByTagName("totalCount")[0].childNodes[0].nodeValue;
+				var x = xmlDoc.getElementsByTagName("item");
+				var data = [];
+				for(var i = 0;i<x.length;i++){
+					var obj = {};
+					//image
+					obj.contentId = x[i].getElementsByTagName("contentid")[0].childNodes[0].nodeValue;	 
+					if(x[i].getElementsByTagName("firstimage2")[0])
+						obj.img = x[i].getElementsByTagName("firstimage2")[0].childNodes[0].nodeValue;	 
+					if(!x[i].getElementsByTagName("firstimage2")[0])
+						obj.img = "http://localhost:8081/upload/none.jpg";
+					//tel
+					if(x[i].getElementsByTagName("tel")[0])
+						obj.tel = x[i].getElementsByTagName("tel")[0].childNodes[0].nodeValue;
+					if(!x[i].getElementsByTagName("tel")[0])
+						obj.tel = "번호없음";
+					//title
+					if(x[i].getElementsByTagName("title")[0])
+						obj.txt = x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+					if(!x[i].getElementsByTagName("title")[0])
+						obj.txt = "제목없음";
+					if(obj.txt.indexOf("[")!=-1){
+						obj.txt = obj.txt.substring(0,obj.txt.indexOf("[",0));
+						}
+					if(obj.txt.indexOf("(")!=-1){
+						obj.txt = obj.txt.substring(0,obj.txt.indexOf("(",0));
+						}
+					
+					if(x[i].getElementsByTagName("mapx")[0])
+						obj.lng = x[i].getElementsByTagName("mapx")[0].childNodes[0].nodeValue;
+					if(!x[i].getElementsByTagName("mapx")[0])
+						obj.lng = location.push("위치없음");
+					
+					if(x[i].getElementsByTagName("mapy")[0])
+						obj.lat = x[i].getElementsByTagName("mapy")[0].childNodes[0].nodeValue;
+					if(!x[i].getElementsByTagName("mapy")[0])
+						obj.lat = "위치없음";
+				//""안에 변수 사용법 `` 백퀕+${변수명} console.log(`"${i}"`);
+					
+				data.push(obj);
+				};
+				// 페이징
+				var countPage = Math.ceil($rootScope.tot / size) + 1;
+				var	objj = {},
+		 		block = 6;
+			if(block<countPage){
+				for(var i = 1; i<block; i++){
+					objj[i] = i;
+				}
+				$scope.pageCount = objj;
+			}
+			if(countPage<block){
+			for(var i = 1; i < countPage; i++){
+				objj[i] = i;
+				}
+				$scope.pageCount = objj;
+			}
+				console.log(objj);
+				
+				console.log($scope.pageCount);
+				$scope.data = data;
+				console.log(data);
+			});
+			console.log("here");
+			console.log(page);
+			
+		}
 		// 숙소 목록
-		travelStorage.areaSearch(areaCode,sigunguCode).then(function(data){
+		var page = 1;
+		travelStorage.areaSearch(areaCode,sigunguCode,page).then(function(data){
+		
 			parser = new DOMParser();
 			xmlDoc = parser.parseFromString(data,"text/xml");
-			var tot = xmlDoc.getElementsByTagName("totalCount")[0].childNodes[0].nodeValue;
+			$rootScope.tot = xmlDoc.getElementsByTagName("totalCount")[0].childNodes[0].nodeValue;
 			var x = xmlDoc.getElementsByTagName("item");
 			var data = [];
 			for(var i = 0;i<x.length;i++){
@@ -245,14 +319,33 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 				if(!x[i].getElementsByTagName("mapy")[0])
 					obj.lat = "위치없음";
 			//""안에 변수 사용법 `` 백퀕+${변수명} console.log(`"${i}"`);
-			
+				
 			data.push(obj);
 			};
+			// 페이징
+			var countPage = Math.ceil($rootScope.tot / size) + 1;
+			var	objj = {},
+		 		block = 6;
+			if(block<countPage){
+				for(var i = 1; i<block; i++){
+					objj[i] = i;
+				}
+				$scope.pageCount = objj;
+			}
+			if(countPage<block){
+			for(var i = 1; i < countPage; i++){
+				objj[i] = i;
+				}
+				$scope.pageCount = objj;
+			}
+			
+			console.log(objj);
+			console.log($rootScope.tot);
+			console.log($scope.pageCount);
 			$scope.data = data;
 			console.log(data);
-			
-				
 		});
+		
 	}
 	// 숙소 추가
 	$rootScope.stayList = [];
@@ -302,7 +395,10 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routeParams,$rootScope,$window,$location){
 	// 관광지 검색
 	$scope.tourSearch = function(city){
+		// "도" 부분 처리 완료
 		console.log(city);
+		console.log("구분");
+		console.log(city.gu==null);
 		if(city.gu==null)
 			city.gu="";
 		if(city.do!=null){
@@ -414,11 +510,98 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 			}
 			
 		}
-		// 관광지 정보
-		travelStorage.tour(areaCode,sigunguCode).then(function(data){
-			console.log(data);
+		var size = 12,
+			block = 5;
+		$scope.nextPage = function(page){
+			var blockNumber = (page-1)/block,
+				startPage = blockNumber * block + 1
+				endPage = startPage + block - 1;
+			for(startPage;startPage<endPage+1;startPage++){
+				objj[startPage] = startPage;
+			}
+			$scope.pageCount = objj;
+			
+		}
+		$scope.paging = function(page){
+			
+			travelStorage.tour(areaCode,sigunguCode,page).then(function(data){
+				
+				parser = new DOMParser();
+				xmlDoc = parser.parseFromString(data,"text/xml");
+				$rootScope.tot = xmlDoc.getElementsByTagName("totalCount")[0].childNodes[0].nodeValue;
+				var x = xmlDoc.getElementsByTagName("item");
+				var data = [];
+				for(var i = 0;i<x.length;i++){
+					var obj = {};
+					//image
+					obj.contentId = x[i].getElementsByTagName("contentid")[0].childNodes[0].nodeValue;	 
+					if(x[i].getElementsByTagName("firstimage2")[0])
+						obj.img = x[i].getElementsByTagName("firstimage2")[0].childNodes[0].nodeValue;	 
+					if(!x[i].getElementsByTagName("firstimage2")[0])
+						obj.img = "http://localhost:8081/upload/none.jpg";
+					//tel
+					if(x[i].getElementsByTagName("tel")[0])
+						obj.tel = x[i].getElementsByTagName("tel")[0].childNodes[0].nodeValue;
+					if(!x[i].getElementsByTagName("tel")[0])
+						obj.tel = "번호없음";
+					//title
+					if(x[i].getElementsByTagName("title")[0])
+						obj.txt = x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+					if(!x[i].getElementsByTagName("title")[0])
+						obj.txt = "제목없음";
+					if(obj.txt.indexOf("[")!=-1){
+						obj.txt = obj.txt.substring(0,obj.txt.indexOf("[",0));
+						}
+					if(obj.txt.indexOf("(")!=-1){
+						obj.txt = obj.txt.substring(0,obj.txt.indexOf("(",0));
+						}
+					
+					if(x[i].getElementsByTagName("mapx")[0])
+						obj.lng = x[i].getElementsByTagName("mapx")[0].childNodes[0].nodeValue;
+					if(!x[i].getElementsByTagName("mapx")[0])
+						obj.lng = location.push("위치없음");
+					
+					if(x[i].getElementsByTagName("mapy")[0])
+						obj.lat = x[i].getElementsByTagName("mapy")[0].childNodes[0].nodeValue;
+					if(!x[i].getElementsByTagName("mapy")[0])
+						obj.lat = "위치없음";
+				//""안에 변수 사용법 `` 백퀕+${변수명} console.log(`"${i}"`);
+					
+				data.push(obj);
+				};
+				// 페이징
+				var countPage = Math.ceil($rootScope.tot / size) + 1;
+				var	objj = {},
+				 	block = 5;
+				if(block<countPage){
+					for(var i = 1; i<block; i++){
+						objj[i] = i;
+					}
+					$scope.pageCount = objj;
+				}
+				if(countPage<block){
+				for(var i = 1; i < countPage; i++){
+					objj[i] = i;
+					}
+					$scope.pageCount = objj;
+				}
+				console.log(objj);
+				
+				console.log($scope.pageCount);
+				$scope.data = data;
+				console.log(data);
+			});
+			console.log("here");
+			console.log(page);
+			
+		}
+		// 숙소 목록
+		var page = 1;
+		travelStorage.tour(areaCode,sigunguCode,page).then(function(data){
+		
 			parser = new DOMParser();
 			xmlDoc = parser.parseFromString(data,"text/xml");
+			$rootScope.tot = xmlDoc.getElementsByTagName("totalCount")[0].childNodes[0].nodeValue;
 			var x = xmlDoc.getElementsByTagName("item");
 			var data = [];
 			for(var i = 0;i<x.length;i++){
@@ -456,12 +639,25 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 				if(!x[i].getElementsByTagName("mapy")[0])
 					obj.lat = "위치없음";
 			//""안에 변수 사용법 `` 백퀕+${변수명} console.log(`"${i}"`);
-			
+				
 			data.push(obj);
 			};
-			console.log(data);
+			// 페이징
+			var countPage = Math.ceil($rootScope.tot / size) + 1;
+			if(block<countPage){
+				for(var i = 1; i<block; i++){
+					objj[i] = i;
+				}
+				$scope.pageCount = objj;
+			}
+			if(countPage<block){
+			for(var i = 1; i < countPage; i++){
+				objj[i] = i;
+				}
+				$scope.pageCount = objj;
+			}
 			$scope.data = data;
-			
+			console.log(data);
 		});
 		
 	}
