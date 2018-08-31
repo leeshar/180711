@@ -36,17 +36,36 @@ $('#secondDatePick').datepicker({
   </ol>
 </nav>
 <div id="mapWrap">
-<div id="travelContent">
+
+	<div id="travelContent">
+	 제목: <input type="text" id="title" name="title" ng-model="title"><br><br>
+	 내용: <textarea rows="30" cols="107" name="content" ng-model="content"></textarea>
+	</div>
+	
+	
+
+
+
+	<div id="sideWindow">
 
 <p>시작일 : <input type="text" name="datepick" id="firstDatePick" ng-model="startDate"></p>
-<p>마지막일 : <input type="text" name="datepick" id="secondDatePick" ng-model="endDate"></p>
+<p>마지막 : <input type="text" name="datepick" id="secondDatePick" ng-model="endDate"></p>
 
+<div ng-show="stayList!=null">
+	<p>숙소</p>
+	<div ng-repeat="x in stayList">
+	{{x.stay}}
+	<img src="" ng-src="{{x.img}}" style="width: 290px;height: 100px;">
+	</div>
+	</div>
+	<p>관광지</p>
+	<p ng-show="tourList.length==0">추가된 관광지가 없습니다</p>
+	<div ng-repeat="x in tourList">
+	{{x.tour}}
+	<img src="" ng-src="{{x.img}}" style="width: 290px;height: 100px;">
 </div>
-	<div id="sideWindow">
-	
 	</div>
 
-</div>
 </div>
 </body>
 </html>
