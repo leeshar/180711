@@ -520,11 +520,13 @@ app.controller('travelLastAddCtrl',function($scope,$http,travelStorage,$routePar
 app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routeParams,$window,$location){
 	var contentId = $routeParams.contentId;
 	var element = document.getElementById('tab01');
+	// 초기 화면
 	element.classList.add("on");
 	$scope.show = 1;
 	var element2 = document.getElementById('tab02');
 	var element3 = document.getElementById('tab03');
 	var element4 = document.getElementById('tab04');
+	// tab1
 	$scope.li01 = function(){
 		$scope.show = 1;
 		element.classList.add("on");
@@ -532,6 +534,7 @@ app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routePara
 		element3.classList.remove("on");
 		element4.classList.remove("on");
 	}
+	// tab2
 	$scope.li02 = function(){
 		$scope.show = 2;
 		element2.classList.add("on");
@@ -539,6 +542,7 @@ app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routePara
 		element3.classList.remove("on");
 		element4.classList.remove("on");	
 	}
+	// tab3
 	$scope.li03 = function(){
 		$scope.show = 3;
 		element3.classList.add("on");
@@ -546,6 +550,7 @@ app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routePara
 		element.classList.remove("on");
 		element4.classList.remove("on");	
 	}
+	// tab4
 	$scope.li04 = function(){
 
 		$scope.show = 4;

@@ -29,10 +29,7 @@ function searchAddressToCoordinate(address) {
     });
 }
 $(function(){
-	var contentList=[],
-		markerList=[],
-		ttList = [],
-		lcList = [];
+	
 $('#submit').on('click', function(e) {
     setTimeout(function(){
     	e.preventDefault();
@@ -42,6 +39,8 @@ $('#submit').on('click', function(e) {
      var lcLength = $("input[name='lcName']").length;
      var ttLength = $("input[name='lcTitle']").length;
      console.log(ttLength);
+ 	var ttList = [],
+	    lcList = [];
      for(var i = 0; i<ttLength; i++){
     	 var obj = {};
     	 obj.title = $("input[name='lcTitle']")[i].value;
@@ -57,7 +56,8 @@ $('#submit').on('click', function(e) {
     		lcList.push(obj);
     	 }
      }
-     
+     var contentList=[],
+		 markerList=[];
      for(var i = 0; i<lcList.length; i++){
 	 // 마커
      var marker = new naver.maps.Marker({
