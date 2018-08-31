@@ -313,9 +313,14 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 	// 관광지 검색
 	$scope.tourSearch = function(city){
 		console.log(city);
+		if(city.gu==null)
+			city.gu="";
 		if(city.do!=null){
 			// map search창 value
-			$scope.searchCode = city.do+" "+city.gu;
+			if(city.gu==null)
+				$scope.searchCode = city.do;
+			if(city.gu!=null)
+				$scope.searchCode = city.do+" "+city.gu;
 			var areaCode=city.do;
 			var areaLength = Object.keys($scope.do).length;
 			var value = Object.keys($scope.do)[0];
@@ -369,9 +374,11 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 		console.log(city.area!="");
 		// 여긴 "시" 부분
 		if(city.area!=null&&city.area!=""){
-
+			if(city.gu==null)
+				$scope.searchCode = city.area;
 			// map search창 value
-			$scope.searchCode = city.area +" "+ city.gu;
+			if(city.gu!=null)
+				$scope.searchCode = city.area +" "+ city.gu;
 			var areaCode=city.area;
 			var areaLength = Object.keys($scope.area).length;
 			for(var i = 1; i<areaLength+1; i++){
