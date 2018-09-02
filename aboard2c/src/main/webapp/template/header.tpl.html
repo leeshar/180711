@@ -1,14 +1,24 @@
 <header>
-<div id="mySidenav" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
-  <a href="http://localhost:8081/aboard2"><i class="fa fa-fw fa-home" style="margin-right: 15px;"></i>홈으로</a>
-  <a href="#!/users/updateUser"><i class="fa fa-fw fa-user" style="margin-right: 15px;"></i>내 정보보기</a>
-  <a href="#!/mytravel/list"><i class="material-icons" style="margin-right: 15px;">airplanemode_active</i>나만의 여행</a>
-  <a href="#"><i class="fa fa-fw fa-envelope"style="margin-right: 15px;"></i>문의하기</a>
-  <a href="#"><i class="fa fa-briefcase" style="margin-right: 15px;"></i>회사소개</a>
-</div>
+	<ul id="slide-out" class="sidenav">
+    <li><div class="user-view">
+      <div class="background">
+        <img src="">
+      </div>
+      <a href="#user"><img class="circle" src=""></a>
+      <a href="#name"><span class="white-text name">11님 환영합니다</span></a>
+      <a href="#email"><span class="white-text email">22</span></a>
+    </div></li>
+    <li><a href="/"><i class="material-icons">cloud</i>메인화면으로</a></li>
+    <li><a href="#">내 메뉴</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Subheader</a></li>
+    <li><a class="waves-effect" href="/cart/list"><i class="material-icons">local_grocery_store</i>장바구니</a></li>
+    <li><a class="waves-effect" href="/board/list">게시판</a></li>
+    
+  </ul>
+		
 <ul class="nav justify-content-end" ng-show="globals!=null">
-	<li class="nav-item"><a ng-click="openNav()" class="nav-link" href="">내정보보기</a></li>
+	<li class="nav-item"><a href=# data-target="slide-out" class="sidenav-trigger">내정보보기</a></li>
 	<li class="nav-item" ng-repeat="x in globals"><a class="nav-link" href="">{{x.id}}님 반갑습니다</a></li>
 	<li class="nav-item"><a class="nav-link" href="#!/users/login">로그아웃</a></li>
 	</ul>
@@ -16,4 +26,18 @@
 	<li class="nav-item"><a class="nav-link" href="#!/users/agree">회원가입</a></li>
 	<li class="nav-item"><a class="nav-link" href="#!/users/login">로그인</a></li>
 	</ul>
+	<script>
+		 document.addEventListener('DOMContentLoaded', function() {
+	          var elems = document.querySelectorAll('.sidenav');
+	          var instances = M.Sidenav.init(elems, options);
+	         
+	        });
+	
+	    
+	        $(document).ready(function(){
+	          
+	        	$('.sidenav').sidenav();
+	        });
+	            
+		</script>
 </header>
