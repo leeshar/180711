@@ -263,7 +263,7 @@ angular.module('myApp').factory('AuthenticationService',
              ----------------------------------------------*/
           $timeout(function(){$http({
 				url:"/aboard2/users/login",
-				method:'post',
+				method:'POST',
 				data: 'login='+JSON.stringify(loginUser),
 				contentType:"application/json;charset=UTF-8",
 				headers : {'Content-Type': 'application/x-www-form-urlencoded'}

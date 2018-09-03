@@ -58,6 +58,7 @@ public class BoardRestController {
 		notice.setId(id);
 		notice.setNotice_content("새로운 댓글이 달렸습니다");
 		notice.setNotice_id(writer);
+		// notice 추가
 		rService.replyNotice(notice);
 		rService.insert(insert);
 		return new ResponseEntity<>(HttpStatus.OK);

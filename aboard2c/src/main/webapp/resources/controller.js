@@ -400,11 +400,9 @@ angular.module('myApp').controller(
 				'$location',
 				'AuthenticationService',
 				'$http',
-				function($scope, $rootScope, $location, AuthenticationService,
+				function($scope, $rootScope, $location, AuthenticationService,$cookieStore,
 						$http) {
-					// reset login status
-					AuthenticationService.ClearCredentials();
-
+				
 					$scope.login = function() {
 						$scope.dataLoading = true;
 						AuthenticationService.Login($scope.id, $scope.pwd,
@@ -422,7 +420,7 @@ angular.module('myApp').controller(
 					};
 				} ]);
 // slide nav
-app.controller("slideCtrl", function($scope,$http,userStorage,$cookieStore) {
+app.controller("slideCtrl", function($scope,$http,userStorage,$cookieStore,AuthenticationService,$location) {
 	$scope.openNav = function openNav() {
 		document.getElementById("mySidenav").style.width = "250px";
 		document.getElementById("main").style.marginLeft = "250px";
@@ -433,15 +431,22 @@ app.controller("slideCtrl", function($scope,$http,userStorage,$cookieStore) {
 		document.getElementById("main").style.marginLeft = "0";
 		document.body.style.backgroundColor = "white";
 	}
-	console.log("ee"+$cookieStore.get("userId"));
-	if($cookieStore.get("userId")!=null){
+	
+	
+	var myNotice = setInterval(function(){
 		var id = $cookieStore.get("userId");
-		setInterval(function(){
 		userStorage.noticeUser(id).then(function(data){
 		$scope.noticeCount = data.length;
 		$scope.notice = data;
 		console.log(data);
 			});
 		}, 5000);
-	}
+
+	$scope.logout = function(){
+		console.log("clear");
+		clearInterval(myNotice);
+		AuthenticationService.ClearCredentials();
+		$location.path('/');
+		
+	};
 });
