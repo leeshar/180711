@@ -149,10 +149,11 @@ $('#submit').on('click', function(e) {
 </ul>
 <div class="paginationWrap">
 <div class="center-block paginationA" ng-show="data">
-  <a href="" ng-click="paging(page)">&laquo;</a>
+  <a href="" ng-click="prevPage(startPage)">&laquo;</a>
   <a href="" ng-repeat="x in pageCount" ng-click="paging(x)" >{{x}}</a>
-  <a href="" ng-click="nextPage()">&raquo;</a>
+  <a href="" ng-click="nextPage(endPage)">&raquo;</a>
 </div>
+{{endPage}}
 </div>
 </div>
 

@@ -145,9 +145,6 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 					sigunguCode=i;
 			}
 		}
-		console.log(city);
-		console.log(city.area!=null);
-		console.log(city.area!="");
 		// 여긴 "시" 부분
 		if(city.area!=null&&city.area!=""){
 			if(city.gu==null)
@@ -249,30 +246,10 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 					
 				data.push(obj);
 				};
-				// 페이징
-				var countPage = Math.ceil($rootScope.tot / size) + 1;
-				var	objj = {},
-		 		block = 6;
-			if(block<countPage){
-				for(var i = 1; i<block; i++){
-					objj[i] = i;
-				}
-				$scope.pageCount = objj;
-			}
-			if(countPage<block){
-			for(var i = 1; i < countPage; i++){
-				objj[i] = i;
-				}
-				$scope.pageCount = objj;
-			}
-				console.log(objj);
-				
-				console.log($scope.pageCount);
+			
 				$scope.data = data;
 				console.log(data);
 			});
-			console.log("here");
-			console.log(page);
 			
 		}
 		// 숙소 목록
@@ -323,11 +300,17 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 			data.push(obj);
 			};
 			// 페이징
-			var countPage = Math.ceil($rootScope.tot / size) + 1;
-			var	objj = {},
-		 		block = 6;
+			var countPage = Math.ceil($rootScope.tot / size) + 1,
+				objj = {},
+				block = 5;
+			$scope.countPage = countPage;
+			var	blockNumber = (page-1)/block,
+				startPage = blockNumber * block +1,
+				endPage = startPage + block -1;
+			$scope.startPage = startPage;
+			$scope.endPage = endPage;
 			if(block<countPage){
-				for(var i = 1; i<block; i++){
+				for(var i = 1; i<block+1; i++){
 					objj[i] = i;
 				}
 				$scope.pageCount = objj;
@@ -339,13 +322,47 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 				$scope.pageCount = objj;
 			}
 			
-			console.log(objj);
-			console.log($rootScope.tot);
-			console.log($scope.pageCount);
+			console.log("0903here");
+			console.log(startPage);
+			console.log(blockNumber);
+			console.log(endPage);
 			$scope.data = data;
 			console.log(data);
 		});
 		
+	}
+	// 다음 페이징
+	$scope.nextPage = function(page){
+		var block = 5,
+		objj = {};
+		var	blockNumber = page/block,
+		startPage = blockNumber * block +1, 
+		endPage = startPage + block -1;
+		console.log("0903ee");
+		console.log(endPage);
+		console.log($scope.countPage);
+		if(endPage+1<=$scope.countPage){
+		$scope.startPage = startPage;
+		for(startPage; startPage<endPage+1; startPage++){
+			objj[startPage] = startPage;
+		}
+		$scope.endPage = endPage;
+		$scope.pageCount = objj;
+		}
+	}
+	// 이전 페이징
+	$scope.prevPage = function(page){
+		if(1<page){
+			var objj = {},
+			startPage = page-5;
+		$scope.startPage = startPage;
+		for(startPage; startPage<page; startPage++){
+			objj[startPage] = startPage;
+		console.log(startPage);	
+		}
+		$scope.endPage = page-1;
+		$scope.pageCount = objj;
+		}
 	}
 	// 숙소 추가
 	$rootScope.stayList = [];
@@ -455,9 +472,6 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 					sigunguCode=i;
 			}
 		}
-		console.log(city);
-		console.log(city.area!=null);
-		console.log(city.area!="");
 		// 여긴 "시" 부분
 		if(city.area!=null&&city.area!=""){
 			if(city.gu==null)
@@ -512,16 +526,6 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 		}
 		var size = 12,
 			block = 5;
-		$scope.nextPage = function(page){
-			var blockNumber = (page-1)/block,
-				startPage = blockNumber * block + 1
-				endPage = startPage + block - 1;
-			for(startPage;startPage<endPage+1;startPage++){
-				objj[startPage] = startPage;
-			}
-			$scope.pageCount = objj;
-			
-		}
 		$scope.paging = function(page){
 			
 			travelStorage.tour(areaCode,sigunguCode,page).then(function(data){
@@ -569,33 +573,14 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 					
 				data.push(obj);
 				};
-				// 페이징
-				var countPage = Math.ceil($rootScope.tot / size) + 1;
-				var	objj = {},
-				 	block = 5;
-				if(block<countPage){
-					for(var i = 1; i<block; i++){
-						objj[i] = i;
-					}
-					$scope.pageCount = objj;
-				}
-				if(countPage<block){
-				for(var i = 1; i < countPage; i++){
-					objj[i] = i;
-					}
-					$scope.pageCount = objj;
-				}
-				console.log(objj);
-				
-				console.log($scope.pageCount);
+			
 				$scope.data = data;
 				console.log(data);
 			});
-			console.log("here");
-			console.log(page);
 			
 		}
-		// 숙소 목록
+	
+		// 관광지 목록
 		var page = 1;
 		travelStorage.tour(areaCode,sigunguCode,page).then(function(data){
 		
@@ -643,9 +628,17 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 			data.push(obj);
 			};
 			// 페이징
-			var countPage = Math.ceil($rootScope.tot / size) + 1;
+			var countPage = Math.ceil($rootScope.tot / size) + 1,
+				objj = {},
+				block = 5;
+			$scope.countPage = countPage;
+			var	blockNumber = (page-1)/block,
+				startPage = blockNumber * block +1,
+				endPage = startPage + block -1;
+			$scope.startPage = startPage;
+			$scope.endPage = endPage;
 			if(block<countPage){
-				for(var i = 1; i<block; i++){
+				for(var i = 1; i<block+1; i++){
 					objj[i] = i;
 				}
 				$scope.pageCount = objj;
@@ -656,10 +649,48 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 				}
 				$scope.pageCount = objj;
 			}
+			
+			console.log("0903here");
+			console.log(startPage);
+			console.log(blockNumber);
+			console.log(endPage);
 			$scope.data = data;
 			console.log(data);
 		});
 		
+	}
+	// 다음 페이징
+	$scope.nextPage = function(page){
+		var block = 5,
+		objj = {};
+		var	blockNumber = page/block,
+		startPage = blockNumber * block +1, 
+		endPage = startPage + block -1;
+		console.log("0903ee");
+		console.log(endPage);
+		console.log($scope.countPage);
+		if(endPage+1<=$scope.countPage){
+		$scope.startPage = startPage;
+		for(startPage; startPage<endPage+1; startPage++){
+			objj[startPage] = startPage;
+		}
+		$scope.endPage = endPage;
+		$scope.pageCount = objj;
+		}
+	}
+	// 이전 페이징
+	$scope.prevPage = function(page){
+		if(1<page){
+			var objj = {},
+			startPage = page-5;
+		$scope.startPage = startPage;
+		for(startPage; startPage<page; startPage++){
+			objj[startPage] = startPage;
+		console.log(startPage);	
+		}
+		$scope.endPage = page-1;
+		$scope.pageCount = objj;
+		}
 	}
 	$rootScope.tourList = [];
 	// 관광지 추가
@@ -684,7 +715,7 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 		
 			
 	}
-	// 숙소 삭제
+	// 관광지 삭제
 	$scope.tourDelete = function(x){
 		
 		console.log(x);
