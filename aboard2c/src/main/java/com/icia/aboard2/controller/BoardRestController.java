@@ -22,13 +22,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.icia.aboard2.dto.ReplyDto.DeleteReply;
 import com.icia.aboard2.dto.ReplyDto.InsertReply;
+import com.icia.aboard2.dto.ReplyDto.NoticeReply;
 import com.icia.aboard2.service.BoardService;
 import com.icia.aboard2.service.ReplyServiceImpl;
 
@@ -46,10 +45,20 @@ public class BoardRestController {
 	public ResponseEntity<Void> insert(String reply)throws Exception{
 		JSONObject obj = jsonParser(reply);
 		InsertReply insert = new InsertReply();
+		String bno = obj.get("bno").toString();
+		String id = obj.get("id").toString();
 		// 변환 된 객체를 문자열, 정수형 데이터 타입으로 변환한다.
-		insert.setBno(Integer.parseInt(obj.get("bno").toString()));
-		insert.setId(obj.get("id").toString());
+		insert.setBno(Integer.parseInt(bno));
+		String writer = service.whoWriter(bno);
+		insert.setId(id);
 		insert.setReplytext(obj.get("replytext").toString());
+		// notice 부분
+		NoticeReply notice = new NoticeReply();
+		notice.setBno(Integer.parseInt(bno));
+		notice.setId(id);
+		notice.setNotice_content("새로운 댓글이 달렸습니다");
+		notice.setNotice_id(writer);
+		rService.replyNotice(notice);
 		rService.insert(insert);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -80,7 +89,7 @@ public class BoardRestController {
 			String filename_ext = filename.substring(filename.lastIndexOf(".")+1);
 			filename_ext = filename_ext.toLowerCase();
 			String dftFilePath = request.getSession().getServletContext().getRealPath("/");
-			String filePath = "/Applications/member/";
+			String filePath = "d:/service/upload/";
 			File file = new File(filePath);
 			if(!file.exists()) {
 				file.mkdirs();

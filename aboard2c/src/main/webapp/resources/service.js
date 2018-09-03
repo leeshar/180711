@@ -233,6 +233,19 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 			});
 			
 			
+		},
+		// 알림
+		noticeUser: function(id){
+			return $http({
+				url:"/aboard2/users/notice",
+				method:"POST",
+				data:"id="+id,
+				contentType:"application.json;charset=UTF-8",
+				headers:{"Content-Type":'application/x-www-form-urlencoded'}
+			}).then(function(response){
+				return response.data;
+			});
+			
 		}
 		
 		

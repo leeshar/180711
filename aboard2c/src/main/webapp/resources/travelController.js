@@ -728,7 +728,7 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 	}
 	// 다음 단계
 	$scope.next = function(){
-		if($rootScope.stayList.length===0||$rootScope.stayList.length===1)
+		if($rootScope.stayList==null||$rootScope.stayList.length===1)
 			$window.location.href="/aboard2/#!/travel/addLast";	
 	}
 	

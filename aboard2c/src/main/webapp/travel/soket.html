@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<input type="text" id="message" name="message" ng-model="message">
+<button type="button" onclick="send()">보내기</button>
+<div id="content">
+	
+</div>
+<script>
+	var socket = "ws://localhost:8081";
+	var output;
+	function init(){
+		output = document.getElementById('content');
+		testWebsocket();
+	}
+	function testWebSocket(){
+		websocket = new WebSocket(socket);
+		websocket.onopen = function(evt) {onOpen(evt);};
+		websocket.onclose = function(evt){onClose(evt)};
+		websocket.onmessage = function(evt){onMessage(evt)};
+		websocket.onerror = function(evt){onError(evt)};		
+	}
+	function onOpen(evt){
+		writeToScreen("연결완료");
+		doSend("테스트1");
+	}
+	function onClose(evt){
+		writeToScreen("연결해제");
+		
+	}
+	function onMessage(evt){
+		writeToScreen('<span style="color: blue;">수신: '+ evt.data+ ' </span>');
+	}
+	function deSend(message){
+		writeToScreen("발신:" + message);
+		websocket.send(message);
+	}
+	function writeToScreen(message){
+		var pre = document.createElement("p");
+		pre.style.wordWrap = "break-word";
+		pre.innerHTML = message;
+		output.appendChild(pre);
+		
+	}
+</script>
+</body>
+</html>

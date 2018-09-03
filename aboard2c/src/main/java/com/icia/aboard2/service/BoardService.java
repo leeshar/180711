@@ -138,6 +138,10 @@ public class BoardService {
 		map.put("pagination", pagination);
 		return map;
 	}
+	// 누구의 글
+	public String whoWriter(String bno) {
+		return boardDao.whoWriter(bno);
+	}
 }
 
 

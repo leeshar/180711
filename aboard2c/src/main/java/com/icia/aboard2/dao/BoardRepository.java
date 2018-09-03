@@ -42,4 +42,6 @@ public interface BoardRepository {
 	public int upReplyCnt(int bno);
 	// 글 검색
 	public List<Board> boardSearch(@Param("startRow")int startRow, @Param("endRow") int endRow, @Param("categoriName") String categoriName,@Param("search") String search);
+	// 누구의 글
+	public String whoWriter(String bno);
 }

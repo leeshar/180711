@@ -99,6 +99,10 @@
     	order by bno desc
 	]]> 
 	</select>
+	<!-- 누구글인지 확인 -->
+	<select id="whoWriter" resultType="string" >
+		select writer from board where bno=#{bno}
+	</select>
 </mapper>
 
 

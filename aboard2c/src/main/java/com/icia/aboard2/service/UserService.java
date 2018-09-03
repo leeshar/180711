@@ -2,6 +2,7 @@ package com.icia.aboard2.service;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -21,6 +22,7 @@ import com.icia.aboard2.dto.UserDto.CreateUser;
 import com.icia.aboard2.dto.UserDto.FindId;
 import com.icia.aboard2.dto.UserDto.LoginUser;
 import com.icia.aboard2.dto.UserDto.UpdateUser;
+import com.icia.aboard2.entity.Notice;
 import com.icia.aboard2.entity.User;
 import com.icia.aboard2.exception.UserNotFoundException;
 
@@ -163,5 +165,9 @@ public class UserService {
 	// 이메일 가져오기
 	public Map<String, Object> getEmail(String id) {
 		return dao.getEmail(id);
+	}
+	// 알림
+	public List<Notice> notice(String id){
+		return dao.notice(id);
 	}
 }

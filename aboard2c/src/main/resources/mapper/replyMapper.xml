@@ -22,6 +22,11 @@
 	order by cno desc
 
 </select>
+<!-- 댓글알림 -->
+<insert id="noticeReply" parameterType="com.icia.aboard2.dto.ReplyDto$NoticeReply">
+	insert into notice(notice_bno,id,bno,notice_content,notice_id,notice_date)
+	values(notice_bno_seq.nextval,#{id},#{bno},#{notice_content},#{notice_id},sysdate)
+</insert>
 </mapper>
 
 

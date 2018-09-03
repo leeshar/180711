@@ -28,6 +28,9 @@ app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, r
 	.when("/travel/addLast",{
 		templateUrl:"./travel/addLast.html",
 		controller:"travelLastAddCtrl"
+	})
+	.when("/travel/socket",{
+		templateUrl:"./travel/soket.html"
 	});
 
 	

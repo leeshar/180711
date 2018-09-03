@@ -1,8 +1,10 @@
 package com.icia.aboard2.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.icia.aboard2.dto.UserDto.FindId;
+import com.icia.aboard2.entity.Notice;
 import com.icia.aboard2.entity.User;
 
 public interface UserRepository {
@@ -30,4 +32,6 @@ public interface UserRepository {
 	int pwdReset(User user);
 	// 회원권한확인
 	String authoritySearch(String id);
+	// 알림확인
+	List<Notice> notice(String id);
 }

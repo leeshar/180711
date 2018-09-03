@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.icia.aboard2.dao.BoardRepository;
 import com.icia.aboard2.dao.ReplyRepository;
 import com.icia.aboard2.dto.ReplyDto.InsertReply;
+import com.icia.aboard2.dto.ReplyDto.NoticeReply;
 import com.icia.aboard2.entity.Reply;
 
 @Service
@@ -27,6 +28,11 @@ public class ReplyServiceImpl{
 		bDao.upReplyCnt(insert.getBno());
 		dao.insert(reply);
 	}
+	// 댓글 알림
+	public void replyNotice(NoticeReply notice) throws Exception{
+		dao.noticeReply(notice);
+	}
+	
 	// 댓글삭제
 	@Transactional
 	public String delete(String cno, String id) throws Exception {

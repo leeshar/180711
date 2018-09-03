@@ -49,6 +49,10 @@
 	<select id="authoritySearch" resultType="string" parameterType="string">
 		select authority from authorities where id = #{id}
 	</select>
+	<!-- 알림 확인 -->
+	<select id="notice" resultType="com.icia.aboard2.dto.ReplyDto$NoticeReply" parameterType="string">
+		select*from notice where notice_id=#{id}
+	</select>
 </mapper>
 
 

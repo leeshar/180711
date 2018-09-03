@@ -29,5 +29,13 @@ public class ReplyDto {
 		private String replytext;
 		private Date write_date;
 	}
+	@Data
+	public static class NoticeReply{
+		private int bno;
+		private String id;
+		private String notice_content;
+		private String notice_id;
+		
+	}
 	
 }

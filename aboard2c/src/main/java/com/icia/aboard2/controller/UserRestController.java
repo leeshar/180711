@@ -147,6 +147,15 @@ public class UserRestController {
 			
 			
 		}
+		//알림확인
+		@RequestMapping(value="/users/notice",produces = "application/json; charset=UTF-8")
+		public ResponseEntity<String> notice(String id) throws Exception{
+			System.out.println("내 아이디"+id);
+			service.notice(id);
+			System.out.println(service.notice(id));
+			return new ResponseEntity<String>(mapper.writeValueAsString(service.notice(id)),HttpStatus.OK);
+			
+		}
 		
 		// 중복 코드 제거
 		private JSONObject JsonPaser(String user) throws ParseException {

@@ -136,7 +136,7 @@ app.controller('boardsUpdateCtrl',function($scope,$http, $routeParams, $cookieSt
 
 // boardsRead
 app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieStore,
-		$location,$window,$rootScope,boardStorage) {
+	$location,$window,$rootScope,boardStorage) {
 	// routeParams로 Query의 값을 받을 수 있다.
 	var bno = $routeParams.bno;
 	$scope.bno = bno;
@@ -166,7 +166,11 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 		$scope.writer = data.board.WRITER;
 		$scope.recommendCnt = data.board.RECOMMENDCNT;
 		document.getElementById('content').innerHTML = $scope.content;
+
 	});
+
+	console.log("여기");
+	console.log(writer);
 	// 게시판 글 삭제
 	$scope.delete = function(){
 		boardStorage.boardsDelete(id,bno,categoriName).then(function(data){
@@ -418,7 +422,7 @@ angular.module('myApp').controller(
 					};
 				} ]);
 // slide nav
-app.controller("slideCtrl", function($scope) {
+app.controller("slideCtrl", function($scope,$http,userStorage,$cookieStore) {
 	$scope.openNav = function openNav() {
 		document.getElementById("mySidenav").style.width = "250px";
 		document.getElementById("main").style.marginLeft = "250px";
@@ -429,5 +433,15 @@ app.controller("slideCtrl", function($scope) {
 		document.getElementById("main").style.marginLeft = "0";
 		document.body.style.backgroundColor = "white";
 	}
-
+	console.log("ee"+$cookieStore.get("userId"));
+	if($cookieStore.get("userId")!=null){
+		var id = $cookieStore.get("userId");
+		setInterval(function(){
+		userStorage.noticeUser(id).then(function(data){
+		$scope.noticeCount = data.length;
+		$scope.notice = data;
+		console.log(data);
+			});
+		}, 5000);
+	}
 });
