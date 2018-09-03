@@ -400,8 +400,8 @@ angular.module('myApp').controller(
 				'$location',
 				'AuthenticationService',
 				'$http',
-				function($scope, $rootScope, $location, AuthenticationService,$cookieStore,
-						$http) {
+				function($scope, $rootScope, $location, AuthenticationService,userStorage
+						,$http,$cookieStore) {
 				
 					$scope.login = function() {
 						$scope.dataLoading = true;
@@ -409,8 +409,18 @@ angular.module('myApp').controller(
 								function(response) {
 									if (response.status == 200
 											&& response.data === "성공") {
+									
 										AuthenticationService.SetCredentials(
 												$scope.id, $scope.pwd);
+										var myNotice = setInterval(function(){
+											var id = $cookieStore.get("userId");
+											userStorage.noticeUser(id).then(function(data){
+											$scope.noticeCount = data.length;
+											$scope.notice = data;
+											console.log(data);
+											});
+											
+										}, 5000);
 										$location.path('/');
 									} else {
 										$scope.error = response.message;
@@ -420,7 +430,7 @@ angular.module('myApp').controller(
 					};
 				} ]);
 // slide nav
-app.controller("slideCtrl", function($scope,$http,userStorage,$cookieStore,AuthenticationService,$location) {
+app.controller("slideCtrl", function($scope,$http,userStorage,$cookieStore,AuthenticationService,$location,$rootScope) {
 	$scope.openNav = function openNav() {
 		document.getElementById("mySidenav").style.width = "250px";
 		document.getElementById("main").style.marginLeft = "250px";
@@ -432,20 +442,12 @@ app.controller("slideCtrl", function($scope,$http,userStorage,$cookieStore,Authe
 		document.body.style.backgroundColor = "white";
 	}
 	
+	$rootScope.globals = $cookieStore.get("globals");
 	
-	var myNotice = setInterval(function(){
-		var id = $cookieStore.get("userId");
-		userStorage.noticeUser(id).then(function(data){
-		$scope.noticeCount = data.length;
-		$scope.notice = data;
-		console.log(data);
-			});
-		}, 5000);
-
 	$scope.logout = function(){
 		console.log("clear");
-		clearInterval(myNotice);
 		AuthenticationService.ClearCredentials();
+		clearInterval(myNotice);
 		$location.path('/');
 		
 	};

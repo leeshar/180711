@@ -288,15 +288,17 @@ angular.module('myApp').factory('AuthenticationService',
                     id: id,
                     authdata: authdata
                 }
-            };
- 
+            };            
+
             $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
             $cookieStore.put('globals', $rootScope.globals);
             $cookieStore.put('userId', $rootScope.userId);
         };
  
         service.ClearCredentials = function () {
-            $rootScope.globals = null;
+            delete $rootScope.globals;
+            delete $rootScope.userId;
+            console.log("remove");
             $cookieStore.remove('globals');
             $cookieStore.remove('userId');
             $http.defaults.headers.common.Authorization = 'Basic ';

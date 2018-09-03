@@ -8,7 +8,7 @@
   <a href="#"><i class="fa fa-briefcase" style="margin-right: 15px;"></i>회사소개</a>
 </div>
 		
-<ul class="nav justify-content-end" ng-show="globals!=null">
+<ul class="nav justify-content-end" ng-show="globals!=null" ng-hide="globals==null">
 		<li class="nav-item"><a ng-click="openNav()" class="nav-link" href="">내정보보기</a></li>
 	<li class="nav-item" ng-repeat="x in globals"><a class="nav-link" href="">{{x.id}}님 반갑습니다</a></li>
 <div class="dropdown"> 
@@ -21,7 +21,7 @@
 </div> 
 	<li class="nav-item"><a class="nav-link" href="" ng-click="logout()">로그아웃</a></li>
 	</ul>
-	<ul class="nav justify-content-end" ng-show="globals==null">
+	<ul class="nav justify-content-end" ng-show="globals==null" ng-hide="globals!=null">
 	<li class="nav-item"><a class="nav-link" href="#!/users/agree">회원가입</a></li>
 	<li class="nav-item"><a class="nav-link" href="#!/users/login">로그인</a></li>
 	</ul>
