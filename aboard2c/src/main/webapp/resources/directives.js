@@ -4,7 +4,7 @@ var app = angular.module('myApp', [
 ]);
 app.directive("headerTpl",function(){
 	return{templateUrl:"./template/header.tpl.html",
-		   controller:"slideCtrl"};
+		   controller:"headerCtrl"};
 }).directive("navTpl",function(){
 	return{templateUrl:"./template/nav.tpl.html"};
 })
@@ -104,8 +104,21 @@ app.directive("headerTpl",function(){
         }
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             // redirect to login page if not logged in
-            if ($location.path() !== '/users/login' && !$rootScope.globals.currentUser) {
-                $location.path('/users/login');
+        	if ($rootScope.globals.currentUser&&$location.path() == '/users/login')
+        		$location.path("/");
+        	if ($rootScope.globals.currentUser&&$location.path() == '/users/register')
+        		$location.path("/");
+        	if ($rootScope.globals.currentUser&&$location.path() == '/users/findId')
+        		$location.path("/");
+        	if ($rootScope.globals.currentUser&&$location.path() == '/users/findPwd')
+        		$location.path("/");
+        	if ($rootScope.globals.currentUser&&$location.path() == '/users/agree')
+        		$location.path("/");
+        	if ($rootScope.globals.currentUser&&$location.path() == '/users/welcome')
+        		$location.path("/");
+        	if (!$rootScope.globals.currentUser) {
+            	console.log("DDDD"+ !$rootScope.globals.currentUser);
+                $location.path('#!/users/login');
             }
         });
     }]);

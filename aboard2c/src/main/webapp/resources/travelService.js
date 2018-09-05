@@ -1,14 +1,5 @@
 angular.module('myApp').factory('travelStorage',function($http,$cookieStore){
 	return{
-		// 상세정보
-		detailTravel: function(travelBno){
-			return $http.get("/aboard2/travel/detail/"+travelBno)
-			.then(function(response){
-				console.log(response);
-				return response.data;
-			});
-			
-		},
 		//위치정보
 		areaSearch: function(areaCode,sigunguCode,page){
 			// 시군구 코드가 없을 때

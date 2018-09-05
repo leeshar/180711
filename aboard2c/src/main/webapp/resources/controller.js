@@ -399,7 +399,9 @@ angular.module('myApp').controller(
 				'$rootScope',
 				'$location',
 				'AuthenticationService',
+				'userStorage',
 				'$http',
+				'$cookieStore',
 				function($scope, $rootScope, $location, AuthenticationService,userStorage
 						,$http,$cookieStore) {
 				
@@ -409,11 +411,22 @@ angular.module('myApp').controller(
 								function(response) {
 									if (response.status == 200
 											&& response.data === "성공") {
-										AuthenticationService.noticeUser($scope.id).then(function(data){
-											$scope.noticeCount = data.length;
-											$scope.notice = data;
+										userStorage.noticeUser($scope.id).then(function(data){
+											$rootScope.noticeCount = data.length;
+											$rootScope.notice = data;
 											console.log(data);
 											});
+										var myNotice = setInterval(function(){
+											if($cookieStore.get("userId")!=null){
+											var id = $cookieStore.get("userId");
+											AuthenticationService.noticeUser(id).then(function(data){
+											$rootScope.noticeCount = data.length;
+											$rootScope.notice = data;
+											console.log(data);
+											});
+											}
+											
+										}, 5000);
 										AuthenticationService.SetCredentials(
 												$scope.id, $scope.pwd);
 										$location.path('/');
@@ -425,7 +438,7 @@ angular.module('myApp').controller(
 					};
 				} ]);
 // slide nav
-app.controller("slideCtrl", function($scope,$http,userStorage,$cookieStore,AuthenticationService,$location,$rootScope) {
+app.controller("headerCtrl", function($scope,$http,userStorage,$cookieStore,AuthenticationService,$location,$rootScope) {
 	$scope.openNav = function openNav() {
 		document.getElementById("mySidenav").style.width = "250px";
 		document.getElementById("main").style.marginLeft = "250px";
@@ -438,12 +451,14 @@ app.controller("slideCtrl", function($scope,$http,userStorage,$cookieStore,Authe
 	}
 	$rootScope.globals = $cookieStore.get("globals");
 	var myNotice = setInterval(function(){
+		if($cookieStore.get("userId")!=null){
 		var id = $cookieStore.get("userId");
 		AuthenticationService.noticeUser(id).then(function(data){
-		$scope.noticeCount = data.length;
-		$scope.notice = data;
+		$rootScope.noticeCount = data.length;
+		$rootScope.notice = data;
 		console.log(data);
 		});
+		}
 		
 	}, 5000);
 	$scope.logout = function(){
