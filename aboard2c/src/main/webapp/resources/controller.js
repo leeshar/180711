@@ -409,10 +409,13 @@ angular.module('myApp').controller(
 								function(response) {
 									if (response.status == 200
 											&& response.data === "성공") {
-									
+										AuthenticationService.noticeUser($scope.id).then(function(data){
+											$scope.noticeCount = data.length;
+											$scope.notice = data;
+											console.log(data);
+											});
 										AuthenticationService.SetCredentials(
 												$scope.id, $scope.pwd);
-										
 										$location.path('/');
 									} else {
 										$scope.error = response.message;
@@ -433,10 +436,10 @@ app.controller("slideCtrl", function($scope,$http,userStorage,$cookieStore,Authe
 		document.getElementById("main").style.marginLeft = "0";
 		document.body.style.backgroundColor = "white";
 	}
-	var id = $cookieStore.get("userId");
 	$rootScope.globals = $cookieStore.get("globals");
 	var myNotice = setInterval(function(){
-		userStorage.noticeUser(id).then(function(data){
+		var id = $cookieStore.get("userId");
+		AuthenticationService.noticeUser(id).then(function(data){
 		$scope.noticeCount = data.length;
 		$scope.notice = data;
 		console.log(data);

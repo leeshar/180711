@@ -6,6 +6,5 @@
 		<typeAlias alias="board" type="com.icia.aboard2.entity.Board" />
 		<typeAlias alias="attachment" type="com.icia.aboard2.entity.Attachment" />
 		<typeAlias alias="reply" type="com.icia.aboard2.entity.Reply"/>
-		<typeAlias alias="travel" type="com.icia.aboard2.entity.Travel"/>
 	</typeAliases>
 </configuration>

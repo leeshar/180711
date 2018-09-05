@@ -20,9 +20,6 @@ app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, r
 	.when("/travel/tourSearch",{
 		templateUrl:"./travel/tourSearch.html",
 		controller:"travelTourSearchCtrl"
-	})
-	.when("/travel/socket",{
-		templateUrl:"./travel/soket.html"
 	});
 
 	
