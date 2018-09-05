@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form name="udtFrm" style="width: 700px; margin-left: 300px; margin-top: 100px;">
+<div class="form-row">
+	<label>아이디</label>
+	<input type="text" class="form-control" name="id" id="id" value={{id}} readonly="readonly">
+</div>
+<div class="form-row">
+	<label>이름</label>
+	<input type="text" class="form-control" name="irum" id="irum" value={{irum}} readonly="readonly">
+</div>
+<div class="form-row">
+	<label>이메일</label>
+	<input type="text" class="form-control" name="email" id="email" value={{email}} ng-model="email" ng-required="true" ng-pattern="/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i">
+</div>
+<small ng-show="udtFrm.email.$error.pattern" style="color:red;">이메일형식이 옳지 않습니다</small>
+<div class="form-row">
+	<label>비밀번호</label> 
+	<input type="password" class="form-control" name="pwd" id="pwd" ng-model="pwd" ng-required="true" ng-pattern="/^[a-zA-Z0-9]{8,12}$/" maxlength="12">
+</div>
+<small ng-show="udtFrm.pwd.$error.pattern" style="color: red;">숫자와 영문자 조합으로 8~12자리를 사용해야 합니다</small>
+<div class="form-row">
+	<label>비밀번호확인</label>
+	<input type="password" class="form-control" name="pwdCheck" id="pwdCheck" ng-model="pwdCheck" ng-required="true" maxlength="12">
+</div>
+<small ng-show="udtFrm.pwdCheck.$modelValue!=udtFrm.pwd.$modelValue" style="color: red;">비밀번호와 같지 않습니다</small><br>
+	<button type="button" ng-disabled="udtFrm.pwdCheck.$modelValue!=udtFrm.pwd.$modelValue" ng-click="updateUser(pwd,email,id)">정보수정</button>
+
+
+
+
+</form>
+</body>
+</html>
