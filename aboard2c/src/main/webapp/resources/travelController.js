@@ -1,25 +1,3 @@
-// travelCtrl
-app.controller('travelCtrl',function($http,$scope,$cookieStore,travelStorage,$window,$location,$rootScope){
-	var id = $cookieStore.get("userId");
-	console.log(id);
-	travelStorage.listTravel(id).then(function(data){
-		console.log(data);
-		$scope.travelList=data;
-	});	
-});
-// mytravelDetailCtrl
-app.controller('mytravelDetailCtrl',function($http,$scope,travelStorage,$window,$location,$routeParams){
-	var travelBno = $routeParams.travelBno;
-	// 여행 자세히 보기
-	travelStorage.detailTravel(travelBno).then(function(data){
-		
-		$scope.content = data.CONTENT;
-		console.log($scope.content);
-	});
-	
-	
-	
-});
 // commonCtrl
 app.controller('travelCommonCtrl',function($http,$scope,travelStorage,$routeParams){
 	$scope.area = { 1:'서울', 2:'인천', 3:'대전', 4:'대구',5:'광주', 6:'부산', 7:'울산', 8:'세종특별자치'};
@@ -65,8 +43,8 @@ app.controller('travelCommonCtrl',function($http,$scope,travelStorage,$routePara
 	$scope.zezudo={1:'남제주군', 2:'북제주군', 3:'서귀포시', 4:'제주시'};
 	var zezudoLength = Object.keys($scope.zezudo).length;
 });
-// travelAddCtrl
-app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,$rootScope,$window,$location){
+// travelStaySearchCtrl
+app.controller('travelStaySearchCtrl',function($http,$scope,travelStorage,$routeParams,$rootScope,$window,$location){
 	// 여행생성
 	$scope.dateAdd = function(){
 		var content = $rootScope.content;
@@ -364,52 +342,11 @@ app.controller('travelAddCtrl',function($http,$scope,travelStorage,$routeParams,
 		$scope.pageCount = objj;
 		}
 	}
-	// 숙소 추가
-	$rootScope.stayList = [];
-	$scope.stayAdd = function(){
-		let stayName = document.getElementById('lcMarker').value;
-		
-		//중복방지
-		if($rootScope.stayList!=0){
-			for(var i = 0; i < $rootScope.stayList.length; i++){
-				if(stayName===$scope.stayList[i].stay)
-					return alert("중복추가불가");
-			}
-		}
-		
-		for(var i = 0; i<$scope.data.length; i++){
-			if($scope.data[i].txt===stayName){
-				var image = $scope.data[i].img;
-			}
-		}
-		var list = {stay:stayName, img:image};	
-		$rootScope.stayList.push(list);
-		
-			
-	}
-	// 숙소 삭제
-	$scope.stayDelete = function(x){
-		
-		console.log(x);
-		for(var i=0; i<$rootScope.stayList.length; i++){
-			if($rootScope.stayList[i].stay===x.stay){
-				$rootScope.stayList.splice(i,1);
-			}
-			
-		}
-	}
-	// 다음 단계
-	$scope.next = function(){
-		if(2<=$rootScope.stayList.length)
-			alert("숙소는 한곳만 추가하세요");
-		if($rootScope.stayList.length===0||$rootScope.stayList.length===1)
-			$window.location.href="/aboard2/#!/travel/addTour";	
-	}
-	
+
 	
 });
-// AddTourCtrl
-app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routeParams,$rootScope,$window,$location){
+// tourSearchCtrl
+app.controller('travelTourSearchCtrl',function($scope,$http,travelStorage,$routeParams,$rootScope,$window,$location){
 	// 관광지 검색
 	$scope.tourSearch = function(city){
 		// "도" 부분 처리 완료
@@ -692,57 +629,7 @@ app.controller('travelTourAddCtrl',function($scope,$http,travelStorage,$routePar
 		$scope.pageCount = objj;
 		}
 	}
-	$rootScope.tourList = [];
-	// 관광지 추가
-	$scope.tourAdd = function(){
-		let tourName = document.getElementById('lcMarker').value;
-		
-		//중복방지
-		if($rootScope.tourList!=0){
-			for(var i = 0; i < $rootScope.tourList.length; i++){
-				if(tourName===$rootScope.tourList[i].tour)
-					return alert("중복추가불가");
-			}
-		}
-		
-		for(var i = 0; i<$scope.data.length; i++){
-			if($scope.data[i].txt===tourName){
-				var image = $scope.data[i].img;
-			}
-		}
-		var list = {tour:tourName, img:image};	
-		$rootScope.tourList.push(list);
-		
-			
-	}
-	// 관광지 삭제
-	$scope.tourDelete = function(x){
-		
-		console.log(x);
-		for(var i=0; i<$rootScope.tourList.length; i++){
-			if($rootScope.tourList[i].tour===x.tour){
-				$rootScope.tourList.splice(i,1);
-			}
-			
-		}
-	}
-	// 다음 단계
-	$scope.next = function(){
-		if($rootScope.stayList==null||$rootScope.stayList.length===1)
-			$window.location.href="/aboard2/#!/travel/addLast";	
-	}
-	
-	
 });
-// LastAddCtrl
-app.controller('travelLastAddCtrl',function($scope,$http,travelStorage,$routeParams){
-
-	
-	
-	
-});
-
-
 // detailCtrl
 app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routeParams,$window,$location){
 	var contentId = $routeParams.contentId;

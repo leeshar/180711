@@ -5,29 +5,21 @@ app.directive("selectTpl",function(){
 app.directive('krInput', [ '$parse', function($parse) { return { priority : 2, restrict : 'A', compile : function(element) { element.on('compositionstart', function(e) { e.stopImmediatePropagation(); }); }, }; } ])
 .config(function($routeProvider){
 	$routeProvider
-	.when("/mytravel/list",{
-		templateUrl:"./travel/list.html",
-		controller:"travelCtrl"
-	})
 	.when("/mytravel/detail/:travelBno/:title",{
 		templateUrl:"./travel/mytravelDetail.html",
 		controller:"mytravelDetailCtrl"
 	})
-	.when("/travel/add",{
-		templateUrl:"./travel/add.html",
-		controller:"travelAddCtrl"
+	.when("/travel/staySearch",{
+		templateUrl:"./travel/staySearch.html",
+		controller:"travelStaySearchCtrl"
 	})
 	.when("/travel/detail/:contentId",{
 		templateUrl:"./travel/detailPage.html",
 		controller:"travelDetailCtrl"
 	})
-	.when("/travel/addTour",{
-		templateUrl:"./travel/addTour.html",
-		controller:"travelTourAddCtrl"
-	})
-	.when("/travel/addLast",{
-		templateUrl:"./travel/addLast.html",
-		controller:"travelLastAddCtrl"
+	.when("/travel/tourSearch",{
+		templateUrl:"./travel/tourSearch.html",
+		controller:"travelTourSearchCtrl"
 	})
 	.when("/travel/socket",{
 		templateUrl:"./travel/soket.html"
