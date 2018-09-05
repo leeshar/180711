@@ -412,15 +412,7 @@ angular.module('myApp').controller(
 									
 										AuthenticationService.SetCredentials(
 												$scope.id, $scope.pwd);
-										var myNotice = setInterval(function(){
-											var id = $cookieStore.get("userId");
-											userStorage.noticeUser(id).then(function(data){
-											$scope.noticeCount = data.length;
-											$scope.notice = data;
-											console.log(data);
-											});
-											
-										}, 5000);
+										
 										$location.path('/');
 									} else {
 										$scope.error = response.message;
@@ -441,9 +433,16 @@ app.controller("slideCtrl", function($scope,$http,userStorage,$cookieStore,Authe
 		document.getElementById("main").style.marginLeft = "0";
 		document.body.style.backgroundColor = "white";
 	}
-	
+	var id = $cookieStore.get("userId");
 	$rootScope.globals = $cookieStore.get("globals");
-	
+	var myNotice = setInterval(function(){
+		userStorage.noticeUser(id).then(function(data){
+		$scope.noticeCount = data.length;
+		$scope.notice = data;
+		console.log(data);
+		});
+		
+	}, 5000);
 	$scope.logout = function(){
 		console.log("clear");
 		AuthenticationService.ClearCredentials();
