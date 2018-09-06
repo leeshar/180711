@@ -4,7 +4,7 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 	return {
 		// 게시판 리스트를 불러오는 메소드
 			list: function(page,categoriName){
-				return $http.get("/boards/list/"+page+"/"+categoriName).then(function(response){
+				return $http.get("/trip/boards/list/"+page+"/"+categoriName).then(function(response){
 					return response.data;
 					});
 				
@@ -13,7 +13,7 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 			boardSearch: function(search,page,categoriName){
 				console.log(search);
 				 return $http({
-					url:"/boards/search/"+search+"/"+page+"/"+categoriName,
+					url:"/trip/boards/search/"+search+"/"+page+"/"+categoriName,
 					method:"get"
 				}).then(function(response){
 					 return response.data;
@@ -21,7 +21,7 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 			},
 		// 게시글 상세내용 불러오는 메소드
 			boardsRead: function(bno,categoriName){
-				return $http.get("/boards/read/"+bno+"/"+categoriName)
+				return $http.get("/trip/boards/read/"+bno+"/"+categoriName)
 				.then(function(response){
 					return response.data;
 				});
@@ -29,7 +29,7 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 		// 게시글 삭제 하는 메소드
 			boardsDelete: function(id,bno,categoriName){
 				return $http({
-					url:"/boards/delete",
+					url:"/trip/boards/delete",
 					method:"POST",
 					data:"board="+JSON.stringify({'id':id,'bno':bno,'categoriName':categoriName}),
 					contentType:"application/json;charset=UTF-8",
@@ -41,7 +41,7 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 		// 게시판 글 추천
 			boardsRecommend : function(bno,id){
 				return $http({
-					url:"/boards/recommend",
+					url:"/trip/boards/recommend",
 					method:"POST",
 					data: "recommend="+JSON.stringify({'bno':bno, 'id':id }),
 					contentType:"application/json;charset=UTF-8",
@@ -54,7 +54,7 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 		// 게시판 글 추천 취소
 			boardsUnRecommend : function(bno,id){
 				return $http({
-					url:"/boards/unrecommend",
+					url:"/trip/boards/unrecommend",
 					method:"POST",
 					data: "unrecommend="+JSON.stringify({'bno':bno, 'id':id}),
 					contentType:"application/json;charset=UTF-8",
@@ -65,7 +65,7 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 			},
 		// 댓글 리스트를 불러오는 메소드
 			replyList: function(bno){
-				return $http.get("/boards/reply/list?bno="+bno)
+				return $http.get("/trip/boards/reply/list?bno="+bno)
 				.then(function(response){
 					return response.data.list;
 					
@@ -84,7 +84,7 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 			if($cookieStore.get("globals")==null)
 				var data = {"replytext":rText, "bno":bno, "id":"익명"};
 				return $http({
-				url : '/boards/reply/insert',
+				url : '/trip/boards/reply/insert',
 				method : 'post',
 				data: "reply="+JSON.stringify(data),
 				contentType:"application/json;charset=UTF-8",
@@ -102,7 +102,7 @@ angular.module('myApp').factory('boardStorage',['$http','$cookieStore',function(
 				var data = {"cno":cno,"id":id};
 				
 				return $http({
-					url:"/boards/reply/delete",
+					url:"/trip/boards/reply/delete",
 					method: 'post',
 					data: "reply="+ JSON.stringify(data),
 					contentType:"application/json;charset=UTF-8",
@@ -124,7 +124,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 		idCheck: function(id){	
 			// 아이디가 중복 되면 400(Bad Request) status == 400 중복된아이디
 			// 아이디가 중복 되지 않으면 200 status == 200 사용가능
-			return $http.get("/users/idCheck/"+id)
+			return $http.get("/trip/users/idCheck/"+id)
 			.then(
 			function(response) {
 				return response.status;
@@ -137,7 +137,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 		join: function(user){
 		
 			return $http({
-				url:"/users/join",
+				url:"/trip/users/join",
 				method:'post',
 				data: 'user='+JSON.stringify(user),
 				contentType:"application/json;charset=UTF-8",
@@ -150,7 +150,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 		// 이메일인증
 		emailToken: function(email,authToken){
 			return $http({
-				url:"/users/findId/emailAuth",
+				url:"/trip/users/findId/emailAuth",
 				method:'POST',
 				data:'mail='+ JSON.stringify({'email':email,'authToken': authToken}),
 				contentType:"application/json;charset=UTF-8",
@@ -164,7 +164,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 			console.log(find);
 			if(emailToken==authToken){
 			return $http({
-				url:"/users/findId",
+				url:"/trip/users/findId",
 				method:'POST',
 				data:'find='+JSON.stringify({'irum':find.irum, 'email':find.email}),
 				contentType:"application/json;charset=UTF-8",
@@ -181,7 +181,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 		// 비밀번호 찾기
 		findPwd: function(id){
 			return $http({
-				url:"/users/findPwd",
+				url:"/trip/users/findPwd",
 				method:"POST",
 				data:'id='+id,
 				contentType:"application/json;charset=UTF-8",
@@ -194,7 +194,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 		// 비밀번호 이메일
 		pwdSend: function(id){
 			return $http({
-				url:"/users/findPwd/emailAuth",
+				url:"/trip/users/findPwd/emailAuth",
 				method:"POST",
 				data:'id='+id,
 				contentType:"application/json;charset=UTF-8",
@@ -213,7 +213,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 		// 회원정보수정
 		updateUser: function(pwd,email,id){
 			return $http({
-				url:"/users/updateUser",
+				url:"/trip/users/updateUser",
 				method:"POST",
 				data:"update="+JSON.stringify({'pwd':pwd,'email':email,'id':id}),
 				contentType:"application/json;charset=UTF-8",
@@ -230,7 +230,7 @@ angular.module('myApp').factory('userStorage',['$http','$cookieStore','$rootScop
 		// 알림
 		noticeUser: function(id){
 			return $http({
-				url:"/users/notice",
+				url:"/trip/users/notice",
 				method:"POST",
 				data:"id="+id,
 				contentType:"application.json;charset=UTF-8",
@@ -255,14 +255,12 @@ angular.module('myApp').factory('AuthenticationService',
             /* Dummy authentication for testing, uses $timeout to simulate api call
              ----------------------------------------------*/
           $timeout(function(){$http({
-				url:"/users/login",
-				method:'POST',
+				url:"/trip/users/login",
+				method:'post',
 				data: 'login='+JSON.stringify(loginUser),
 				contentType:"application/json;charset=UTF-8",
 				headers : {'Content-Type': 'application/x-www-form-urlencoded'}
-				
 			}).then(function(response){
-				console.log(response.status);
 				if(response.status==200&&response.data==='아이디다름')
 					response.message="회원정보가 없습니다";
 				if(response.status==200&&response.data==='비밀번호다름')
@@ -274,7 +272,7 @@ angular.module('myApp').factory('AuthenticationService',
         }
         service.noticeUser= function(id){
 			return $http({
-				url:"/users/notice",
+				url:"/trip/users/notice",
 				method:"POST",
 				data:"id="+id,
 				contentType:"application.json;charset=UTF-8",

@@ -4,7 +4,6 @@ package com.myPro.controller;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -23,8 +22,6 @@ import com.myPro.dto.UserDto.FindId;
 import com.myPro.dto.UserDto.LoginUser;
 import com.myPro.dto.UserDto.UpdateUser;
 import com.myPro.service.UserService;
-
-
 
 @RestController
 public class UserController {
@@ -62,7 +59,7 @@ public class UserController {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	//uLoginCheck
-		@RequestMapping(value="/users/login",produces = "application/json; charset=UTF-8")
+		@PostMapping(value="users/login",produces = "application/json; charset=UTF-8")
 		public ResponseEntity<String> uLoginCheck(String login) throws ParseException, JsonProcessingException, InterruptedException{
 			JSONObject obj = JsonPaser(login);
 			LoginUser logi = new LoginUser();

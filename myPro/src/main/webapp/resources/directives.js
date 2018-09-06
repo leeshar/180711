@@ -116,9 +116,6 @@ app.directive("headerTpl",function(){
         		$location.path("/");
         	if ($rootScope.globals.currentUser&&$location.path() == '/users/welcome')
         		$location.path("/");
-        	if (!$rootScope.globals.currentUser) {
-            	console.log("DDDD"+ !$rootScope.globals.currentUser);
-                $location.path('#!/users/login');
-            }
+        	
         });
     }]);

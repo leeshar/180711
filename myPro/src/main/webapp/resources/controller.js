@@ -31,7 +31,7 @@ app.controller('boardsCtrl',function($scope, $http, $routeParams, boardStorage,$
 		var page = 1;
 		var search = $scope.search;
 		console.log(search);
-		$window.location.href="/#!/boards/search/"+search+"/"+page+"/"+categoriName;
+		$window.location.href="/trip/#!/boards/search/"+search+"/"+page+"/"+categoriName;
 		};
 
 		
@@ -49,7 +49,7 @@ app.controller('boardsSearchCtrl',function($scope,$http,boardStorage,$routeParam
 	boardStorage.boardSearch(search,page,categoriName).then(function(data) {	
 		$scope.search = search;
 		if(data.boardSearch=='NO')
-			$window.location.href="/#!/boards/searchNoPage";
+			$window.location.href="/trip/#!/boards/searchNoPage";
 		
 		$scope.boardSearch = data.boardSearch;
 		// 검색 페이징
@@ -173,14 +173,14 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 				return alert("게시글을 삭제할 수 없습니다");
 			if(data==="YES"){
 				alert("게시글을 삭제 했습니다");
-				return $window.location.href="/#!/boards/list/1/"+categoriName;
+				return $window.location.href="/trip/#!/boards/list/1/"+categoriName;
 			}
 	});
 	};
 	// 게시판 글 수정
 	$scope.update = function(){
 		if(id==$scope.writer){
-			return $window.location.href="/#!/boards/update/"+bno+"/"+categoriName;
+			return $window.location.href="/trip/#!/boards/update/"+bno+"/"+categoriName;
 		}
 		
 	};
@@ -288,7 +288,7 @@ app.controller('registerCtrl',function($scope, $http, $filter, $window, $locatio
 			if (isValid) {
 				userStorage.join(user).then(function(data) {
 				alert(data);
-				$window.location.href = "http://localhost:8081/#!/users/welcome";
+				$window.location.href = "http://localhost:8081/trip/#!/users/welcome";
 				});
 			};	
 				};
@@ -327,7 +327,7 @@ app.controller('findIdCtrl',function($rootScope, $scope, $http, $window, $locati
 				if (data != 'NO')
 					$rootScope.success = 1;
 				$rootScope.findId = data;
-				$window.location.href = "http://localhost:8081/#!/users/findId/result";
+				$window.location.href = "http://localhost:8081/trip/#!/users/findId/result";
 			});
 					}
 				});
@@ -377,7 +377,7 @@ app.controller('updateUserCtrl', function($scope, $http, $window, $cookieStore,
 		if (pwd && email && id != null) {
 			userStorage.updateUser(pwd, email, id).then(function(data) {
 				alert(data);
-				$window.location.href = "http://localhost:8081";
+				$window.location.href = "http://localhost:8081/trip";
 			});
 		}
 		;
@@ -422,7 +422,7 @@ angular.module('myApp').controller(
 										}, 5000);
 										AuthenticationService.SetCredentials(
 												$scope.id, $scope.pwd);
-										$location.path('/');
+										$location.path('http://localhost:8081/trip');
 									} else {
 										$scope.error = response.message;
 										$scope.dataLoading = false;
