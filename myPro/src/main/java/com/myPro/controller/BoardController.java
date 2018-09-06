@@ -98,7 +98,7 @@ public class BoardController {
 				ra.addFlashAttribute("msg", ABoard2Contstants.WRITE_SUCCESS);
 			else
 				ra.addFlashAttribute("msg", ABoard2Contstants.JOB_FAIL);
-			response.sendRedirect("/aboard2/#!/boards/list/1/"+categoriName);
+			response.sendRedirect("/#!/boards/list/1/"+categoriName);
 	}
 	// bUpdate
 		@RequestMapping(value="/boards/update",produces = "application/json; charset=UTF-8")
@@ -111,7 +111,7 @@ public class BoardController {
 				ra.addFlashAttribute("msg", ABoard2Contstants.WRITE_SUCCESS);
 			else
 				ra.addFlashAttribute("msg", ABoard2Contstants.JOB_FAIL);
-			response.sendRedirect("/aboard2/#!/boards/read/"+update.getBno()+"/"+ categori);
+			response.sendRedirect("/#!/boards/read/"+update.getBno()+"/"+ categori);
 	}
 	// 게시판 사진 업로드
 		@RequestMapping("/boards/upload")

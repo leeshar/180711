@@ -226,14 +226,12 @@ app.controller('travelStaySearchCtrl',function($http,$scope,travelStorage,$route
 				};
 			
 				$scope.data = data;
-				console.log(data);
 			});
 			
 		}
 		// 숙소 목록
 		var page = 1;
 		travelStorage.areaSearch(areaCode,sigunguCode,page).then(function(data){
-		
 			parser = new DOMParser();
 			xmlDoc = parser.parseFromString(data,"text/xml");
 			$rootScope.tot = xmlDoc.getElementsByTagName("totalCount")[0].childNodes[0].nodeValue;
@@ -299,13 +297,7 @@ app.controller('travelStaySearchCtrl',function($http,$scope,travelStorage,$route
 				}
 				$scope.pageCount = objj;
 			}
-			
-			console.log("0903here");
-			console.log(startPage);
-			console.log(blockNumber);
-			console.log(endPage);
 			$scope.data = data;
-			console.log(data);
 		});
 		
 	}
@@ -316,9 +308,6 @@ app.controller('travelStaySearchCtrl',function($http,$scope,travelStorage,$route
 		var	blockNumber = page/block,
 		startPage = blockNumber * block +1, 
 		endPage = startPage + block -1;
-		console.log("0903ee");
-		console.log(endPage);
-		console.log($scope.countPage);
 		if(endPage+1<=$scope.countPage){
 		$scope.startPage = startPage;
 		for(startPage; startPage<endPage+1; startPage++){
@@ -336,7 +325,6 @@ app.controller('travelStaySearchCtrl',function($http,$scope,travelStorage,$route
 		$scope.startPage = startPage;
 		for(startPage; startPage<page; startPage++){
 			objj[startPage] = startPage;
-		console.log(startPage);	
 		}
 		$scope.endPage = page-1;
 		$scope.pageCount = objj;
@@ -350,9 +338,6 @@ app.controller('travelTourSearchCtrl',function($scope,$http,travelStorage,$route
 	// 관광지 검색
 	$scope.tourSearch = function(city){
 		// "도" 부분 처리 완료
-		console.log(city);
-		console.log("구분");
-		console.log(city.gu==null);
 		if(city.gu==null)
 			city.gu="";
 		if(city.do!=null){
@@ -403,7 +388,6 @@ app.controller('travelTourSearchCtrl',function($scope,$http,travelStorage,$route
 				break;
 			}
 			var ojLength = Object.keys(oj).length;
-			console.log(ojLength);
 			for(var i = 1; i<ojLength+1; i++){
 				if(oj[i]===sigunguCode)
 					sigunguCode=i;
@@ -512,7 +496,6 @@ app.controller('travelTourSearchCtrl',function($scope,$http,travelStorage,$route
 				};
 			
 				$scope.data = data;
-				console.log(data);
 			});
 			
 		}
@@ -586,13 +569,7 @@ app.controller('travelTourSearchCtrl',function($scope,$http,travelStorage,$route
 				}
 				$scope.pageCount = objj;
 			}
-			
-			console.log("0903here");
-			console.log(startPage);
-			console.log(blockNumber);
-			console.log(endPage);
 			$scope.data = data;
-			console.log(data);
 		});
 		
 	}
@@ -623,7 +600,6 @@ app.controller('travelTourSearchCtrl',function($scope,$http,travelStorage,$route
 		$scope.startPage = startPage;
 		for(startPage; startPage<page; startPage++){
 			objj[startPage] = startPage;
-		console.log(startPage);	
 		}
 		$scope.endPage = page-1;
 		$scope.pageCount = objj;
@@ -666,7 +642,6 @@ app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routePara
 	}
 	// tab4
 	$scope.li04 = function(){
-
 		$scope.show = 4;
 		element4.classList.add("on");
 		element2.classList.remove("on");
@@ -674,7 +649,6 @@ app.controller('travelDetailCtrl',function($scope,$http,travelStorage,$routePara
 		elements.classList.remove("on");
 	}
 	travelStorage.stayDetail(contentId).then(function(data){
-		console.log(data);
 		parser = new DOMParser();
 		xmlDoc = parser.parseFromString(data,"text/xml");
 		$scope.image = xmlDoc.getElementsByTagName("firstimage")[0].childNodes[0].nodeValue;

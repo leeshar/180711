@@ -14,7 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
-public class TravelController {
+public class DataController {
 	@Autowired
 	private ObjectMapper mapper;
 	// 숙박 정보

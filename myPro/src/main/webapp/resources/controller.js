@@ -13,7 +13,6 @@ app.controller('boardsCtrl',function($scope, $http, $routeParams, boardStorage,$
 	boardStorage.list(page, categoriName).then(function(data) {
 // 게시판 리스트 데이터
 	$scope.boardsList = data.list;
-	console.log($scope.boardsList);
 // 게시판 페이징 데이터
 	$scope.pagination = data.pagination;
 	$scope.startPage = data.pagination.startPage;
@@ -32,7 +31,7 @@ app.controller('boardsCtrl',function($scope, $http, $routeParams, boardStorage,$
 		var page = 1;
 		var search = $scope.search;
 		console.log(search);
-		$window.location.href="/aboard2/#!/boards/search/"+search+"/"+page+"/"+categoriName;
+		$window.location.href="/#!/boards/search/"+search+"/"+page+"/"+categoriName;
 		};
 
 		
@@ -49,10 +48,8 @@ app.controller('boardsSearchCtrl',function($scope,$http,boardStorage,$routeParam
 		$scope.write = 2;
 	boardStorage.boardSearch(search,page,categoriName).then(function(data) {	
 		$scope.search = search;
-		// 검색 데이터
-		console.log(data.boardSearch);
 		if(data.boardSearch=='NO')
-			$window.location.href="/aboard2/#!/boards/searchNoPage";
+			$window.location.href="/#!/boards/searchNoPage";
 		
 		$scope.boardSearch = data.boardSearch;
 		// 검색 페이징
@@ -66,8 +63,6 @@ app.controller('boardsSearchCtrl',function($scope,$http,boardStorage,$routeParam
 			render.push(startPage);
 		}
 		$scope.render = render;
-		console.log(endPage);
-		console.log($scope.render);
 	
 	});
 	// Sort
@@ -178,14 +173,14 @@ app.controller('boardsReadCtrl', function($scope, $http, $routeParams,$cookieSto
 				return alert("게시글을 삭제할 수 없습니다");
 			if(data==="YES"){
 				alert("게시글을 삭제 했습니다");
-				return $window.location.href="/aboard2/#!/boards/list/1/"+categoriName;
+				return $window.location.href="/#!/boards/list/1/"+categoriName;
 			}
 	});
 	};
 	// 게시판 글 수정
 	$scope.update = function(){
 		if(id==$scope.writer){
-			return $window.location.href="/aboard2/#!/boards/update/"+bno+"/"+categoriName;
+			return $window.location.href="/#!/boards/update/"+bno+"/"+categoriName;
 		}
 		
 	};
@@ -293,7 +288,7 @@ app.controller('registerCtrl',function($scope, $http, $filter, $window, $locatio
 			if (isValid) {
 				userStorage.join(user).then(function(data) {
 				alert(data);
-				$window.location.href = "http://localhost:8081/aboard2/#!/users/welcome";
+				$window.location.href = "http://localhost:8081/#!/users/welcome";
 				});
 			};	
 				};
@@ -332,7 +327,7 @@ app.controller('findIdCtrl',function($rootScope, $scope, $http, $window, $locati
 				if (data != 'NO')
 					$rootScope.success = 1;
 				$rootScope.findId = data;
-				$window.location.href = "http://localhost:8081/aboard2/#!/users/findId/result";
+				$window.location.href = "http://localhost:8081/#!/users/findId/result";
 			});
 					}
 				});
@@ -382,7 +377,7 @@ app.controller('updateUserCtrl', function($scope, $http, $window, $cookieStore,
 		if (pwd && email && id != null) {
 			userStorage.updateUser(pwd, email, id).then(function(data) {
 				alert(data);
-				$window.location.href = "http://localhost:8081/aboard2";
+				$window.location.href = "http://localhost:8081";
 			});
 		}
 		;
@@ -414,7 +409,6 @@ angular.module('myApp').controller(
 										userStorage.noticeUser($scope.id).then(function(data){
 											$rootScope.noticeCount = data.length;
 											$rootScope.notice = data;
-											console.log(data);
 											});
 										var myNotice = setInterval(function(){
 											if($cookieStore.get("userId")!=null){
@@ -422,7 +416,6 @@ angular.module('myApp').controller(
 											AuthenticationService.noticeUser(id).then(function(data){
 											$rootScope.noticeCount = data.length;
 											$rootScope.notice = data;
-											console.log(data);
 											});
 											}
 											
@@ -456,13 +449,11 @@ app.controller("headerCtrl", function($scope,$http,userStorage,$cookieStore,Auth
 		AuthenticationService.noticeUser(id).then(function(data){
 		$rootScope.noticeCount = data.length;
 		$rootScope.notice = data;
-		console.log(data);
 		});
 		}
 		
 	}, 5000);
 	$scope.logout = function(){
-		console.log("clear");
 		AuthenticationService.ClearCredentials();
 		clearInterval(myNotice);
 		$location.path('/');
