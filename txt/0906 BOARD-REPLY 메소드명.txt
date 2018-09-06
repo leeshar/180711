@@ -1,0 +1,52 @@
+﻿board Dao 
+수정사항 - BoardController <= REST
+
+	count	- 글의 전체 갯수 > bCountAll
+ 	searchCount - 검색 갯수 > bSearchCnt
+	listAll	- 전체 글 > 삭제
+	list - 리스트 > bList
+	increaseReadCnt - 조회수 증가 > bUpReadCnt
+	recommend - 추천 > bRecommend
+	unrecommend - 추천취소 > bUnRecommend
+	getRecommendCnt - 추천갯수 > bRecommendCnt
+	report - 삭제
+	getReportCnt - 삭제
+	read - 읽기 > bRead
+	write - 글쓰기 > bWrite
+	update - 글수정 > bUpdate
+	delete - 글삭제 > bDelete
+	postSearch - 자신의 글 검색 > bMyWriteSearch
+	upReplyCnt - 댓글수증가 > bUpReplyCnt
+	boardSearch - 글 검색 > bBoardSearch
+	whoWriter - 누구의 글 > bBoardWriter
+
+	댓글 
+	rInsert - 댓글 작성
+	rDelete - 댓글 삭제
+	rIsDelete - 삭제권한확인
+	rList - 댓글 리스트
+	rNoticeReply - 댓글 알림
+
+// 이름 통일 BOARD - REPLY 
+ TEST - OK
+UserDao
+
+	information - 회원정보 - uInformation
+	insertUser - 회원가입 - uJoin
+	authorities - 회원권한확인 - uAuthorities
+	getPwd - 비밀번호 가져오기 - uUserPwd mapper에 없음 삭제
+	findId - 아이디 찾기 - uFindId
+	idCheck - 아이디 중복확인 - uIdCheck
+	login - 로그인 인증 - uLoginCheck
+	uInsertAuthority - 권한 넣기 - uInsertAuthority
+	loginCheck - 로그인 아이디 확인 - ?? uLogin?? < 중복 IDCHECK로 대체 삭제
+	updateUser - 회원정보수정 - uUserUpdate
+	getEmail - 이메일 가져오기 - uUserEmail
+	pwdReset - 비밀번호 초기화 - uUserPwdSet
+	authoritySearch - 중복;; 삭제
+	notice - 알림확인 - uNotice
+// userService, userDao 메소드이름통일
+Controller -- TEST - OK
+
+
+	

@@ -1,0 +1,27 @@
+﻿ 09 - 06
+해야 할 일
+ - 패키지 이름 맞추기  --check ^
+ - 클래스 이름 맞추기
+	-controller
+	-service
+	-dao
+	-entity
+	-dto
+
+ - 메소드 이름 맞추기	--check^
+	-controller
+-board
+ * list -> list
+ * 
+
+	-service
+	-dao
+	-entity
+	-dto
+
+
+ - 메소드의 기능 문서화 하기
+ - 잡리스트 만들기 ( 잡리스트 <= 서버 기능 DAO , CONTROLLER에서 잡 ) 
+ - 잡리스트 링크
+ - 잡리스트 상세페이지 ( 하나의 잡 리스트가 어떤 메소드를 가지고 파라미터값을 가지고 리턴값을 주는지에 대해 )
+
