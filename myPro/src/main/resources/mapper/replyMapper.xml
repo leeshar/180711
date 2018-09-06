@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.icia.aboard2.dao.ReplyRepository">
+<mapper namespace="com.myPro.dao.ReplyRepository">
 <!-- 댓글쓰기 -->
 <insert id="insert" parameterType="com.icia.aboard2.dto.ReplyDto$InsertReply">
 	insert into reply(cno,bno,id,replytext,write_date)
