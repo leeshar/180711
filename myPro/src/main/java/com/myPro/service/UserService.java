@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserService {
 	@Autowired
-	private UserRepository dao;
+	private UserRepository userDao;
 	@Autowired
 	private ModelMapper mapper;
 	@Autowired
@@ -40,31 +40,55 @@ public class UserService {
 	@Autowired
 	private JavaMailSender mailSender;
 
-	// 회원가입
-	@Transactional
-	public void join(CreateUser create) {
+	// uInformation
+		public Map<String, Object> uInformation(String id) {
+			return userDao.uInformation(id);
+	}
+	// uJoin
+		@Transactional
+		public void uJoin(CreateUser create) {
 		User user = mapper.map(create, User.class);
 		user.setPwd(encoder.encode(user.getPwd()));
 		String id = user.getId();
-		dao.authorities(id);
-		dao.insertUser(user);
+		userDao.uInsertAuthority(id);
+		userDao.uJoin(user);
 	}
+	// uFindId
+		public String uFindId(FindId findId) throws FileNotFoundException, URISyntaxException {
 
-	// 회원정보수정
-	public void updateUser(UpdateUser u) {
+			return userDao.uFindId(findId);
+
+	}
+	// uIdCheck
+		public boolean uIdCheck(String id) {
+			return userDao.uIdCheck(id) == null ? true : false;
+	}
+	// uLoginCheck
+		@Transactional
+		public String uLoginCheck(LoginUser logi) {
+			User user = mapper.map(logi, User.class);
+		if(userDao.uIdCheck(logi.getId())!=null) {	
+			try {
+			String encodedPwd = userDao.uLoginCheck(user).get("PWD").toString();
+			if (encoder.matches(user.getPwd(), encodedPwd))
+				return "성공";
+			else
+				return "비밀번호다름";
+			}catch(NullPointerException np) {
+				System.out.println("NULL");
+			}
+		}
+			return "아이디다름";
+	}
+	// uUserUpdate
+		public void uUserUpdate(UpdateUser u) {
 		u.setPwd(encoder.encode(u.getPwd()));// 패스워드 암호화
 		User user = mapper.map(u, User.class);
-		if (dao.updateUser(user) == 0)
+		if (userDao.uUserUpdate(user) == 0)
 			throw new UserNotFoundException(user.getId());
 	}
-
-	// 회원정보
-	public Map<String, Object> userInfo(String id) {
-		return dao.information(id);
-	}
-
-	// 인증번호
-	public void sendMail(String email, String authToken) throws FileNotFoundException, URISyntaxException {
+	// sendMail
+		public void sendMail(String email, String authToken) throws FileNotFoundException, URISyntaxException {
 
 		try {
 
@@ -89,14 +113,13 @@ public class UserService {
 		}
 
 	}
-
-	// 비밀번호 리셋
-	public void pwdMail(String id, String pwd, String email) throws FileNotFoundException, URISyntaxException {
+	// uUserPwdSet
+		public void uUserPwdSet(String id, String pwd, String email) throws FileNotFoundException, URISyntaxException {
 		log.info("{}", pwd);
 		User user = new User();
 		user.setId(id);
 		user.setPwd(encoder.encode(pwd));
-		dao.pwdReset(user);
+		userDao.uUserPwdSet(user);
 
 		try {
 
@@ -120,8 +143,8 @@ public class UserService {
 		}
 
 	}
-	// 비밀번호 생성
-	public static String getRandomPassword(int length) {
+	// getRandomPassword
+		public static String getRandomPassword(int length) {
 		char[] charaters = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
 				's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 		StringBuilder sb = new StringBuilder("");
@@ -131,43 +154,12 @@ public class UserService {
 		}
 		return sb.toString();
 	}
-
-	// 아이디 찾기
-	public String findId(FindId findId) throws FileNotFoundException, URISyntaxException {
-
-		return dao.findId(findId);
-
+	// uUserEmail
+		public Map<String, Object> uUserEmail(String id) {
+		return userDao.uUserEmail(id);
 	}
-
-	// 아이디 중복확인
-	public boolean idCheck(String id) {
-		return dao.idCheck(id) == null ? true : false;
-	}
-
-	// 로그인인증
-	@Transactional
-	public String login(LoginUser logi) {
-		User user = mapper.map(logi, User.class);
-	if(dao.loginCheck(logi.getId())!=null) {	
-		try {
-		String encodedPwd = dao.login(user).get("PWD").toString();
-		if (encoder.matches(user.getPwd(), encodedPwd))
-			return "성공";
-		else
-			return "비밀번호다름";
-		}catch(NullPointerException np) {
-			System.out.println("NULL");
-		}
-	}
-		return "아이디다름";
-	}
-
-	// 이메일 가져오기
-	public Map<String, Object> getEmail(String id) {
-		return dao.getEmail(id);
-	}
-	// 알림
-	public List<Notice> notice(String id){
-		return dao.notice(id);
+	// uNotice
+		public List<Notice> uNotice(String id){
+		return userDao.uNotice(id);
 	}
 }

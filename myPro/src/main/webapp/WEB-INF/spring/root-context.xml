@@ -41,19 +41,15 @@
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 	<bean id="ObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
 	<bean id="modelMapper" class="org.modelmapper.ModelMapper" />
-	<bean id="gson" class="com.google.gson.Gson" />
-
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-		
 	<mybatis-spring:scan
 		base-package="com.myPro.dao" />
-
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
 		<property name="username" value="snrntpa2z" />
-		<property name="password" value="qkektrk1!" />
+		<property name="password" value="tmvkdlejaos1!" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.auth">true</prop>

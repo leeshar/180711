@@ -9,29 +9,27 @@ import com.myPro.entity.User;
 
 public interface UserRepository {
 	// 회원정보
-	Map<String, Object> information(String id);
+	Map<String, Object> uInformation(String id);
 	// 회원가입
-	void insertUser(User user);
+	void uJoin(User user);
 	// 회원권한
-	void authorities(String id);
+	String uAuthorities(String id);
 	// 비밀번호가져오기
-	String getPwd(String id);
+	String uUserPwd(String id);
 	// 아이디 찾기
-	String findId(FindId findId);
+	String uFindId(FindId findId);
 	// 아이디 중복확인
-	String idCheck(String id);
+	String uIdCheck(String id);
 	// 로그인 인증
-	Map<String, Object> login(User user);
-	// 로그인 아이디확인
-	String loginCheck(String id);
+	Map<String, Object> uLoginCheck(User user);
+	// 권한넣기
+	void uInsertAuthority(String id);
 	// 회원정보수정
-	int updateUser(User user);
+	int uUserUpdate(User user);
 	// 이메일 가져오기
-	Map<String, Object> getEmail(String id);
+	Map<String, Object> uUserEmail(String id);
 	// 비밀번호 초기화
-	int pwdReset(User user);
-	// 회원권한확인
-	String authoritySearch(String id);
+	int uUserPwdSet(User user);
 	// 알림확인
-	List<Notice> notice(String id);
+	List<Notice> uNotice(String id);
 }

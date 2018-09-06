@@ -34,96 +34,85 @@ public class BoardService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	//전체리스트
-	public List<Board> listAll(){
-		return boardDao.listAll();
-	}
-	// 리스트
-	public Map<String, Object> list(int page,String categoriName) {
+	// bList
+	public Map<String, Object> bList(int page,String categoriName) {
 		Pageable pageable = new Pageable();
 		pageable.setPage(page);
-		Integer count = boardDao.count(categoriName);
+		Integer count = boardDao.bCountAll(categoriName);
 		Map<String, Object> map = new HashMap<>();
 		Pagination pagination = PagingUtil.getPagination(pageable, count);
 		// list 에는 페이징 리스트를 넣고
-		map.put("list", boardDao.list(pagination.getStartRow(), pagination.getEndRow(), categoriName));
+		map.put("list", boardDao.bList(pagination.getStartRow(), pagination.getEndRow(), categoriName));
 		// pagination 에는 페이지네이션을 넣어준다
 		map.put("pagination", pagination);
 		return map;
 	}
-	// 글쓰기
-	public boolean write(CreateBoard create)  {
+	// bRecommend
+		public String bRecommend(String id, String bno) {
+			String writer = id;
+			if(boardDao.bMyWriteSearch(bno, writer)!=null)
+				return "NO";
+			boardDao.bRecommend(bno);
+			return "OK";
+					
+		}
+		// bUnRecommend
+		public String bUnRecommend(String id, String bno) {
+			boardDao.bUnRecommend(bno);
+			return "OK";
+					
+		}
+	// bRead
+		@Transactional
+		public Map<String, Object> bRead(Integer bno, String categoriName) {
+			int result = boardDao.bUpReadCnt(bno);
+			if(result==0)
+				throw new BoardNotFoundException();
+			
+			
+			return boardDao.bRead(bno,categoriName);
+		}
+	// bWrite
+	public boolean bWrite(CreateBoard create)  {
 		Board board = modelMapper.map(create, Board.class);
-		boardDao.write(board);
+		boardDao.bWrite(board);
 		return true;
 	}
-	// 글수정
-	public boolean update(UpdateBoard update) {
-	System.out.println(boardDao.update(update.getTitle(), update.getContent(), update.getBno()));
-	boardDao.update(update.getTitle(), update.getContent(), update.getBno());
+	// bUpdate
+	public boolean bUpdate(UpdateBoard update) {
+	System.out.println(boardDao.bUpdate(update.getTitle(), update.getContent(), update.getBno()));
+	boardDao.bUpdate(update.getTitle(), update.getContent(), update.getBno());
 	return true;	
 		
 		
 	}
-	// 글읽기
-	@Transactional
-	public Map<String, Object> read(Integer bno, String categoriName) {
-		int result = boardDao.increaseReadCnt(bno);
-		if(result==0)
-			throw new BoardNotFoundException();
-		
-		
-		return boardDao.read(bno,categoriName);
-	}
-	// 글삭제
-	public String delete(String bno,String id, String categoriName) {
+	// bDelete
+	public String bDelete(String bno,String id, String categoriName) {
 		String writer = id;
-		System.out.println(boardDao.postSearch(bno,writer));
-			if(boardDao.postSearch(bno,writer)!=null) { 
-				boardDao.delete(bno,categoriName);
+		System.out.println(boardDao.bMyWriteSearch(bno,writer));
+			if(boardDao.bMyWriteSearch(bno,writer)!=null) { 
+				boardDao.bDelete(bno,categoriName);
 				return "YES";
 			}
-			if(userDao.authoritySearch(id)=="ROLE_ADMIN") {
-				boardDao.delete(bno, categoriName);
+			if(userDao.uAuthorities(id)=="ROLE_ADMIN") {
+				boardDao.bDelete(bno, categoriName);
 				return "YES";
 			}
 				
 		return "NO";
 	}
-	// 추천
-	public String recommend(String id, String bno) {
-		String writer = id;
-		if(boardDao.postSearch(bno, writer)!=null)
-			return "NO";
-		boardDao.recommend(bno);
-		return "OK";
-				
-	}
-	// 추천취소
-	public String unrecommend(String id, String bno) {
-		boardDao.unrecommend(bno);
-		return "OK";
-				
-	}
-	// 신고
-	public int report(String id, int bno, boolean alreadyReport) {
-		int result = boardDao.report(bno);
-		if(result==0)
-			throw new BoardNotFoundException();
-		return boardDao.getReportCnt(bno);
-	}
-	// 파일
-	public Attachment getAttachment(int bno, int ano) throws FileNotFoundException {
-		Attachment attachment = attachDao.getAttachment(bno, ano);
+	// aGetAttachment
+	public Attachment aGetAttachment(int bno, int ano) throws FileNotFoundException {
+		Attachment attachment = attachDao.aGetAttachment(bno, ano);
 		if(attachment==null)
 			throw new FileNotFoundException("원본 파일을 찾을 수 없습니다 ");
 		return attachment;
 	}
-	// 검색
-	public Map<String, Object> boardSearch(int page,String categoriName,String search){
+	// bBoardSearch
+	public Map<String, Object> bBoardSearch(int page,String categoriName,String search){
 		Pageable pageable = new Pageable();
 		pageable.setPage(page);
-		Integer count = boardDao.searchCount(search, categoriName);
+		Integer count = boardDao.bSearchCnt(search, categoriName);
 		Map<String, Object> map = new HashMap<>();
 		if(count==0) {
 			Map<String, Object> maps = new HashMap<>();
@@ -133,14 +122,14 @@ public class BoardService {
 		
 		Pagination pagination = PagingUtil.getPagination(pageable, count);
 		// list 에는 페이징 리스트를 넣고
-		map.put("boardSearch", boardDao.boardSearch(pagination.getStartRow(), pagination.getEndRow(), categoriName,search));
+		map.put("boardSearch", boardDao.bBoardSearch(pagination.getStartRow(), pagination.getEndRow(), categoriName,search));
 		// pagination 에는 페이지네이션을 넣어준다
 		map.put("pagination", pagination);
 		return map;
 	}
-	// 누구의 글
-	public String whoWriter(String bno) {
-		return boardDao.whoWriter(bno);
+	// bBoardWriter
+	public String bBoardWriter(String bno) {
+		return boardDao.bBoardWriter(bno);
 	}
 }
 

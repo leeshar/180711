@@ -10,7 +10,7 @@ app.controller('boardsCtrl',function($scope, $http, $routeParams, boardStorage,$
 	if (categoriName == "이벤트")
 		$scope.write = 2;
 // 게시판 리스트 메소드
-	boardStorage.get(page, categoriName).then(function(data) {
+	boardStorage.list(page, categoriName).then(function(data) {
 // 게시판 리스트 데이터
 	$scope.boardsList = data.list;
 	console.log($scope.boardsList);

@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.myPro.dao.AttachRepository">
 	<!-- 첨부파일 저장 -->
-	<insert id="insert">
+	<insert id="aInsert">
 		insert into attach(ano,original_file_name,saved_file_name,bno) values(attach_seq.nextval, #{originalFileName}, #{savedFileName}, #{bno})
 	</insert>
 	
 	<!-- 글을 읽을 때 글번호에 해당하는 첨부파일 목록을 얻어옴 -->
-	<select id="list" resultType="attachment">
+	<select id="aList" resultType="attachment">
 		select ano, bno, original_file_name originalFileName, saved_file_name savedFileName from attach where bno=#{bno}
 	</select>
 	
 	<!--  파일 다운로드 처리를 위해 첨부파일 정보를 가져옴 -->
-	<select id="getAttachment" resultType="attachment">
+	<select id="aGetAttachment" resultType="attachment">
 		select saved_file_name savedFileName, original_file_name originalFileName from attach where bno=#{bno} and ano=#{ano} and rownum=1
 	</select>
 </mapper>
